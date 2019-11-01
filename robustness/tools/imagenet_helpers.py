@@ -332,7 +332,7 @@ def common_superclass_wnid(group_name):
                      'n03405725', #furniture (21)
                      'n02469914', #primate (20)
                    ],
-    	'mid_12':  ['n02084071', #dog (100+)
+         'mid_12':  ['n02084071', #dog (100+)
                       'n01503061', #bird (52)
                       'n04576211', #wheeled vehicle
                       'n01661091', #reptile, reptilian (36)
@@ -345,7 +345,9 @@ def common_superclass_wnid(group_name):
                       'n02469914', #primate (20)
                       'n02512053', #fish (16)
                     ]
-    }
+
+
+}
 
     if group_name in common_groups:
         superclass_wnid = common_groups[group_name]
