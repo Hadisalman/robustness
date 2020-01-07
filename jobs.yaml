@@ -1,0 +1,57 @@
+description: Training imagenet classifiers
+
+target:
+  # which virtual cluster you belong to (msrlabs, etc.).
+  vc: msrlabs
+  # use an Azure cluster (eu1, eu2, ...)
+  cluster: rr2
+
+environment:
+  # image: hadisalman/smoothing:latest
+  image: hadisalman/robustness:latest
+
+# # azure storage configuration
+storage:
+  my_output:
+    # Replace with the name of the Azure Storage Account you created.
+    #   If you followed the tutorial, this should be your_username
+    storage_account_name: robustnessws4285631339
+    # Specify a name of the container on your blob (ex. phillytools),
+    #   to store data, results and code. It will be created if it does not exist.
+    container_name: blackbox-smoothing
+    # You can optionally specify a mount_path that will be directly accessible
+    #   by your jobs. By default it's:
+    mount_dir: /mnt/my_output
+    is_output: True
+
+  my_data:
+    # Replace with the name of the Azure Storage Account you created.
+    #   If you followed the tutorial, this should be your_username
+    storage_account_name: robustnessws4285631339
+    # Specify a name of the container on your blob (ex. phillytools),
+    #   to store data, results and code. It will be created if it does not exist.
+    container_name: blackbox-smoothing
+    # You can optionally specify a mount_path that will be directly accessible
+    #   by your jobs. By default it's:
+    mount_dir: /mnt/my_data
+
+code:
+  # upload the code
+  local_dir: $CONFIG_DIR
+
+data:
+  storage_id: my_data
+#   # don't forget to run with --upload-data
+#   local_dir: $CONFIG_DIR/datasets_and_models/
+
+#   # The data will be uploaded to your _default storage.
+#   #   Check ``multi_storage.yaml'' for more flexibility.
+#   remote_dir: datasets_and_models
+
+# schedule two simple jobs, names for each job should be different:
+jobs:
+# ResNet110
+- name: WRN
+  sku: G4
+  command:
+  - python my_main.py --dataset imagenet --data-path /hdfs/public/imagenet/2012/

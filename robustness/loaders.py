@@ -1,7 +1,7 @@
 import argparse
 
 from . import cifar_models
-from .tools import folder
+from .tools import folder, zipped_folder
 
 import os
 if int(os.environ.get("NOTEBOOK_MODE", 0)) == 1:
@@ -57,6 +57,17 @@ def make_loaders(workers, batch_size, transforms, data_path, data_aug=True,
                                            label_mapping=label_mapping)
         test_set = folder.ImageFolder(root=test_path, transform=transform_test,
                                       label_mapping=label_mapping)
+    elif custom_class == 'Zipped':
+        train_path = os.path.join(data_path, 'train.zip')
+        train_map = os.path.join(data_path, 'train_map.txt')
+        test_path = os.path.join(data_path, 'val.zip')
+        test_map = os.path.join(data_path, 'val_map.txt')
+
+        if not only_val:
+            train_set = zipped_folder.ZippedFolder(train_path, train_map, transform_train)
+
+        test_set = zipped_folder.ZippedFolder(test_path, test_map, transform_test)
+
     else:
         if not only_val:
             train_set = custom_class(root=data_path, train=True, 
