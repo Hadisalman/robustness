@@ -53,25 +53,43 @@ data:
 #   remote_dir: datasets_and_models
 
 # schedule two simple jobs, names for each job should be different:
-jobs:          
-- name: WRN
-  sku: G1
+jobs:
+- name: wide_resnet50_AT_1step
+  sku: G4
   command:
-  # - pip uninstall apex --user
-  # - cd apex
-  # - pip install -v --no-cache-dir --global-option="--cpp_ext" --global-option="--cuda_ext" ./ --user
-  # - cd ../
-  # - python my_main.py --dataset imagenet --data-path /hdfs/public/imagenet/2012/
-  - python my_main.py --exp-id test
-  # - python -m robustness.main --dataset cifar --arch resnet18 --out-dir /tmp --batch-size 128 --adv-train 0 --epochs 5 --mixed-precision 1 --custom-lr-multiplier cyclic --lr 0.41
+  - python my_main.py --arch wide_resnet50 --dataset imagenet --data-path /hdfs/public/imagenet/2012/ --batch-size 128 --num-steps 1 
+              --outdir /mnt/my_output/results/adversarial_training/ --exp-id wide_resnet50_AT_1step --mp --AT 
 
-- name: WRN_mp
-  sku: G1
+- name: resnet50_AT_1step
+  sku: G4
   command:
-  # - pip uninstall apex --user
-  # - cd apex
-  # - pip install -v --no-cache-dir --global-option="--cpp_ext" --global-option="--cuda_ext" ./ --user
-  # - cd ../
-  # - python my_main.py --dataset imagenet --data-path /hdfs/public/imagenet/2012/
-  - python my_main.py --exp-id test --mp
-  # - python -m robustness.main --dataset cifar --arch resnet18 --out-dir /tmp --batch-size 128 --adv-train 0 --epochs 5 --mixed-precision 1 --custom-lr-multiplier cyclic --lr 0.41
+  - python my_main.py --arch resnet50 --dataset imagenet --data-path /hdfs/public/imagenet/2012/ --batch-size 128 --num-steps 1 
+              --outdir /mnt/my_output/results/adversarial_training/ --exp-id resnet50_AT_1step --mp --AT 
+
+
+
+- name: wide_resnet50_AT_3steps
+  sku: G4
+  command:
+  - python my_main.py --arch wide_resnet50 --dataset imagenet --data-path /hdfs/public/imagenet/2012/ --batch-size 128 --num-steps 3 
+              --outdir /mnt/my_output/results/adversarial_training/ --exp-id wide_resnet50_AT_3steps --mp --AT 
+
+- name: resnet50_AT_3steps
+  sku: G4
+  command:
+  - python my_main.py --arch resnet50 --dataset imagenet --data-path /hdfs/public/imagenet/2012/ --batch-size 128 --num-steps 3 
+              --outdir /mnt/my_output/results/adversarial_training/ --exp-id resnet50_AT_3steps --mp --AT 
+
+
+
+- name: wide_resnet50
+  sku: G4
+  command:
+  - python my_main.py --arch wide_resnet50 --dataset imagenet --data-path /hdfs/public/imagenet/2012/ --batch-size 32 
+              --outdir /mnt/my_output/results/adversarial_training/ --exp-id wide_resnet50 --mp
+
+- name: resnet50
+  sku: G4
+  command:
+  - python my_main.py --arch resnet50 --dataset imagenet --data-path /hdfs/public/imagenet/2012/ --batch-size 128 
+              --outdir /mnt/my_output/results/adversarial_training/ --exp-id resnet50 --mp

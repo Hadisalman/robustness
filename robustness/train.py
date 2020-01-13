@@ -23,6 +23,8 @@ try:
 except Exception as e:
     warnings.warn('Could not import amp.')
 
+# from IPython import embed
+
 def check_required_args(args, eval_only=False):
     """
     Check that the required training arguments are present.
@@ -108,6 +110,7 @@ def make_optimizer_and_schedule(args, model, checkpoint, params):
 
     # Fast-forward the optimizer and the scheduler if resuming
     if checkpoint:
+        # embed()
         optimizer.load_state_dict(checkpoint['optimizer'])
         try:
             schedule.load_state_dict(checkpoint['schedule'])
