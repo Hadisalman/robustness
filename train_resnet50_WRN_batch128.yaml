@@ -16,6 +16,10 @@ environment:
 
 # # azure storage configuration
 storage:
+  imagenet:
+    storage_account_name: msrairesidentssa8
+    container_name: imagenet
+
   my_output:
     # Replace with the name of the Azure Storage Account you created.
     #   If you followed the tutorial, this should be your_username
@@ -54,42 +58,42 @@ data:
 
 # schedule two simple jobs, names for each job should be different:
 jobs:
-- name: wide_resnet50_AT_1step
+- name: wide_resnet50_2_AT_1step
   sku: G4
   command:
-  - python my_main.py --arch wide_resnet50 --dataset imagenet --data-path /hdfs/public/imagenet/2012/ --batch-size 128 --num-steps 1 
-              --outdir /mnt/my_output/results/adversarial_training/ --exp-id wide_resnet50_AT_1step --mp --AT 
+  - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 128 --num-steps 1 
+              --outdir /mnt/my_output/results/adversarial_training/ --exp-id wide_resnet50_2_AT_1step --mp --AT 
 
 - name: resnet50_AT_1step
   sku: G4
   command:
-  - python my_main.py --arch resnet50 --dataset imagenet --data-path /hdfs/public/imagenet/2012/ --batch-size 128 --num-steps 1 
+  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 128 --num-steps 1 
               --outdir /mnt/my_output/results/adversarial_training/ --exp-id resnet50_AT_1step --mp --AT 
 
 
 
-- name: wide_resnet50_AT_3steps
+- name: wide_resnet50_2_AT_3steps
   sku: G4
   command:
-  - python my_main.py --arch wide_resnet50 --dataset imagenet --data-path /hdfs/public/imagenet/2012/ --batch-size 128 --num-steps 3 
-              --outdir /mnt/my_output/results/adversarial_training/ --exp-id wide_resnet50_AT_3steps --mp --AT 
+  - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 128 --num-steps 3 
+              --outdir /mnt/my_output/results/adversarial_training/ --exp-id wide_resnet50_2_AT_3steps --mp --AT 
 
 - name: resnet50_AT_3steps
   sku: G4
   command:
-  - python my_main.py --arch resnet50 --dataset imagenet --data-path /hdfs/public/imagenet/2012/ --batch-size 128 --num-steps 3 
+  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 128 --num-steps 3 
               --outdir /mnt/my_output/results/adversarial_training/ --exp-id resnet50_AT_3steps --mp --AT 
 
 
 
-- name: wide_resnet50
+- name: wide_resnet50_2
   sku: G4
   command:
-  - python my_main.py --arch wide_resnet50 --dataset imagenet --data-path /hdfs/public/imagenet/2012/ --batch-size 32 
-              --outdir /mnt/my_output/results/adversarial_training/ --exp-id wide_resnet50 --mp
+  - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 128 
+              --outdir /mnt/my_output/results/adversarial_training/ --exp-id wide_resnet50_2 --mp
 
 - name: resnet50
   sku: G4
   command:
-  - python my_main.py --arch resnet50 --dataset imagenet --data-path /hdfs/public/imagenet/2012/ --batch-size 128 
+  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 128 
               --outdir /mnt/my_output/results/adversarial_training/ --exp-id resnet50 --mp
