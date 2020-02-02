@@ -64,7 +64,7 @@ train_args = Parameters({
     'out_dir': args.outdir,
     'custom_lr_multiplier': 'cyclic',
     'lr_interpolation': 'step',
-    'lr': 1.2,
+    'lr': 0.2,
     'epochs': 50,
     'random_start': True,
     'mixed_precision': args.mp,
