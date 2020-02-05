@@ -41,9 +41,6 @@ else:
 
 if args.arch in ['resnet18', 'resnet50', 'wide_resnet50', 'wide_resnet50_2']:
     model, checkpoint = model_utils.make_and_restore_model(arch=args.arch, dataset=ds, resume_path=args.resume)
-elif args.arch == 'WRN':
-    model = torchvision.models.wide_resnet50_2(pretrained=False)
-    model, checkpoint = model_utils.make_and_restore_model(arch=model, dataset=ds, resume_path=args.resume)
 else:
     raise Exception('Unknown architecture')
 
