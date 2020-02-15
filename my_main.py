@@ -1,5 +1,5 @@
 from robustness import model_utils, datasets, train, defaults
-from robustness.datasets import CIFAR, ImageNetZipped
+from robustness.datasets import CIFAR, ImageNetZipped, ImageNet
 import torch as ch
 import torchvision
 # We use cox (http://github.com/MadryLab/cox) to log, store and analyze
@@ -22,6 +22,9 @@ parser.add_argument('--batch-size', type=int, default=256)
 parser.add_argument('--AT', action='store_true', help='Adversarially train')
 parser.add_argument('--resume', action='store_true', help='Whether to resume or not')
 parser.add_argument('--num-steps', type=int, default=3)
+parser.add_argument('--eps', type=float, default=3.0)
+parser.add_argument('--attack-lr', type=float, default=2.0)
+parser.add_argument('--weight-decay', type=float, default=1e-4)
 
 args = parser.parse_args()
 
@@ -30,10 +33,14 @@ assert args.exp_id != None
 model_path = os.path.join(args.outdir, args.exp_id, 'checkpoint.pt.latest')
 if args.resume and os.path.isfile(model_path):
     args.resume = model_path
-
+else:
+    args.resume = None
+    
 # Hard-coded dataset, architecture, batch size, workers
 if args.dataset == 'cifar':
     ds = CIFAR('/tmp/')
+elif args.dataset == 'imagenet_local':
+    ds = ImageNet(args.data_path)
 elif args.dataset == 'imagenet':
     ds = ImageNetZipped(args.data_path)
 else:
@@ -49,35 +56,38 @@ if 'module' in dir(model): model = model.module
 train_loader, val_loader = ds.make_loaders(batch_size=args.batch_size, workers=16)
 
 # Create a cox store for logging
-out_store = cox.store.Store(args.outdir, args.exp_id)
+# out_store = cox.store.Store(args.outdir, args.exp_id)
 
 # Hard-coded base parameters
 train_args = Parameters({
     'adv_train': args.AT,
     'constraint': '2',
-    'eps': 3.0,
-    'attack_lr': 2.0,
+    'eps': args.eps,
+    'attack_lr': args.attack_lr,
     'attack_steps': args.num_steps,
     'out_dir': args.outdir,
-    'custom_lr_multiplier': 'cyclic',
-    'lr_interpolation': 'step',
-    'lr': 0.2,
-    'epochs': 50,
-    'random_start': True,
+    # 'custom_lr_multiplier': 'cyclic',
+    # 'lr_interpolation': 'step',
+    'step_lr': 30,
+    'lr': 0.1,
+    'epochs': 90,
+    'batch_size': args.batch_size,
+    'weight_decay': args.weight_decay
+    'random_start': False,
     'mixed_precision': args.mp,
     'log_iters': 1,
 })
 
 # Fill whatever parameters are missing from the defaults
 train_args = defaults.check_and_fill_args(train_args,
-                        defaults.TRAINING_ARGS, CIFAR)
+                        defaults.TRAINING_ARGS, ImageNet)
 train_args = defaults.check_and_fill_args(train_args,
-                        defaults.PGD_ARGS, CIFAR)
+                        defaults.PGD_ARGS, ImageNet)
 
 # Train a model
 import time
 start = time.time()
-train.train_model(train_args, model, (train_loader, val_loader), store=out_store, checkpoint=checkpoint)
+train.train_model(train_args, model, (train_loader, val_loader), checkpoint=checkpoint)
 print('')
 print('')
 print('')
