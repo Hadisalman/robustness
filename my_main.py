@@ -72,7 +72,7 @@ train_args = Parameters({
     'lr': 0.1,
     'epochs': 90,
     'batch_size': args.batch_size,
-    'weight_decay': args.weight_decay
+    'weight_decay': args.weight_decay,
     'random_start': False,
     'mixed_precision': args.mp,
     'log_iters': 1,
