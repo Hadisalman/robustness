@@ -25,6 +25,9 @@ parser.add_argument('--num-steps', type=int, default=3)
 parser.add_argument('--eps', type=float, default=3.0)
 parser.add_argument('--attack-lr', type=float, default=2.0)
 parser.add_argument('--weight-decay', type=float, default=1e-4)
+parser.add_argument('--lr', type=float, default=0.1)
+parser.add_argument('--epochs', type=int, default=90)
+parser.add_argument('--step-lr', type=int, default=30)
 
 args = parser.parse_args()
 
@@ -56,7 +59,7 @@ if 'module' in dir(model): model = model.module
 train_loader, val_loader = ds.make_loaders(batch_size=args.batch_size, workers=16)
 
 # Create a cox store for logging
-# out_store = cox.store.Store(args.outdir, args.exp_id)
+out_store = cox.store.Store(args.outdir, args.exp_id)
 
 # Hard-coded base parameters
 train_args = Parameters({
@@ -68,9 +71,9 @@ train_args = Parameters({
     'out_dir': args.outdir,
     # 'custom_lr_multiplier': 'cyclic',
     # 'lr_interpolation': 'step',
-    'step_lr': 30,
-    'lr': 0.1,
-    'epochs': 90,
+    'step_lr': args.step_lr,
+    'lr': args.lr,
+    'epochs': args.epochs,
     'batch_size': args.batch_size,
     'weight_decay': args.weight_decay,
     'random_start': False,
@@ -87,7 +90,7 @@ train_args = defaults.check_and_fill_args(train_args,
 # Train a model
 import time
 start = time.time()
-train.train_model(train_args, model, (train_loader, val_loader), checkpoint=checkpoint)
+train.train_model(train_args, model, (train_loader, val_loader), store=out_store, checkpoint=checkpoint)
 print('')
 print('')
 print('')

@@ -69,7 +69,7 @@ jobs:
   sku: G4
   command:
   - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
-              --outdir /mnt/my_output/adversarial_training_stepLR_AT_1steps/ --resume --exp-id wide_resnet50_batch512 --num-steps 1 --AT
+              --outdir /mnt/my_output/wd_1e-4/adversarial_training_stepLR_AT_1steps/ --resume --exp-id wide_resnet50_batch512 --num-steps 1 --AT
 
 
 - name: wide_resnet50_batch512
