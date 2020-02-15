@@ -41,7 +41,7 @@ storage:
 
 code:
   # upload the code
-  local_dir: $CONFIG_DIR
+  local_dir: $CONFIG_DIR/../
 
 data:
   storage_id: my_data
