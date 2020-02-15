@@ -61,23 +61,9 @@ jobs:
   sku: G4
   command:
   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
-              --outdir /mnt/my_output/adversarial_training_stepLR_AT_3steps/ --resume --exp-id resnet50_batch512 --num-steps 3 --AT
+              --outdir /mnt/my_output/wd_1e-4/adversarial_training_stepLR_AT_3steps/ --resume --exp-id resnet50_batch512 --num-steps 3 --AT
 
               
-# - name: resnet50_batch256_3steps
-#   sku: G4
-#   command:
-#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 256 
-#               --outdir /mnt/my_output/adversarial_training_stepLR_AT_3steps/ --resume --exp-id resnet50_batch256 --num-steps 3 --AT
-
-
-# - name: resnet50_batch128_3steps
-#   sku: G4
-#   command:
-#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 128 
-#               --outdir /mnt/my_output/adversarial_training_stepLR_AT_3steps/ --resume --exp-id resnet50_batch128 --num-steps 3 --AT
-
-
 - name: resnet50_batch512_1steps
   sku: G4
   command:
@@ -85,15 +71,8 @@ jobs:
               --outdir /mnt/my_output/adversarial_training_stepLR_AT_1steps/ --resume --exp-id resnet50_batch512 --num-steps 1 --AT
 
               
-# - name: resnet50_batch256_1steps
-#   sku: G4
-#   command:
-#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 256 
-#               --outdir /mnt/my_output/adversarial_training_stepLR_AT_1steps/ --resume --exp-id resnet50_batch256 --num-steps 1 --AT
-
-
-# - name: resnet50_batch128_1steps
-#   sku: G4
-#   command:
-#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 128 
-#               --outdir /mnt/my_output/adversarial_training_stepLR_AT_1steps/ --resume --exp-id resnet50_batch128 --num-steps 1 --AT
+- name: resnet50_batch512
+  sku: G4
+  command:
+  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
+              --outdir /mnt/my_output/wd_1e-4/adversarial_training_stepLR/ --resume --exp-id resnet50_batch512
