@@ -1,0 +1,133 @@
+description: Training imagenet classifiers
+
+target:
+  # which virtual cluster you belong to (msrlabs, etc.).
+  vc: resrchvc
+  cluster: rr1
+  # vc: msrlabs
+  # use an Azure cluster (eu1, eu2, ...)
+  # cluster: eu1
+
+environment:
+  # image: hadisalman/smoothing:latest
+  # image: hadisalman/robustness:latest
+  image: hadisalman/robustness:1.3-cuda10.1-cudnn7-devel
+
+# # azure storage configuration
+storage:
+  imagenet:
+    storage_account_name: msrairesidentssa8
+    container_name: imagenet
+
+  my_output:
+    # Replace with the name of the Azure Storage Account you created.
+    #   If you followed the tutorial, this should be your_username
+    storage_account_name: robustnessws4285631339
+    # Specify a name of the container on your blob (ex. phillytools),
+    #   to store data, results and code. It will be created if it does not exist.
+    container_name: madrylab
+    # You can optionally specify a mount_path that will be directly accessible
+    #   by your jobs. By default it's:
+    mount_dir: /mnt/my_output
+    is_output: True
+
+  my_data:
+    # Replace with the name of the Azure Storage Account you created.
+    #   If you followed the tutorial, this should be your_username
+    storage_account_name: robustnessws4285631339
+    # Specify a name of the container on your blob (ex. phillytools),
+    #   to store data, results and code. It will be created if it does not exist.
+    container_name: madrylab
+    # You can optionally specify a mount_path that will be directly accessible
+    #   by your jobs. By default it's:
+    mount_dir: /mnt/my_data
+
+code:
+  # upload the code
+  local_dir: $CONFIG_DIR/../
+
+data:
+  storage_id: my_data
+#   # don't forget to run with --upload-data
+#   local_dir: $CONFIG_DIR/datasets_and_models/
+
+#   # The data will be uploaded to your _default storage.
+#   #   Check ``multi_storage.yaml'' for more flexibility.
+#   remote_dir: datasets_and_models
+
+# schedule two simple jobs, names for each job should be different:
+jobs:              
+- name: resnet50_batch512_3steps_eps12
+  sku: G4
+  command:
+  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
+              --outdir /mnt/my_output/adversarial_training_stepLR_resnet50_3steps_sweep_eps/ --resume --exp-id resnet50_batch512_eps12 --num-steps 3 --AT --eps 12.0 --attack-lr 8.0
+
+- name: resnet50_batch512_3steps_eps11
+  sku: G4
+  command:
+  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
+              --outdir /mnt/my_output/adversarial_training_stepLR_resnet50_3steps_sweep_eps/ --resume --exp-id resnet50_batch512_eps11 --num-steps 3 --AT --eps 11.0 --attack-lr 8.0
+
+- name: resnet50_batch512_3steps_eps10
+  sku: G4
+  command:
+  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
+              --outdir /mnt/my_output/adversarial_training_stepLR_resnet50_3steps_sweep_eps/ --resume --exp-id resnet50_batch512_eps10 --num-steps 3 --AT --eps 10.0 --attack-lr 7.0
+
+- name: resnet50_batch512_3steps_eps9
+  sku: G4
+  command:
+  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
+              --outdir /mnt/my_output/adversarial_training_stepLR_resnet50_3steps_sweep_eps/ --resume --exp-id resnet50_batch512_eps9 --num-steps 3 --AT --eps 9.0 --attack-lr 7.0
+
+- name: resnet50_batch512_3steps_eps8
+  sku: G4
+  command:
+  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
+              --outdir /mnt/my_output/adversarial_training_stepLR_resnet50_3steps_sweep_eps/ --resume --exp-id resnet50_batch512_eps8 --num-steps 3 --AT --eps 8.0 --attack-lr 6.0
+
+- name: resnet50_batch512_3steps_eps7
+  sku: G4
+  command:
+  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
+              --outdir /mnt/my_output/adversarial_training_stepLR_resnet50_3steps_sweep_eps/ --resume --exp-id resnet50_batch512_eps7 --num-steps 3 --AT --eps 7.0 --attack-lr 5.0
+
+- name: resnet50_batch512_3steps_eps6
+  sku: G4
+  command:
+  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
+              --outdir /mnt/my_output/adversarial_training_stepLR_resnet50_3steps_sweep_eps/ --resume --exp-id resnet50_batch512_eps6 --num-steps 3 --AT --eps 6.0 --attack-lr 4.0
+
+- name: resnet50_batch512_3steps_eps5
+  sku: G4
+  command:
+  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
+              --outdir /mnt/my_output/adversarial_training_stepLR_resnet50_3steps_sweep_eps/ --resume --exp-id resnet50_batch512_eps5 --num-steps 3 --AT --eps 5.0 --attack-lr 3.0
+
+- name: resnet50_batch512_3steps_eps4
+  sku: G4
+  command:
+  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
+              --outdir /mnt/my_output/adversarial_training_stepLR_resnet50_3steps_sweep_eps/ --resume --exp-id resnet50_batch512_eps4 --num-steps 3 --AT --eps 4.0 --attack-lr 3.0
+
+- name: resnet50_batch512_3steps_eps3
+  sku: G4
+  command:
+  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
+              --outdir /mnt/my_output/adversarial_training_stepLR_resnet50_3steps_sweep_eps/ --resume --exp-id resnet50_batch512_eps3 --num-steps 3 --AT --eps 3.0 --attack-lr 2.0
+
+- name: resnet50_batch512_3steps_eps2
+  sku: G4
+  command:
+  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
+              --outdir /mnt/my_output/adversarial_training_stepLR_resnet50_3steps_sweep_eps/ --resume --exp-id resnet50_batch512_eps2 --num-steps 3 --AT --eps 2.0 --attack-lr 1.5
+
+- name: resnet50_batch512_3steps_eps1
+  sku: G4
+  command:
+  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
+              --outdir /mnt/my_output/adversarial_training_stepLR_resnet50_3steps_sweep_eps/ --resume --exp-id resnet50_batch512_eps1 --num-steps 3 --AT --eps 1.0 --attack-lr 0.8
+              
+
+              

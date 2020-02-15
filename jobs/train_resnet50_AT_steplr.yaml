@@ -1,0 +1,99 @@
+description: Training imagenet classifiers
+
+target:
+  # which virtual cluster you belong to (msrlabs, etc.).
+  vc: resrchvc
+  cluster: rr1
+  # vc: msrlabs
+  # use an Azure cluster (eu1, eu2, ...)
+  # cluster: eu1
+
+environment:
+  # image: hadisalman/smoothing:latest
+  # image: hadisalman/robustness:latest
+  image: hadisalman/robustness:1.3-cuda10.1-cudnn7-devel
+
+# # azure storage configuration
+storage:
+  imagenet:
+    storage_account_name: msrairesidentssa8
+    container_name: imagenet
+
+  my_output:
+    # Replace with the name of the Azure Storage Account you created.
+    #   If you followed the tutorial, this should be your_username
+    storage_account_name: robustnessws4285631339
+    # Specify a name of the container on your blob (ex. phillytools),
+    #   to store data, results and code. It will be created if it does not exist.
+    container_name: madrylab
+    # You can optionally specify a mount_path that will be directly accessible
+    #   by your jobs. By default it's:
+    mount_dir: /mnt/my_output
+    is_output: True
+
+  my_data:
+    # Replace with the name of the Azure Storage Account you created.
+    #   If you followed the tutorial, this should be your_username
+    storage_account_name: robustnessws4285631339
+    # Specify a name of the container on your blob (ex. phillytools),
+    #   to store data, results and code. It will be created if it does not exist.
+    container_name: madrylab
+    # You can optionally specify a mount_path that will be directly accessible
+    #   by your jobs. By default it's:
+    mount_dir: /mnt/my_data
+
+code:
+  # upload the code
+  local_dir: $CONFIG_DIR/../
+
+data:
+  storage_id: my_data
+#   # don't forget to run with --upload-data
+#   local_dir: $CONFIG_DIR/datasets_and_models/
+
+#   # The data will be uploaded to your _default storage.
+#   #   Check ``multi_storage.yaml'' for more flexibility.
+#   remote_dir: datasets_and_models
+
+# schedule two simple jobs, names for each job should be different:
+jobs:              
+- name: resnet50_batch512_3steps
+  sku: G4
+  command:
+  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
+              --outdir /mnt/my_output/adversarial_training_stepLR_AT_3steps/ --resume --exp-id resnet50_batch512 --num-steps 3 --AT
+
+              
+# - name: resnet50_batch256_3steps
+#   sku: G4
+#   command:
+#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 256 
+#               --outdir /mnt/my_output/adversarial_training_stepLR_AT_3steps/ --resume --exp-id resnet50_batch256 --num-steps 3 --AT
+
+
+# - name: resnet50_batch128_3steps
+#   sku: G4
+#   command:
+#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 128 
+#               --outdir /mnt/my_output/adversarial_training_stepLR_AT_3steps/ --resume --exp-id resnet50_batch128 --num-steps 3 --AT
+
+
+- name: resnet50_batch512_1steps
+  sku: G4
+  command:
+  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
+              --outdir /mnt/my_output/adversarial_training_stepLR_AT_1steps/ --resume --exp-id resnet50_batch512 --num-steps 1 --AT
+
+              
+# - name: resnet50_batch256_1steps
+#   sku: G4
+#   command:
+#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 256 
+#               --outdir /mnt/my_output/adversarial_training_stepLR_AT_1steps/ --resume --exp-id resnet50_batch256 --num-steps 1 --AT
+
+
+# - name: resnet50_batch128_1steps
+#   sku: G4
+#   command:
+#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 128 
+#               --outdir /mnt/my_output/adversarial_training_stepLR_AT_1steps/ --resume --exp-id resnet50_batch128 --num-steps 1 --AT
