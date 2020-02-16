@@ -120,9 +120,9 @@ def make_optimizer_and_schedule(args, model, checkpoint, params):
                   f' Stepping {steps_to_take} times instead...')
             for i in range(steps_to_take):
                 schedule.step()
-        
-        if 'amp' in checkpoint:
-            amp.load_state_dict(checkpoint['amp'])
+        # embed()
+        # if 'amp' in checkpoint:
+        #     amp.load_state_dict(checkpoint['amp'])
 
         # TODO: see if there's a smarter way to do this
         # TODO: see what's up with loading fp32 weights and then MP training

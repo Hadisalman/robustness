@@ -18,7 +18,7 @@ parser.add_argument('--data-path', type=str, default='/tmp/')
 parser.add_argument('--outdir', type=str, default='./outdir')
 parser.add_argument('--exp-id', type=str, default=None)
 parser.add_argument('--mp', action='store_true', help='Flag for mixed precision')
-parser.add_argument('--batch-size', type=int, default=256)
+parser.add_argument('--batch-size', type=int, default=512)
 parser.add_argument('--AT', action='store_true', help='Adversarially train')
 parser.add_argument('--resume', action='store_true', help='Whether to resume or not')
 parser.add_argument('--num-steps', type=int, default=3)
@@ -59,6 +59,13 @@ if 'module' in dir(model): model = model.module
 train_loader, val_loader = ds.make_loaders(batch_size=args.batch_size, workers=16)
 
 # Create a cox store for logging
+
+# TODO: Chcek if files store file exists, and delete it before creating a new one.
+#       This is a hack to avoid "End of HDF5 error back trace" on philly
+store_file = os.path.join(args.outdir, args.exp_id, 'store.h5')
+if os.path.isfile(store_file):
+    os.remove(store_file)
+# embed()
 out_store = cox.store.Store(args.outdir, args.exp_id)
 
 # Hard-coded base parameters
