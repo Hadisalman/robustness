@@ -60,7 +60,7 @@ train_loader, val_loader = ds.make_loaders(batch_size=args.batch_size, workers=1
 
 # Create a cox store for logging
 
-# TODO: Chcek if files store file exists, and delete it before creating a new one.
+# TODO: Check if store.h5 exists, and delete it before creating a new one.
 #       This is a hack to avoid "End of HDF5 error back trace" on philly
 store_file = os.path.join(args.outdir, args.exp_id, 'store.h5')
 if os.path.isfile(store_file):
