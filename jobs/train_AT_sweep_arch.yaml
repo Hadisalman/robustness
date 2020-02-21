@@ -1,0 +1,189 @@
+description: Training imagenet classifiers with 3step AT. Sweep architectures
+
+target:
+  # which virtual cluster you belong to (msrlabs, etc.).
+  vc: resrchvc
+  cluster: rr1
+  # vc: msrlabs
+  # use an Azure cluster (eu1, eu2, ...)
+  # cluster: eu1
+
+environment:
+  # image: hadisalman/smoothing:latest
+  # image: hadisalman/robustness:latest
+  image: hadisalman/robustness:1.3-cuda10.1-cudnn7-devel
+
+# # azure storage configuration
+storage:
+  imagenet:
+    storage_account_name: msrairesidentssa8
+    container_name: imagenet
+
+  my_output:
+    # Replace with the name of the Azure Storage Account you created.
+    #   If you followed the tutorial, this should be your_username
+    storage_account_name: robustnessws4285631339
+    # Specify a name of the container on your blob (ex. phillytools),
+    #   to store data, results and code. It will be created if it does not exist.
+    container_name: madrylab
+    # You can optionally specify a mount_path that will be directly accessible
+    #   by your jobs. By default it's:
+    mount_dir: /mnt/my_output
+    is_output: True
+
+  my_data:
+    # Replace with the name of the Azure Storage Account you created.
+    #   If you followed the tutorial, this should be your_username
+    storage_account_name: robustnessws4285631339
+    # Specify a name of the container on your blob (ex. phillytools),
+    #   to store data, results and code. It will be created if it does not exist.
+    container_name: madrylab
+    # You can optionally specify a mount_path that will be directly accessible
+    #   by your jobs. By default it's:
+    mount_dir: /mnt/my_data
+
+code:
+  # upload the code
+  local_dir: $CONFIG_DIR/../
+
+data:
+  storage_id: my_data
+#   # don't forget to run with --upload-data
+#   local_dir: $CONFIG_DIR/datasets_and_models/
+
+#   # The data will be uploaded to your _default storage.
+#   #   Check ``multi_storage.yaml'' for more flexibility.
+#   remote_dir: datasets_and_models
+
+# schedule two simple jobs, names for each job should be different:
+jobs:              
+- name: resnet18_batch512_3steps
+  sku: G4
+  command:
+  - python my_main.py --arch resnet18 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
+              --outdir /mnt/my_output/arch_sweep/adversarial_training_stepLR_3steps/ --resume --exp-id resnet18_batch512_AT --num-steps 3 --AT
+                  
+- name: resnet18_batch512
+  sku: G4
+  command:
+  - python my_main.py --arch resnet18 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
+              --outdir /mnt/my_output/arch_sweep/adversarial_training_stepLR_3steps/ --resume --exp-id resnet18_batch512
+
+
+- name: resnet34_batch512_3steps
+  sku: G4
+  command:
+  - python my_main.py --arch resnet34 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
+              --outdir /mnt/my_output/arch_sweep/adversarial_training_stepLR_3steps/ --resume --exp-id resnet34_batch512_AT --num-steps 3 --AT
+                  
+- name: resnet34_batch512
+  sku: G4
+  command:
+  - python my_main.py --arch resnet34 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
+              --outdir /mnt/my_output/arch_sweep/adversarial_training_stepLR_3steps/ --resume --exp-id resnet34_batch512
+
+
+
+- name: resnet50_batch512_3steps
+  sku: G4
+  command:
+  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
+              --outdir /mnt/my_output/arch_sweep/adversarial_training_stepLR_3steps/ --resume --exp-id resnet50_batch512_AT --num-steps 3 --AT
+                  
+- name: resnet50_batch512
+  sku: G4
+  command:
+  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
+              --outdir /mnt/my_output/arch_sweep/adversarial_training_stepLR_3steps/ --resume --exp-id resnet50_batch512
+
+
+
+- name: resnet101_batch512_3steps
+  sku: G4
+  command:
+  - python my_main.py --arch resnet101 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
+              --outdir /mnt/my_output/arch_sweep/adversarial_training_stepLR_3steps/ --resume --exp-id resnet101_batch512_AT --num-steps 3 --AT
+                  
+- name: resnet101_batch512
+  sku: G4
+  command:
+  - python my_main.py --arch resnet101 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
+              --outdir /mnt/my_output/arch_sweep/adversarial_training_stepLR_3steps/ --resume --exp-id resnet101_batch512
+
+
+
+
+- name: resnet152_batch512_3steps
+  sku: G4
+  command:
+  - python my_main.py --arch resnet152 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
+              --outdir /mnt/my_output/arch_sweep/adversarial_training_stepLR_3steps/ --resume --exp-id resnet152_batch512_AT --num-steps 3 --AT
+                  
+- name: resnet152_batch512
+  sku: G4
+  command:
+  - python my_main.py --arch resnet152 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
+              --outdir /mnt/my_output/arch_sweep/adversarial_training_stepLR_3steps/ --resume --exp-id resnet152_batch512
+
+
+
+
+- name: resnet50_batch512_3steps
+  sku: G4
+  command:
+  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
+              --outdir /mnt/my_output/arch_sweep/adversarial_training_stepLR_3steps/ --resume --exp-id resnet50_batch512_AT --num-steps 3 --AT
+                  
+- name: resnet50_batch512
+  sku: G4
+  command:
+  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
+              --outdir /mnt/my_output/arch_sweep/adversarial_training_stepLR_3steps/ --resume --exp-id resnet50_batch512
+
+
+
+
+- name: resnext101_32x8d_batch512_3steps
+  sku: G4
+  command:
+  - python my_main.py --arch resnext101_32x8d --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
+              --outdir /mnt/my_output/arch_sweep/adversarial_training_stepLR_3steps/ --resume --exp-id resnext101_32x8d_batch512_AT --num-steps 3 --AT
+                  
+- name: resnext101_32x8d_batch512
+  sku: G4
+  command:
+  - python my_main.py --arch resnext101_32x8d --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
+              --outdir /mnt/my_output/arch_sweep/adversarial_training_stepLR_3steps/ --resume --exp-id resnext101_32x8d_batch512
+
+
+
+
+
+- name: wide_resnet50_2_batch512_3steps
+  sku: G4
+  command:
+  - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
+              --outdir /mnt/my_output/arch_sweep/adversarial_training_stepLR_3steps/ --resume --exp-id wide_resnet50_2_batch512_AT --num-steps 3 --AT
+                  
+- name: wide_resnet50_2_batch512
+  sku: G4
+  command:
+  - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
+              --outdir /mnt/my_output/arch_sweep/adversarial_training_stepLR_3steps/ --resume --exp-id wide_resnet50_2_batch512
+
+
+
+
+
+- name: wide_resnet101_2_batch512_3steps
+  sku: G4
+  command:
+  - python my_main.py --arch wide_resnet101_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
+              --outdir /mnt/my_output/arch_sweep/adversarial_training_stepLR_3steps/ --resume --exp-id wide_resnet101_2_batch512_AT --num-steps 3 --AT
+                  
+- name: wide_resnet101_2_batch512
+  sku: G4
+  command:
+  - python my_main.py --arch wide_resnet101_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
+              --outdir /mnt/my_output/arch_sweep/adversarial_training_stepLR_3steps/ --resume --exp-id wide_resnet101_2_batch512
+

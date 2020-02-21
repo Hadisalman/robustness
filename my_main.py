@@ -49,10 +49,7 @@ elif args.dataset == 'imagenet':
 else:
     raise Exception("Unknown dataset")
 
-if args.arch in ['resnet18', 'resnet50', 'wide_resnet50', 'wide_resnet50_2']:
-    model, checkpoint = model_utils.make_and_restore_model(arch=args.arch, dataset=ds, resume_path=args.resume)
-else:
-    raise Exception('Unknown architecture')
+model, checkpoint = model_utils.make_and_restore_model(arch=args.arch, dataset=ds, resume_path=args.resume)
 
 if 'module' in dir(model): model = model.module
 
