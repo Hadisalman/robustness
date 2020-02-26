@@ -128,17 +128,17 @@ jobs:
 
 
 
-- name: resnet50_batch512_3steps
+- name: resnext50_32x4d_batch512_3steps
   sku: G4
   command:
-  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
-              --outdir /mnt/my_output/arch_sweep/adversarial_training_stepLR_3steps/ --resume --exp-id resnet50_batch512_AT --num-steps 3 --AT
+  - python my_main.py --arch resnext50_32x4d --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
+              --outdir /mnt/my_output/arch_sweep/adversarial_training_stepLR_3steps/ --resume --exp-id resnext50_32x4d_batch512_AT --num-steps 3 --AT
                   
-- name: resnet50_batch512
+- name: resnext50_32x4d_batch512
   sku: G4
   command:
-  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
-              --outdir /mnt/my_output/arch_sweep/adversarial_training_stepLR_3steps/ --resume --exp-id resnet50_batch512
+  - python my_main.py --arch resnext50_32x4d --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
+              --outdir /mnt/my_output/arch_sweep/adversarial_training_stepLR_3steps/ --resume --exp-id resnext50_32x4d_batch512
 
 
 
