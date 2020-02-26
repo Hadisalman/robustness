@@ -63,7 +63,7 @@ jobs:
   sku: G4
   command:
   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-5 
-              --outdir /mnt/my_output/wd_1e-5/adversarial_training_stepLR/ --resume --exp-id resnet50_batch512
+              --outdir /mnt/my_output/wd_1e-5/ --resume --exp-id resnet50_batch512
 
               
 - name: resnet50_batch512_3steps_eps12
@@ -144,7 +144,7 @@ jobs:
   sku: G4
   command:
   - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-5 
-              --outdir /mnt/my_output/wd_1e-5/ --resume --exp-id wide_resnet50_batch512
+              --outdir /mnt/my_output/wd_1e-5/ --resume --exp-id wrn_batch512
 
 - name: wrn_batch512_3steps_eps12
   sku: G4
