@@ -56,12 +56,12 @@ data:
 #   remote_dir: datasets_and_models
 
 # schedule two simple jobs, names for each job should be different:
-jobs:              
+jobs:
 - name: wide_resnet50_batch512_3steps
   sku: G4
   command:
   - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
-              --outdir /mnt/my_output/wd_1e-4/adversarial_training_stepLR_AT_3steps/ --resume --exp-id wide_resnet50_batch512 --num-steps 3 --AT
+              --outdir /mnt/my_output/wd_1e-4/adversarial_training_stepLR_AT_3steps/ --resume --exp-id wrn_batch512 --num-steps 3 --AT
 
             
 
@@ -69,11 +69,11 @@ jobs:
   sku: G4
   command:
   - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
-              --outdir /mnt/my_output/wd_1e-4/adversarial_training_stepLR_AT_1steps/ --resume --exp-id wide_resnet50_batch512 --num-steps 1 --AT
+              --outdir /mnt/my_output/wd_1e-4/adversarial_training_stepLR_AT_1steps/ --resume --exp-id wrn_batch512 --num-steps 1 --AT
 
 
 - name: wide_resnet50_batch512
   sku: G4
   command:
   - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
-              --outdir /mnt/my_output/wd_1e-4/adversarial_training_stepLR/ --resume --exp-id wide_resnet50_batch512
+              --outdir /mnt/my_output/wd_1e-4/adversarial_training_stepLR/ --resume --exp-id wrn_batch512
