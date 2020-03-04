@@ -504,6 +504,7 @@ class OpenImages(DataSet):
 
 DATASETS = {
     'imagenet': ImageNet,
+    'imagenet_zipped': ImageNetZipped,
     'restricted_imagenet': RestrictedImageNet,
     'custom_imagenet': CustomImageNet,
     'cifar': CIFAR,
