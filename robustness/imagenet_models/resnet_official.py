@@ -6,7 +6,9 @@ from .custom_modules import SequentialWithArgs, FakeReLU
 
 __all__ = ['ResNet', 'resnet18', 'resnet34', 'resnet50', 'resnet101',
            'resnet152', 'resnext50_32x4d', 'resnext101_32x8d',
-           'wide_resnet50_2', 'wide_resnet101_2']
+           'wide_resnet50_2', 'wide_resnet101_2',
+           'wide_resnet50_3', 'wide_resnet50_4', 'wide_resnet50_5', 
+           'wide_resnet50_6', ]
 
 
 model_urls = {
@@ -346,6 +348,49 @@ def wide_resnet50_2(pretrained=False, progress=True, **kwargs):
     return _resnet('wide_resnet50_2', Bottleneck, [3, 4, 6, 3],
                    pretrained, progress, **kwargs)
 
+
+def wide_resnet50_3(pretrained=False, progress=True, **kwargs):
+    r"""Wide ResNet-50-3 model
+    Args:
+        pretrained (bool): If True, returns a model pre-trained on ImageNet
+        progress (bool): If True, displays a progress bar of the download to stderr
+    """
+    kwargs['width_per_group'] = 64 * 3
+    return _resnet('wide_resnet50_3', Bottleneck, [3, 4, 6, 3],
+                   pretrained, progress, **kwargs)
+
+
+def wide_resnet50_4(pretrained=False, progress=True, **kwargs):
+    r"""Wide ResNet-50-4 model 
+    Args:
+        pretrained (bool): If True, returns a model pre-trained on ImageNet
+        progress (bool): If True, displays a progress bar of the download to stderr
+    """
+    kwargs['width_per_group'] = 64 * 4
+    return _resnet('wide_resnet50_4', Bottleneck, [3, 4, 6, 3],
+                   pretrained, progress, **kwargs)
+
+
+def wide_resnet50_5(pretrained=False, progress=True, **kwargs):
+    r"""Wide ResNet-50-5 model
+    Args:
+        pretrained (bool): If True, returns a model pre-trained on ImageNet
+        progress (bool): If True, displays a progress bar of the download to stderr
+    """
+    kwargs['width_per_group'] = 64 * 5
+    return _resnet('wide_resnet50_5', Bottleneck, [3, 4, 6, 3],
+                   pretrained, progress, **kwargs)
+
+
+def wide_resnet50_6(pretrained=False, progress=True, **kwargs):
+    r"""Wide ResNet-50-6 model
+    Args:
+        pretrained (bool): If True, returns a model pre-trained on ImageNet
+        progress (bool): If True, displays a progress bar of the download to stderr
+    """
+    kwargs['width_per_group'] = 64 * 6
+    return _resnet('wide_resnet50_6', Bottleneck, [3, 4, 6, 3],
+                   pretrained, progress, **kwargs)
 
 
 def wide_resnet101_2(pretrained=False, progress=True, **kwargs):

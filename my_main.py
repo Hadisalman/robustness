@@ -28,6 +28,7 @@ parser.add_argument('--weight-decay', type=float, default=1e-4)
 parser.add_argument('--lr', type=float, default=0.1)
 parser.add_argument('--epochs', type=int, default=90)
 parser.add_argument('--step-lr', type=int, default=30)
+parser.add_argument('--custom-lr-multiplier', type=str, default=None, help='Custon lr multiplier')
 
 args = parser.parse_args()
 
@@ -73,7 +74,7 @@ train_args = Parameters({
     'attack_lr': args.attack_lr,
     'attack_steps': args.num_steps,
     'out_dir': args.outdir,
-    # 'custom_lr_multiplier': 'cyclic',
+    'custom_lr_multiplier': args.custom_lr_multiplier,
     # 'lr_interpolation': 'step',
     'step_lr': args.step_lr,
     'lr': args.lr,
