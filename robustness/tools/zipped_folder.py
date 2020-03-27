@@ -14,7 +14,7 @@ class ZippedFolder(data.Dataset):
 
     def __init__(self, path, map_file,
                  transform=None, target_transform=None,
-                 extensions=None):
+                 extensions=None, label_mapping=None):
         self._path = path
         if not extensions:
             extensions = _VALID_IMAGE_TYPES
@@ -48,6 +48,8 @@ class ZippedFolder(data.Dataset):
                     cls, idx, prev_idx
                 )
                 self.class_to_idx[cls] = idx
+        if label_mapping:
+            _, self.class_to_idx = label_mapping(None, self.class_to_idx)
 
         for fst in self._zip_file.infolist():
             fname = fst.filename
