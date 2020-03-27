@@ -83,6 +83,7 @@ def make_loaders(workers, batch_size, transforms, data_path, data_aug=True,
 
     if (not only_val) and (subset is not None) and (subset <= train_sample_count):
         assert not only_val
+        print(f'[Loading a subset of size {subset} instead of the full training set of size {train_sample_count}]')
         if subset_type == 'rand':
             rng = np.random.RandomState(seed)
             subset = rng.choice(list(range(train_sample_count)), size=subset+subset_start, replace=False)
@@ -93,7 +94,6 @@ def make_loaders(workers, batch_size, transforms, data_path, data_aug=True,
             subset = np.arange(train_sample_count - subset, train_sample_count)
 
         train_set = Subset(train_set, subset)
-
     if not only_val:
         train_loader = DataLoader(train_set, batch_size=batch_size, 
             shuffle=shuffle_train, num_workers=workers, pin_memory=True)
