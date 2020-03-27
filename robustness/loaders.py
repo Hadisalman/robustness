@@ -64,9 +64,11 @@ def make_loaders(workers, batch_size, transforms, data_path, data_aug=True,
         test_map = os.path.join(data_path, 'val_map.txt')
 
         if not only_val:
-            train_set = zipped_folder.ZippedFolder(train_path, train_map, transform_train)
+            train_set = zipped_folder.ZippedFolder(train_path, train_map, transform_train,
+                                                label_mapping=label_mapping)
 
-        test_set = zipped_folder.ZippedFolder(test_path, test_map, transform_test)
+        test_set = zipped_folder.ZippedFolder(test_path, test_map, transform_test,
+                                            label_mapping=label_mapping)
 
     else:
         if not only_val:

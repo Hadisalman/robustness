@@ -103,8 +103,32 @@ class ImageNetHierarchy():
                                  which can be obtained from http://image-net.org/download-API.
 
         """
-        files = os.listdir(os.path.join(ds_path, 'train'))
-        in_wnids = [f for f in files if f[0]=='n'] 
+        if os.path.isdir(os.path.join(ds_path, 'train')):
+            files = os.listdir(os.path.join(ds_path, 'train'))
+            in_wnids = [f for f in files if f[0]=='n'] 
+        else: # for zipped imagenet
+            in_wnids = set()
+            with open(os.path.join(ds_path, 'train_map.txt'), 'r') as f:
+                for line in iter(f.readline, ""):
+                    line = line.strip()
+                    if not line:
+                        continue
+                    cls_idx = [l for l in line.split('\t') if l]
+                    if not cls_idx:
+                        continue
+                    assert len(cls_idx) >= 2, "invalid line: {}".format(line)
+                    idx = int(cls_idx[1])
+                    cls = cls_idx[0]
+                    del cls_idx
+                    at_idx = cls.find('@')
+                    assert at_idx >= 0, "invalid class: {}".format(cls)
+                    cls = cls[at_idx + 1:]
+                    if cls.startswith('/'):
+                        # Python ZipFile expects no root
+                        cls = cls[1:]
+                    assert cls, "invalid class in line {}".format(line)
+                    in_wnids.add(cls.split('/')[0]) 
+            in_wnids = list(in_wnids)
 
         f = open(os.path.join(ds_info_path, 'words.txt'))
         wnid_to_name = [l.strip() for l in f.readlines()]
