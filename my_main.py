@@ -1,5 +1,6 @@
 from robustness import model_utils, datasets, train, defaults
 from robustness.datasets import CIFAR, ImageNetZipped, ImageNet
+from robustness.loaders import TransformedLoader
 import torch as ch
 import torchvision
 # We use cox (http://github.com/MadryLab/cox) to log, store and analyze
@@ -29,10 +30,17 @@ parser.add_argument('--lr', type=float, default=0.1)
 parser.add_argument('--epochs', type=int, default=90)
 parser.add_argument('--step-lr', type=int, default=30)
 parser.add_argument('--custom-lr-multiplier', type=str, default=None, help='Custon lr multiplier')
+parser.add_argument('--frac-rand-labels', type=float, default=None, 
+            help='Fraction of the training set which is random labelled (fixed during training)')
+parser.add_argument('--subset', type=int, default=None, 
+                    help='number of training data to use from the dataset')
 
 args = parser.parse_args()
 
 assert args.exp_id != None
+
+if args.eps == 0:
+    args.AT = False
 
 model_path = os.path.join(args.outdir, args.exp_id, 'checkpoint.pt.latest')
 if args.resume and os.path.isfile(model_path):
@@ -54,7 +62,22 @@ model, checkpoint = model_utils.make_and_restore_model(arch=args.arch, dataset=d
 
 if 'module' in dir(model): model = model.module
 
-train_loader, val_loader = ds.make_loaders(batch_size=args.batch_size, workers=16)
+if args.frac_rand_labels:
+    def make_rand_labels(ims, targs):
+        new_targs = (targs + ch.randint(low=1, high=10, size=targs.shape).long()) % 10
+        return ims, new_targs
+
+    train_loader, val_loader = ds.make_loaders(batch_size=args.batch_size, workers=16, data_aug=False)
+    train_loader = TransformedLoader(train_loader,
+                                    make_rand_labels,
+                                    ds.transform_train,
+                                    workers=train_loader.num_workers,
+                                    batch_size=train_loader.batch_size,
+                                    do_tqdm=True,
+                                    fraction=args.frac_rand_labels)
+
+else:
+    train_loader, val_loader = ds.make_loaders(batch_size=args.batch_size, workers=16, subset=args.subset)
 
 # Create a cox store for logging
 
@@ -65,6 +88,10 @@ if os.path.isfile(store_file):
     os.remove(store_file)
 # embed()
 out_store = cox.store.Store(args.outdir, args.exp_id)
+args_dict = args.__dict__
+schema = cox.store.schema_from_dict(args_dict)
+out_store.add_table('metadata', schema)
+out_store['metadata'].append_row(args_dict)
 
 # Hard-coded base parameters
 train_args = Parameters({
