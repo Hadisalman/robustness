@@ -29,12 +29,6 @@ TRAINING_DEFAULTS = {
         "weight_decay":1e-4,
         "step_lr": 50
     },
-    datasets.ImageNetZipped: {
-        "epochs": 200,
-        "batch_size":256,
-        "weight_decay":1e-4,
-        "step_lr": 50
-    },
     datasets.Places365: {
         "epochs": 200,
         "batch_size":256,
