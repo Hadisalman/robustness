@@ -183,38 +183,6 @@ class ImageNet(DataSet):
         return imagenet_models.__dict__[arch](num_classes=self.num_classes, 
                                         pretrained=pretrained)
 
-class ImageNetZipped(DataSet):
-    '''
-    Zipped Version of ImageNet Dataset [DDS+09]_.
-
-    Requires ImageNet in a Zipped format. 
-    ImageNet can be downloaded from http://www.image-net.org. See
-    `here <https://pytorch.org/docs/master/torchvision/datasets.html#torchvision.datasets.ImageFolder>`_
-    for more information about the format.
-
-    .. [DDS+09] Deng, J., Dong, W., Socher, R., Li, L., Li, K., & Fei-Fei, L. (2009). ImageNet: A large-scale hierarchical image database. 2009 IEEE Conference on Computer Vision and Pattern Recognition, 248-255.
-
-    '''
-    def __init__(self, data_path, **kwargs):
-        """
-        """
-        ds_kwargs = {
-            'num_classes': 1000,
-            'mean': ch.tensor([0.485, 0.456, 0.406]),
-            'std': ch.tensor([0.229, 0.224, 0.225]),
-            'custom_class': 'Zipped',
-            'label_mapping': None,
-            'transform_train': da.TRAIN_TRANSFORMS_IMAGENET,
-            'transform_test': da.TEST_TRANSFORMS_IMAGENET
-        }
-        super(ImageNetZipped, self).__init__('imagenet', data_path, **ds_kwargs)
-
-    def get_model(self, arch, pretrained):
-        """
-        """
-        return imagenet_models.__dict__[arch](num_classes=self.num_classes, 
-                                        pretrained=pretrained)
-
 class Places365(DataSet):
     '''
     Places365 Dataset [ZLK+17]_, a 365-class scene recognition dataset.
@@ -445,7 +413,6 @@ class A2B(DataSet):
 
 DATASETS = {
     'imagenet': ImageNet,
-    'imagenet_zipped': ImageNetZipped,
     'restricted_imagenet': RestrictedImageNet,
     'custom_imagenet': CustomImageNet,
     'cifar': CIFAR,
