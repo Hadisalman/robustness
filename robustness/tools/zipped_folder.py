@@ -6,6 +6,7 @@ from zipfile import ZipFile, BadZipFile
 from PIL import Image
 from io import BytesIO
 import torch.utils.data as data
+import torch
 
 _VALID_IMAGE_TYPES = ['.jpg', '.jpeg', '.tiff', '.bmp', '.png']
 
@@ -91,6 +92,10 @@ class ZippedFolder(data.Dataset):
             sample = self.transform(sample)
         if self.target_transform is not None:
             target = self.target_transform(target)
+
+        assert torch.sum(torch.isnan(sample)).item() == 0, '\n[Found NaN in input]\n'
+        assert torch.sum(torch.isinf(sample)).item() == 0, '\n[Found inf in input]\n' 
+
         return sample, target
 
     def __len__(self):
