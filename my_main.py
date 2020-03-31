@@ -1,5 +1,5 @@
 from robustness import model_utils, datasets, train, defaults
-from robustness.datasets import CIFAR, ImageNetZipped, ImageNet
+from robustness.datasets import CIFAR, ImageNet
 from robustness.loaders import TransformedLoader
 import torch as ch
 import torchvision
@@ -51,10 +51,9 @@ else:
 # Hard-coded dataset, architecture, batch size, workers
 if args.dataset == 'cifar':
     ds = CIFAR('/tmp/')
-elif args.dataset == 'imagenet_local':
-    ds = ImageNet(args.data_path)
 elif args.dataset == 'imagenet':
-    ds = ImageNetZipped(args.data_path)
+    ds = ImageNet(args.data_path)
+    ds.custom_class = 'Zipped'
 else:
     raise Exception("Unknown dataset")
 
