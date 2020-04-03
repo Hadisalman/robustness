@@ -408,6 +408,9 @@ def _model_loop(args, loop_type, loader, model, opt, epoch, adv, writer):
     losses = AverageMeter()
     top1 = AverageMeter()
     top5 = AverageMeter()
+    batch_time = AverageMeter()
+    data_time = AverageMeter()
+    end = time.time()
 
     prec = 'NatPrec' if not adv else 'AdvPrec'
     loop_msg = 'Train' if loop_type == 'train' else 'Val'
@@ -449,6 +452,8 @@ def _model_loop(args, loop_type, loader, model, opt, epoch, adv, writer):
         iterator = tqdm(enumerate(loader), total=len(loader))
     for i, (inp, target) in iterator:
        # measure data loading time
+        data_time.update(time.time() - end)
+
         target = target.cuda(non_blocking=True)
         output, final_inp = model(inp, target=target, make_adv=adv,
                                   **attack_kwargs)
@@ -499,6 +504,9 @@ def _model_loop(args, loop_type, loader, model, opt, epoch, adv, writer):
             writer.add_image('Nat input', nat_grid, epoch)
             writer.add_image('Adv input', adv_grid, epoch)
 
+        batch_time.update(time.time() - end)
+        end = time.time()
+
         # ITERATOR
         desc = ('{2} Epoch:{0} | Loss {loss.avg:.4f} | '
                 '{1}1 {top1_acc:.3f} | {1}5 {top5_acc:.3f} | '
@@ -513,6 +521,8 @@ def _model_loop(args, loop_type, loader, model, opt, epoch, adv, writer):
             if i%100 == 0:
                 desc = desc.split('|')
                 desc.insert(1, f' [{i}/{len(loader)}] ')
+                desc.insert(2, f' Time {batch_time.val:.3f} ({batch_time.avg:.3f}) ')
+                desc.insert(3, f' Data {data_time.val:.3f} ({data_time.avg:.3f}) ')
                 desc = '|'.join(desc)
                 print(desc)
         else:
