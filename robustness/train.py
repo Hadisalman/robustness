@@ -441,7 +441,10 @@ def _model_loop(args, loop_type, loader, model, opt, epoch, adv, writer):
             'use_best': bool(args.use_best)
         }
 
-    iterator = tqdm(enumerate(loader), total=len(loader))
+    if hasattr(args, 'no_tqdm') and args.no_tqdm:
+        iterator = enumerate(loader)
+    else:
+        iterator = tqdm(enumerate(loader), total=len(loader))
     for i, (inp, target) in iterator:
        # measure data loading time
         target = target.cuda(non_blocking=True)
@@ -504,8 +507,15 @@ def _model_loop(args, loop_type, loader, model, opt, epoch, adv, writer):
         if has_attr(args, 'iteration_hook'):
             args.iteration_hook(model, i, loop_type, inp, target)
 
-        iterator.set_description(desc)
-        iterator.refresh()
+        if hasattr(args, 'no_tqdm') and args.no_tqdm:
+            if i%100 == 0:
+                desc = desc.split('|')
+                desc.insert(1, f' [{i}/{len(loader)}] ')
+                desc = '|'.join(desc)
+                print(desc)
+        else:
+            iterator.set_description(desc)
+            iterator.refresh()
 
     if writer is not None:
         prec_type = 'adv' if adv else 'nat'
