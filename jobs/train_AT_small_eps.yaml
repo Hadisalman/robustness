@@ -62,91 +62,187 @@ jobs:
 # wd 1e-4 
 ## ResNet-50
 
-- name: resnet50_batch512_3steps_eps0.01_wd_1e-4
+# - name: resnet50_batch512_3steps_eps0.01_wd_1e-4
+#   sku: G4
+#   command:
+#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
+#               --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id resnet50_batch512_3steps_eps0.01 --num-steps 3 --AT --eps 0.01 --attack-lr 0.006
+
+
+# - name: resnet50_batch512_3steps_eps0.02_wd_1e-4
+#   sku: G4
+#   command:
+#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
+#               --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id resnet50_batch512_3steps_eps0.02 --num-steps 3 --AT --eps 0.02 --attack-lr 0.012
+
+
+# - name: resnet50_batch512_3steps_eps0.03_wd_1e-4
+#   sku: G4
+#   command:
+#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
+#               --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id resnet50_batch512_3steps_eps0.03 --num-steps 3 --AT --eps 0.03 --attack-lr 0.018
+
+
+
+# - name: resnet50_batch512_3steps_eps0.04_wd_1e-4
+#   sku: G4
+#   command:
+#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
+#               --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id resnet50_batch512_3steps_eps0.04 --num-steps 3 --AT --eps 0.04 --attack-lr 0.024
+
+
+# - name: resnet50_batch512_3steps_eps0.05_wd_1e-4
+#   sku: G4
+#   command:
+#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
+#               --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id resnet50_batch512_3steps_eps0.05 --num-steps 3 --AT --eps 0.05 --attack-lr 0.030
+
+
+
+# - name: resnet50_batch512_3steps_eps0.1_wd_1e-4
+#   sku: G4
+#   command:
+#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
+#               --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id resnet50_batch512_3steps_eps0.1 --num-steps 3 --AT --eps 0.1 --attack-lr 0.060
+
+
+
+# - name: resnet50_batch512_3steps_eps0.15_wd_1e-4
+#   sku: G4
+#   command:
+#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
+#               --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id resnet50_batch512_3steps_eps0.15 --num-steps 3 --AT --eps 0.15 --attack-lr 0.090
+
+
+# - name: resnet50_batch512_3steps_eps0.2_wd_1e-4
+#   sku: G4
+#   command:
+#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
+#               --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id resnet50_batch512_3steps_eps0.2 --num-steps 3 --AT --eps 0.2 --attack-lr 0.12
+
+
+
+# - name: resnet50_batch512_3steps_eps0.25_wd_1e-4
+#   sku: G4
+#   command:
+#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
+#               --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id resnet50_batch512_3steps_eps0.25 --num-steps 3 --AT --eps 0.25 --attack-lr 0.166
+
+
+
+# - name: resnet50_batch512_3steps_eps0.30_wd_1e-4
+#   sku: G4
+#   command:
+#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
+#               --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id resnet50_batch512_3steps_eps0.30 --num-steps 3 --AT --eps 0.30 --attack-lr 0.20
+
+
+
+# - name: resnet50_batch512_3steps_eps0.40_wd_1e-4
+#   sku: G4
+#   command:
+#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
+#               --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id resnet50_batch512_3steps_eps0.40 --num-steps 3 --AT --eps 0.40 --attack-lr 0.26
+
+
+# - name: resnet50_batch512_3steps_eps0.50_wd_1e-4
+#   sku: G4
+#   command:
+#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
+#               --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id resnet50_batch512_3steps_eps0.50 --num-steps 3 --AT --eps 0.50 --attack-lr 0.33
+
+
+
+
+
+
+
+# WRN
+- name: wide_resnet50_2_batch512_3steps_eps0.01_wd_1e-4
   sku: G4
   command:
-  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
-              --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id resnet50_batch512_3steps_eps0.01 --num-steps 3 --AT --eps 0.01 --attack-lr 0.006
+  - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
+              --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id wide_resnet50_2_batch512_3steps_eps0.01 --num-steps 3 --AT --eps 0.01 --attack-lr 0.006
 
 
-- name: resnet50_batch512_3steps_eps0.02_wd_1e-4
+- name: wide_resnet50_2_batch512_3steps_eps0.02_wd_1e-4
   sku: G4
   command:
-  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
-              --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id resnet50_batch512_3steps_eps0.02 --num-steps 3 --AT --eps 0.02 --attack-lr 0.012
+  - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
+              --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id wide_resnet50_2_batch512_3steps_eps0.02 --num-steps 3 --AT --eps 0.02 --attack-lr 0.012
 
 
-- name: resnet50_batch512_3steps_eps0.03_wd_1e-4
+- name: wide_resnet50_2_batch512_3steps_eps0.03_wd_1e-4
   sku: G4
   command:
-  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
-              --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id resnet50_batch512_3steps_eps0.03 --num-steps 3 --AT --eps 0.03 --attack-lr 0.018
+  - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
+              --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id wide_resnet50_2_batch512_3steps_eps0.03 --num-steps 3 --AT --eps 0.03 --attack-lr 0.018
 
 
 
-- name: resnet50_batch512_3steps_eps0.04_wd_1e-4
+- name: wide_resnet50_2_batch512_3steps_eps0.04_wd_1e-4
   sku: G4
   command:
-  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
-              --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id resnet50_batch512_3steps_eps0.04 --num-steps 3 --AT --eps 0.04 --attack-lr 0.024
+  - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
+              --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id wide_resnet50_2_batch512_3steps_eps0.04 --num-steps 3 --AT --eps 0.04 --attack-lr 0.024
 
 
-- name: resnet50_batch512_3steps_eps0.05_wd_1e-4
+- name: wide_resnet50_2_batch512_3steps_eps0.05_wd_1e-4
   sku: G4
   command:
-  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
-              --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id resnet50_batch512_3steps_eps0.05 --num-steps 3 --AT --eps 0.05 --attack-lr 0.030
+  - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
+              --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id wide_resnet50_2_batch512_3steps_eps0.05 --num-steps 3 --AT --eps 0.05 --attack-lr 0.030
 
 
 
-- name: resnet50_batch512_3steps_eps0.1_wd_1e-4
+- name: wide_resnet50_2_batch512_3steps_eps0.1_wd_1e-4
   sku: G4
   command:
-  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
-              --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id resnet50_batch512_3steps_eps0.1 --num-steps 3 --AT --eps 0.1 --attack-lr 0.060
+  - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
+              --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id wide_resnet50_2_batch512_3steps_eps0.1 --num-steps 3 --AT --eps 0.1 --attack-lr 0.060
 
 
 
-- name: resnet50_batch512_3steps_eps0.15_wd_1e-4
+- name: wide_resnet50_2_batch512_3steps_eps0.15_wd_1e-4
   sku: G4
   command:
-  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
-              --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id resnet50_batch512_3steps_eps0.15 --num-steps 3 --AT --eps 0.15 --attack-lr 0.090
+  - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
+              --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id wide_resnet50_2_batch512_3steps_eps0.15 --num-steps 3 --AT --eps 0.15 --attack-lr 0.090
 
 
-- name: resnet50_batch512_3steps_eps0.2_wd_1e-4
+- name: wide_resnet50_2_batch512_3steps_eps0.2_wd_1e-4
   sku: G4
   command:
-  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
-              --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id resnet50_batch512_3steps_eps0.2 --num-steps 3 --AT --eps 0.2 --attack-lr 0.12
+  - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
+              --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id wide_resnet50_2_batch512_3steps_eps0.2 --num-steps 3 --AT --eps 0.2 --attack-lr 0.12
 
 
 
-- name: resnet50_batch512_3steps_eps0.25_wd_1e-4
+- name: wide_resnet50_2_batch512_3steps_eps0.25_wd_1e-4
   sku: G4
   command:
-  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
-              --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id resnet50_batch512_3steps_eps0.25 --num-steps 3 --AT --eps 0.25 --attack-lr 0.166
+  - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
+              --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id wide_resnet50_2_batch512_3steps_eps0.25 --num-steps 3 --AT --eps 0.25 --attack-lr 0.166
 
 
 
-- name: resnet50_batch512_3steps_eps0.30_wd_1e-4
+- name: wide_resnet50_2_batch512_3steps_eps0.30_wd_1e-4
   sku: G4
   command:
-  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
-              --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id resnet50_batch512_3steps_eps0.30 --num-steps 3 --AT --eps 0.30 --attack-lr 0.20
+  - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
+              --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id wide_resnet50_2_batch512_3steps_eps0.30 --num-steps 3 --AT --eps 0.30 --attack-lr 0.20
 
 
 
-- name: resnet50_batch512_3steps_eps0.40_wd_1e-4
+- name: wide_resnet50_2_batch512_3steps_eps0.40_wd_1e-4
   sku: G4
   command:
-  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
-              --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id resnet50_batch512_3steps_eps0.40 --num-steps 3 --AT --eps 0.40 --attack-lr 0.26
+  - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
+              --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id wide_resnet50_2_batch512_3steps_eps0.40 --num-steps 3 --AT --eps 0.40 --attack-lr 0.26
 
 
-- name: resnet50_batch512_3steps_eps0.50_wd_1e-4
+- name: wide_resnet50_2_batch512_3steps_eps0.50_wd_1e-4
   sku: G4
   command:
-  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
-              --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id resnet50_batch512_3steps_eps0.50 --num-steps 3 --AT --eps 0.50 --attack-lr 0.33
+  - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
+              --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id wide_resnet50_2_batch512_3steps_eps0.50 --num-steps 3 --AT --eps 0.50 --attack-lr 0.33
