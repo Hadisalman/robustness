@@ -23,8 +23,6 @@ try:
 except Exception as e:
     warnings.warn('Could not import amp.')
 
-# from IPython import embed
-
 def check_required_args(args, eval_only=False):
     """
     Check that the required training arguments are present.
@@ -110,7 +108,6 @@ def make_optimizer_and_schedule(args, model, checkpoint, params):
 
     # Fast-forward the optimizer and the scheduler if resuming
     if checkpoint:
-        # embed()
         optimizer.load_state_dict(checkpoint['optimizer'])
         try:
             schedule.load_state_dict(checkpoint['schedule'])
@@ -456,6 +453,12 @@ def _model_loop(args, loop_type, loader, model, opt, epoch, adv, writer):
         output, final_inp = model(inp, target=target, make_adv=adv,
                                   **attack_kwargs)
         loss = train_criterion(output, target)
+
+        if ch.isnan(loss): 
+            print('inp', inp)
+            print('final_inp', final_inp)
+            print('target', target) 
+            raise Exception('[Encountered nan loss during training. Terminating...]')
 
         if len(loss.shape) > 0: loss = loss.mean()
 
