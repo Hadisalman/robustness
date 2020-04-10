@@ -34,6 +34,7 @@ parser.add_argument('--frac-rand-labels', type=float, default=None,
             help='Fraction of the training set which is random labelled (fixed during training)')
 parser.add_argument('--subset', type=int, default=None, 
                     help='number of training data to use from the dataset')
+parser.add_argument('--no-tqdm', type=int, default=1, choices=[0, 1], help='Do not use tqdm.')
 
 args = parser.parse_args()
 
@@ -66,7 +67,7 @@ if args.frac_rand_labels:
         new_targs = (targs + ch.randint(low=1, high=10, size=targs.shape).long()) % 10
         return ims, new_targs
 
-    train_loader, val_loader = ds.make_loaders(batch_size=args.batch_size, workers=16, data_aug=False)
+    train_loader, val_loader = ds.make_loaders(batch_size=args.batch_size, workers=8, data_aug=False)
     train_loader = TransformedLoader(train_loader,
                                     make_rand_labels,
                                     ds.transform_train,
@@ -76,7 +77,7 @@ if args.frac_rand_labels:
                                     fraction=args.frac_rand_labels)
 
 else:
-    train_loader, val_loader = ds.make_loaders(batch_size=args.batch_size, workers=16, subset=args.subset)
+    train_loader, val_loader = ds.make_loaders(batch_size=args.batch_size, workers=8, subset=args.subset)
 
 # Create a cox store for logging
 

@@ -16,8 +16,8 @@ environment:
 # # azure storage configuration
 storage:
   imagenet:
-    storage_account_name: msrairesidentssa8
-    container_name: imagenet
+    storage_account_name: robustnessws4285631339
+    container_name: blackbox-smoothing
 
   my_output:
     # Replace with the name of the Azure Storage Account you created.
@@ -65,21 +65,21 @@ jobs:
 # - name: resnet50_batch512_3steps_eps0.01_wd_1e-4
 #   sku: G4
 #   command:
-#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
+#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet/datasets/imagenet_zipped --batch-size 512 --weight-decay 1e-4 
 #               --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id resnet50_batch512_3steps_eps0.01 --num-steps 3 --AT --eps 0.01 --attack-lr 0.006
 
 
 # - name: resnet50_batch512_3steps_eps0.02_wd_1e-4
 #   sku: G4
 #   command:
-#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
+#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet/datasets/imagenet_zipped --batch-size 512 --weight-decay 1e-4 
 #               --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id resnet50_batch512_3steps_eps0.02 --num-steps 3 --AT --eps 0.02 --attack-lr 0.012
 
 
 # - name: resnet50_batch512_3steps_eps0.03_wd_1e-4
 #   sku: G4
 #   command:
-#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
+#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet/datasets/imagenet_zipped --batch-size 512 --weight-decay 1e-4 
 #               --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id resnet50_batch512_3steps_eps0.03 --num-steps 3 --AT --eps 0.03 --attack-lr 0.018
 
 
@@ -87,14 +87,14 @@ jobs:
 # - name: resnet50_batch512_3steps_eps0.04_wd_1e-4
 #   sku: G4
 #   command:
-#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
+#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet/datasets/imagenet_zipped --batch-size 512 --weight-decay 1e-4 
 #               --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id resnet50_batch512_3steps_eps0.04 --num-steps 3 --AT --eps 0.04 --attack-lr 0.024
 
 
 # - name: resnet50_batch512_3steps_eps0.05_wd_1e-4
 #   sku: G4
 #   command:
-#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
+#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet/datasets/imagenet_zipped --batch-size 512 --weight-decay 1e-4 
 #               --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id resnet50_batch512_3steps_eps0.05 --num-steps 3 --AT --eps 0.05 --attack-lr 0.030
 
 
@@ -102,7 +102,7 @@ jobs:
 # - name: resnet50_batch512_3steps_eps0.1_wd_1e-4
 #   sku: G4
 #   command:
-#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
+#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet/datasets/imagenet_zipped --batch-size 512 --weight-decay 1e-4 
 #               --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id resnet50_batch512_3steps_eps0.1 --num-steps 3 --AT --eps 0.1 --attack-lr 0.060
 
 
@@ -110,14 +110,14 @@ jobs:
 # - name: resnet50_batch512_3steps_eps0.15_wd_1e-4
 #   sku: G4
 #   command:
-#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
+#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet/datasets/imagenet_zipped --batch-size 512 --weight-decay 1e-4 
 #               --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id resnet50_batch512_3steps_eps0.15 --num-steps 3 --AT --eps 0.15 --attack-lr 0.090
 
 
 # - name: resnet50_batch512_3steps_eps0.2_wd_1e-4
 #   sku: G4
 #   command:
-#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
+#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet/datasets/imagenet_zipped --batch-size 512 --weight-decay 1e-4 
 #               --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id resnet50_batch512_3steps_eps0.2 --num-steps 3 --AT --eps 0.2 --attack-lr 0.12
 
 
@@ -125,7 +125,7 @@ jobs:
 # - name: resnet50_batch512_3steps_eps0.25_wd_1e-4
 #   sku: G4
 #   command:
-#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
+#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet/datasets/imagenet_zipped --batch-size 512 --weight-decay 1e-4 
 #               --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id resnet50_batch512_3steps_eps0.25 --num-steps 3 --AT --eps 0.25 --attack-lr 0.166
 
 
@@ -133,7 +133,7 @@ jobs:
 # - name: resnet50_batch512_3steps_eps0.30_wd_1e-4
 #   sku: G4
 #   command:
-#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
+#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet/datasets/imagenet_zipped --batch-size 512 --weight-decay 1e-4 
 #               --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id resnet50_batch512_3steps_eps0.30 --num-steps 3 --AT --eps 0.30 --attack-lr 0.20
 
 
@@ -141,14 +141,14 @@ jobs:
 # - name: resnet50_batch512_3steps_eps0.40_wd_1e-4
 #   sku: G4
 #   command:
-#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
+#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet/datasets/imagenet_zipped --batch-size 512 --weight-decay 1e-4 
 #               --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id resnet50_batch512_3steps_eps0.40 --num-steps 3 --AT --eps 0.40 --attack-lr 0.26
 
 
 # - name: resnet50_batch512_3steps_eps0.50_wd_1e-4
 #   sku: G4
 #   command:
-#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
+#   - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet/datasets/imagenet_zipped --batch-size 512 --weight-decay 1e-4 
 #               --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id resnet50_batch512_3steps_eps0.50 --num-steps 3 --AT --eps 0.50 --attack-lr 0.33
 
 
@@ -160,89 +160,359 @@ jobs:
 # WRN
 - name: wide_resnet50_2_batch512_3steps_eps0.01_wd_1e-4
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 16gb  
   command:
-  - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
-              --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id wide_resnet50_2_batch512_3steps_eps0.01 --num-steps 3 --AT --eps 0.01 --attack-lr 0.006
+    - lscpu
+    - df -h /dev/shm
+    - python main_trainer.py 
+          --arch wide_resnet50_2 
+          --dataset imagenet 
+          --data /mnt/imagenet/datasets/imagenet_zipped 
+          --batch-size 512 
+          --weight-decay 1e-4     
+          --out-dir /mnt/my_output/imagenet_experiments/small_eps/ 
+          --resume 
+          --exp-name wide_resnet50_2_batch512_3steps_eps0.01 
+          --contraint 2
+          --attack-steps 3 
+          --adv-train 1 
+          --eps 0.01 
+          --attack-lr 0.006
+          --log-iter 1
+          --epochs 90
+          --step-lr 30
+          --workers 20
+          --lr 0.1
+
 
 
 - name: wide_resnet50_2_batch512_3steps_eps0.02_wd_1e-4
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 16gb  
   command:
-  - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
-              --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id wide_resnet50_2_batch512_3steps_eps0.02 --num-steps 3 --AT --eps 0.02 --attack-lr 0.012
+    - lscpu
+    - df -h /dev/shm
+    - python main_trainer.py 
+          --arch wide_resnet50_2 
+          --dataset imagenet 
+          --data /mnt/imagenet/datasets/imagenet_zipped 
+          --batch-size 512 
+          --weight-decay 1e-4     
+          --out-dir /mnt/my_output/imagenet_experiments/small_eps/ 
+          --resume 
+          --exp-name wide_resnet50_2_batch512_3steps_eps0.02 
+          --contraint 2
+          --attack-steps 3 
+          --adv-train 1 
+          --eps 0.02 
+          --attack-lr 0.012
+          --log-iter 1
+          --epochs 90
+          --step-lr 30
+          --workers 20
+          --lr 0.1
+
 
 
 - name: wide_resnet50_2_batch512_3steps_eps0.03_wd_1e-4
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 16gb  
   command:
-  - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
-              --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id wide_resnet50_2_batch512_3steps_eps0.03 --num-steps 3 --AT --eps 0.03 --attack-lr 0.018
+    - lscpu
+    - df -h /dev/shm
+    - python main_trainer.py 
+          --arch wide_resnet50_2 
+          --dataset imagenet 
+          --data /mnt/imagenet/datasets/imagenet_zipped 
+          --batch-size 512 
+          --weight-decay 1e-4     
+          --out-dir /mnt/my_output/imagenet_experiments/small_eps/ 
+          --resume 
+          --exp-name wide_resnet50_2_batch512_3steps_eps0.03 
+          --contraint 2
+          --attack-steps 3 
+          --adv-train 1 
+          --eps 0.03 
+          --attack-lr 0.018
+          --log-iter 1
+          --epochs 90
+          --step-lr 30
+          --workers 20
+          --lr 0.1
+
 
 
 
 - name: wide_resnet50_2_batch512_3steps_eps0.04_wd_1e-4
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 16gb  
   command:
-  - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
-              --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id wide_resnet50_2_batch512_3steps_eps0.04 --num-steps 3 --AT --eps 0.04 --attack-lr 0.024
+    - lscpu
+    - df -h /dev/shm
+    - python main_trainer.py 
+          --arch wide_resnet50_2 
+          --dataset imagenet 
+          --data /mnt/imagenet/datasets/imagenet_zipped 
+          --batch-size 512 
+          --weight-decay 1e-4     
+          --out-dir /mnt/my_output/imagenet_experiments/small_eps/ 
+          --resume 
+          --exp-name wide_resnet50_2_batch512_3steps_eps0.04 
+          --contraint 2
+          --attack-steps 3 
+          --adv-train 1 
+          --eps 0.04 
+          --attack-lr 0.024
+          --log-iter 1
+          --epochs 90
+          --step-lr 30
+          --workers 20
+          --lr 0.1
+
 
 
 - name: wide_resnet50_2_batch512_3steps_eps0.05_wd_1e-4
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 16gb  
   command:
-  - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
-              --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id wide_resnet50_2_batch512_3steps_eps0.05 --num-steps 3 --AT --eps 0.05 --attack-lr 0.030
+    - lscpu
+    - df -h /dev/shm
+    - python main_trainer.py 
+          --arch wide_resnet50_2 
+          --dataset imagenet 
+          --data /mnt/imagenet/datasets/imagenet_zipped 
+          --batch-size 512 
+          --weight-decay 1e-4     
+          --out-dir /mnt/my_output/imagenet_experiments/small_eps/ 
+          --resume 
+          --exp-name wide_resnet50_2_batch512_3steps_eps0.05 
+          --contraint 2
+          --attack-steps 3 
+          --adv-train 1 
+          --eps 0.05 
+          --attack-lr 0.030
+          --log-iter 1
+          --epochs 90
+          --step-lr 30
+          --workers 20
+          --lr 0.1
+
 
 
 
 - name: wide_resnet50_2_batch512_3steps_eps0.1_wd_1e-4
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 16gb  
   command:
-  - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
-              --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id wide_resnet50_2_batch512_3steps_eps0.1 --num-steps 3 --AT --eps 0.1 --attack-lr 0.060
+    - lscpu
+    - df -h /dev/shm
+    - python main_trainer.py 
+          --arch wide_resnet50_2 
+          --dataset imagenet 
+          --data /mnt/imagenet/datasets/imagenet_zipped 
+          --batch-size 512 
+          --weight-decay 1e-4     
+          --out-dir /mnt/my_output/imagenet_experiments/small_eps/ 
+          --resume 
+          --exp-name wide_resnet50_2_batch512_3steps_eps0.1 
+          --contraint 2
+          --attack-steps 3 
+          --adv-train 1 
+          --eps 0.1 
+          --attack-lr 0.060
+          --log-iter 1
+          --epochs 90
+          --step-lr 30
+          --workers 20
+          --lr 0.1
+
 
 
 
 - name: wide_resnet50_2_batch512_3steps_eps0.15_wd_1e-4
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 16gb  
   command:
-  - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
-              --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id wide_resnet50_2_batch512_3steps_eps0.15 --num-steps 3 --AT --eps 0.15 --attack-lr 0.090
+    - lscpu
+    - df -h /dev/shm
+    - python main_trainer.py 
+          --arch wide_resnet50_2 
+          --dataset imagenet 
+          --data /mnt/imagenet/datasets/imagenet_zipped 
+          --batch-size 512 
+          --weight-decay 1e-4     
+          --out-dir /mnt/my_output/imagenet_experiments/small_eps/ 
+          --resume 
+          --exp-name wide_resnet50_2_batch512_3steps_eps0.15 
+          --contraint 2
+          --attack-steps 3 
+          --adv-train 1 
+          --eps 0.15 
+          --attack-lr 0.090
+          --log-iter 1
+          --epochs 90
+          --step-lr 30
+          --workers 20
+          --lr 0.1
+
+
 
 
 - name: wide_resnet50_2_batch512_3steps_eps0.2_wd_1e-4
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 16gb  
   command:
-  - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
-              --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id wide_resnet50_2_batch512_3steps_eps0.2 --num-steps 3 --AT --eps 0.2 --attack-lr 0.12
+    - lscpu
+    - df -h /dev/shm
+    - python main_trainer.py 
+          --arch wide_resnet50_2 
+          --dataset imagenet 
+          --data /mnt/imagenet/datasets/imagenet_zipped 
+          --batch-size 512 
+          --weight-decay 1e-4     
+          --out-dir /mnt/my_output/imagenet_experiments/small_eps/ 
+          --resume 
+          --exp-name wide_resnet50_2_batch512_3steps_eps0.2 
+          --contraint 2
+          --attack-steps 3 
+          --adv-train 1 
+          --eps 0.2 
+          --attack-lr 0.12
+          --log-iter 1
+          --epochs 90
+          --step-lr 30
+          --workers 20
+          --lr 0.1
+
+
 
 
 
 - name: wide_resnet50_2_batch512_3steps_eps0.25_wd_1e-4
   sku: G4
   command:
-  - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
-              --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id wide_resnet50_2_batch512_3steps_eps0.25 --num-steps 3 --AT --eps 0.25 --attack-lr 0.166
+    - lscpu
+    - df -h /dev/shm
+    - python main_trainer.py 
+          --arch wide_resnet50_2 
+          --dataset imagenet 
+          --data /mnt/imagenet/datasets/imagenet_zipped 
+          --batch-size 512 
+          --weight-decay 1e-4     
+          --out-dir /mnt/my_output/imagenet_experiments/small_eps/ 
+          --resume 
+          --exp-name wide_resnet50_2_batch512_3steps_eps0.25 
+          --contraint 2
+          --attack-steps 3 
+          --adv-train 1 
+          --eps 0.25 
+          --attack-lr 0.166
+          --log-iter 1
+          --epochs 90
+          --step-lr 30
+          --workers 20
+          --lr 0.1
+
+
 
 
 
 - name: wide_resnet50_2_batch512_3steps_eps0.30_wd_1e-4
   sku: G4
   command:
-  - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
-              --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id wide_resnet50_2_batch512_3steps_eps0.30 --num-steps 3 --AT --eps 0.30 --attack-lr 0.20
+    - lscpu
+    - df -h /dev/shm
+    - python main_trainer.py 
+          --arch wide_resnet50_2 
+          --dataset imagenet 
+          --data /mnt/imagenet/datasets/imagenet_zipped 
+          --batch-size 512 
+          --weight-decay 1e-4     
+          --out-dir /mnt/my_output/imagenet_experiments/small_eps/ 
+          --resume 
+          --exp-name wide_resnet50_2_batch512_3steps_eps0.30 
+          --contraint 2
+          --attack-steps 3 
+          --adv-train 1 
+          --eps 0.30 
+          --attack-lr 0.20
+          --log-iter 1
+          --epochs 90
+          --step-lr 30
+          --workers 20
+          --lr 0.1
+
+
 
 
 
 - name: wide_resnet50_2_batch512_3steps_eps0.40_wd_1e-4
   sku: G4
   command:
-  - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
-              --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id wide_resnet50_2_batch512_3steps_eps0.40 --num-steps 3 --AT --eps 0.40 --attack-lr 0.26
+    - lscpu
+    - df -h /dev/shm
+    - python main_trainer.py 
+          --arch wide_resnet50_2 
+          --dataset imagenet 
+          --data /mnt/imagenet/datasets/imagenet_zipped 
+          --batch-size 512 
+          --weight-decay 1e-4     
+          --out-dir /mnt/my_output/imagenet_experiments/small_eps/ 
+          --resume 
+          --exp-name wide_resnet50_2_batch512_3steps_eps0.40 
+          --contraint 2
+          --attack-steps 3 
+          --adv-train 1 
+          --eps 0.40 
+          --attack-lr 0.26
+          --log-iter 1
+          --epochs 90
+          --step-lr 30
+          --workers 20
+          --lr 0.1
+
+
 
 
 - name: wide_resnet50_2_batch512_3steps_eps0.50_wd_1e-4
   sku: G4
   command:
-  - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 --weight-decay 1e-4 
-              --outdir /mnt/my_output/imagenet_experiments/small_eps/ --resume --exp-id wide_resnet50_2_batch512_3steps_eps0.50 --num-steps 3 --AT --eps 0.50 --attack-lr 0.33
+    - lscpu
+    - df -h /dev/shm
+    - python main_trainer.py 
+          --arch wide_resnet50_2 
+          --dataset imagenet 
+          --data /mnt/imagenet/datasets/imagenet_zipped 
+          --batch-size 512 
+          --weight-decay 1e-4     
+          --out-dir /mnt/my_output/imagenet_experiments/small_eps/ 
+          --resume 
+          --exp-name wide_resnet50_2_batch512_3steps_eps0.50 
+          --contraint 2
+          --attack-steps 3 
+          --adv-train 1 
+          --eps 0.50 
+          --attack-lr 0.33
+          --log-iter 1
+          --epochs 90
+          --step-lr 30
+          --workers 20
+          --lr 0.1
+
+
