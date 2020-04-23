@@ -32,6 +32,20 @@ parser.add_argument('--no-tqdm', type=int, default=1, choices=[0, 1], help='Do n
 parser.add_argument('--src-or-targ', type=str, default=None, choices=['src','targ'], help='src or target for breeds.')
 parser.add_argument('--precomputed-splits', action='store_true', help='Whether to use precomputed splits for breeds or not.')
 
+pytorch_models = {
+    'alexnet': models.alexnet(),
+    'vgg16': models.vgg16(),
+    'vgg16_bn': models.vgg16_bn(),
+    'squeezenet': models.squeezenet1_0(),
+    'densenet': models.densenet161(),
+    # 'inception': models.inception_v3(),
+    # 'googlenet': models.googlenet(),
+    'shufflenet': models.shufflenet_v2_x1_0(),
+    'mobilenet': models.mobilenet_v2(),
+    'resnext50_32x4d': models.resnext50_32x4d(),
+    'mnasnet': models.mnasnet1_0(),
+}
+
 def main(args, store):
     if args.dataset == 'cifar':
         ds = CIFAR('/tmp/')
@@ -77,8 +91,10 @@ def main(args, store):
         print('[Resuming finetuning from a checkpoint...]')
     else: 
         model_path = None
-    
-    model, checkpoint = model_utils.make_and_restore_model(arch=args.arch, dataset=ds, resume_path=model_path)
+
+    model, checkpoint = \
+        model_utils.make_and_restore_model(arch=pytorch_models[args.arch] if args.arch in pytorch_models.keys() else args.arch, 
+                                        dataset=ds, resume_path=model_path, add_custom_forward=args.arch in pytorch_models.keys())
 
     if 'module' in dir(model): model = model.module
 

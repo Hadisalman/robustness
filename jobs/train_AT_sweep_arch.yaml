@@ -1,4 +1,4 @@
-description: Training imagenet classifiers with 3step AT. Sweep architectures
+description: Training imagenet classifiers
 
 target:
   # which virtual cluster you belong to (msrlabs, etc.).
@@ -16,8 +16,8 @@ environment:
 # # azure storage configuration
 storage:
   imagenet:
-    storage_account_name: msrairesidentssa8
-    container_name: imagenet
+    storage_account_name: robustnessws4285631339
+    container_name: blackbox-smoothing
 
   my_output:
     # Replace with the name of the Azure Storage Account you created.
@@ -57,133 +57,532 @@ data:
 
 # schedule two simple jobs, names for each job should be different:
 jobs:              
-- name: resnet18_batch512_3steps
+
+- name: alexnet_batch256_3steps_eps3
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb
   command:
-  - python my_main.py --arch resnet18 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
-              --outdir /mnt/my_output/arch_sweep/adversarial_training_stepLR_3steps/ --resume --exp-id resnet18_batch512_AT --num-steps 3 --AT
-                  
-- name: resnet18_batch512
+    - lscpu
+    - df -h /dev/shm
+    - python main_trainer.py 
+        --arch alexnet 
+        --dataset imagenet 
+        --data /mnt/imagenet/datasets/imagenet_zipped 
+        --batch-size 256
+        --out-dir /mnt/my_output/imagenet_experiments/vary_arch 
+        --resume 
+        --exp-name alexnet_batch256_3steps_eps3
+        --epochs 90
+        --step-lr 30
+        --weight-decay 1e-4
+        --adv-train 1
+        --constraint 2
+        --attack-steps 3 
+        --eps 3.0 
+        --attack-lr 2.0
+        --workers 20
+        --log-iters 1
+        --lr 0.1
+
+
+- name: alexnet_batch256_3steps_eps0
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb
   command:
-  - python my_main.py --arch resnet18 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
-              --outdir /mnt/my_output/arch_sweep/adversarial_training_stepLR_3steps/ --resume --exp-id resnet18_batch512
+    - lscpu
+    - df -h /dev/shm
+    - python main_trainer.py 
+        --arch alexnet 
+        --dataset imagenet 
+        --data /mnt/imagenet/datasets/imagenet_zipped 
+        --batch-size 256
+        --out-dir /mnt/my_output/imagenet_experiments/vary_arch 
+        --resume 
+        --exp-name alexnet_batch256_3steps_eps0
+        --epochs 90
+        --step-lr 30
+        --weight-decay 1e-4
+        --adv-train 0
+        --constraint 2
+        --attack-steps 3 
+        --eps 3.0 
+        --attack-lr 2.0
+        --workers 20
+        --log-iters 1
+        --lr 0.1
 
 
-- name: resnet34_batch512_3steps
+- name: vgg16_batch256_3steps_eps3
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb
   command:
-  - python my_main.py --arch resnet34 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
-              --outdir /mnt/my_output/arch_sweep/adversarial_training_stepLR_3steps/ --resume --exp-id resnet34_batch512_AT --num-steps 3 --AT
-                  
-- name: resnet34_batch512
+    - lscpu
+    - df -h /dev/shm
+    - python main_trainer.py 
+        --arch vgg16 
+        --dataset imagenet 
+        --data /mnt/imagenet/datasets/imagenet_zipped 
+        --batch-size 256
+        --out-dir /mnt/my_output/imagenet_experiments/vary_arch 
+        --resume 
+        --exp-name vgg16_batch256_3steps_eps3
+        --epochs 90
+        --step-lr 30
+        --weight-decay 1e-4
+        --adv-train 1
+        --constraint 2
+        --attack-steps 3 
+        --eps 3.0 
+        --attack-lr 2.0
+        --workers 20
+        --log-iters 1
+        --lr 0.1
+
+
+- name: vgg16_batch256_3steps_eps0
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb
   command:
-  - python my_main.py --arch resnet34 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
-              --outdir /mnt/my_output/arch_sweep/adversarial_training_stepLR_3steps/ --resume --exp-id resnet34_batch512
+    - lscpu
+    - df -h /dev/shm
+    - python main_trainer.py 
+        --arch vgg16 
+        --dataset imagenet 
+        --data /mnt/imagenet/datasets/imagenet_zipped 
+        --batch-size 256
+        --out-dir /mnt/my_output/imagenet_experiments/vary_arch 
+        --resume 
+        --exp-name vgg16_batch256_3steps_eps0
+        --epochs 90
+        --step-lr 30
+        --weight-decay 1e-4
+        --adv-train 0
+        --constraint 2
+        --attack-steps 3 
+        --eps 3.0 
+        --attack-lr 2.0
+        --workers 20
+        --log-iters 1
+        --lr 0.1
 
 
 
-- name: resnet50_batch512_3steps
+- name: vgg16_bn_batch256_3steps_eps3
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb
   command:
-  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
-              --outdir /mnt/my_output/arch_sweep/adversarial_training_stepLR_3steps/ --resume --exp-id resnet50_batch512_AT --num-steps 3 --AT
-                  
-- name: resnet50_batch512
+    - lscpu
+    - df -h /dev/shm
+    - python main_trainer.py 
+        --arch vgg16_bn 
+        --dataset imagenet 
+        --data /mnt/imagenet/datasets/imagenet_zipped 
+        --batch-size 256
+        --out-dir /mnt/my_output/imagenet_experiments/vary_arch 
+        --resume 
+        --exp-name vgg16_bn_batch256_3steps_eps3
+        --epochs 90
+        --step-lr 30
+        --weight-decay 1e-4
+        --adv-train 1
+        --constraint 2
+        --attack-steps 3 
+        --eps 3.0 
+        --attack-lr 2.0
+        --workers 20
+        --log-iters 1
+        --lr 0.1
+
+
+- name: vgg16_bn_batch256_3steps_eps0
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb
   command:
-  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
-              --outdir /mnt/my_output/arch_sweep/adversarial_training_stepLR_3steps/ --resume --exp-id resnet50_batch512
+    - lscpu
+    - df -h /dev/shm
+    - python main_trainer.py 
+        --arch vgg16_bn 
+        --dataset imagenet 
+        --data /mnt/imagenet/datasets/imagenet_zipped 
+        --batch-size 256
+        --out-dir /mnt/my_output/imagenet_experiments/vary_arch 
+        --resume 
+        --exp-name vgg16_bn_batch256_3steps_eps0
+        --epochs 90
+        --step-lr 30
+        --weight-decay 1e-4
+        --adv-train 0
+        --constraint 2
+        --attack-steps 3 
+        --eps 3.0 
+        --attack-lr 2.0
+        --workers 20
+        --log-iters 1
+        --lr 0.1
 
 
-
-- name: resnet101_batch512_3steps
+- name: squeezenet_batch256_3steps_eps3
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb
   command:
-  - python my_main.py --arch resnet101 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
-              --outdir /mnt/my_output/arch_sweep/adversarial_training_stepLR_3steps/ --resume --exp-id resnet101_batch512_AT --num-steps 3 --AT
-                  
-- name: resnet101_batch512
+    - lscpu
+    - df -h /dev/shm
+    - python main_trainer.py 
+        --arch squeezenet 
+        --dataset imagenet 
+        --data /mnt/imagenet/datasets/imagenet_zipped 
+        --batch-size 256
+        --out-dir /mnt/my_output/imagenet_experiments/vary_arch 
+        --resume 
+        --exp-name squeezenet_batch256_3steps_eps3
+        --epochs 90
+        --step-lr 30
+        --weight-decay 1e-4
+        --adv-train 1
+        --constraint 2
+        --attack-steps 3 
+        --eps 3.0 
+        --attack-lr 2.0
+        --workers 20
+        --log-iters 1
+        --lr 0.1
+
+
+- name: squeezenet_batch256_3steps_eps0
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb
   command:
-  - python my_main.py --arch resnet101 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
-              --outdir /mnt/my_output/arch_sweep/adversarial_training_stepLR_3steps/ --resume --exp-id resnet101_batch512
+    - lscpu
+    - df -h /dev/shm
+    - python main_trainer.py 
+        --arch squeezenet 
+        --dataset imagenet 
+        --data /mnt/imagenet/datasets/imagenet_zipped 
+        --batch-size 256
+        --out-dir /mnt/my_output/imagenet_experiments/vary_arch 
+        --resume 
+        --exp-name squeezenet_batch256_3steps_eps0
+        --epochs 90
+        --step-lr 30
+        --weight-decay 1e-4
+        --adv-train 0
+        --constraint 2
+        --attack-steps 3 
+        --eps 3.0 
+        --attack-lr 2.0
+        --workers 20
+        --log-iters 1
+        --lr 0.1
 
 
 
-
-- name: resnet152_batch512_3steps
+- name: densenet_batch128_3steps_eps3
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb
   command:
-  - python my_main.py --arch resnet152 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
-              --outdir /mnt/my_output/arch_sweep/adversarial_training_stepLR_3steps/ --resume --exp-id resnet152_batch512_AT --num-steps 3 --AT
-                  
-- name: resnet152_batch512
+    - lscpu
+    - df -h /dev/shm
+    - python main_trainer.py 
+        --arch densenet 
+        --dataset imagenet 
+        --data /mnt/imagenet/datasets/imagenet_zipped 
+        --batch-size 128
+        --out-dir /mnt/my_output/imagenet_experiments/vary_arch 
+        --resume 
+        --exp-name densenet_batch128_3steps_eps3
+        --epochs 90
+        --step-lr 30
+        --weight-decay 1e-4
+        --adv-train 1
+        --constraint 2
+        --attack-steps 3 
+        --eps 3.0 
+        --attack-lr 2.0
+        --workers 20
+        --log-iters 1
+        --lr 0.1
+
+
+- name: densenet_batch128_3steps_eps0
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb
   command:
-  - python my_main.py --arch resnet152 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
-              --outdir /mnt/my_output/arch_sweep/adversarial_training_stepLR_3steps/ --resume --exp-id resnet152_batch512
+    - lscpu
+    - df -h /dev/shm
+    - python main_trainer.py 
+        --arch densenet 
+        --dataset imagenet 
+        --data /mnt/imagenet/datasets/imagenet_zipped 
+        --batch-size 128
+        --out-dir /mnt/my_output/imagenet_experiments/vary_arch 
+        --resume 
+        --exp-name densenet_batch128_3steps_eps0
+        --epochs 90
+        --step-lr 30
+        --weight-decay 1e-4
+        --adv-train 0
+        --constraint 2
+        --attack-steps 3 
+        --eps 3.0 
+        --attack-lr 2.0
+        --workers 20
+        --log-iters 1
+        --lr 0.1
 
 
 
-
-- name: resnext50_32x4d_batch512_3steps
+- name: shufflenet_batch256_3steps_eps3
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb
   command:
-  - python my_main.py --arch resnext50_32x4d --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
-              --outdir /mnt/my_output/arch_sweep/adversarial_training_stepLR_3steps/ --resume --exp-id resnext50_32x4d_batch512_AT --num-steps 3 --AT
-                  
-- name: resnext50_32x4d_batch512
+    - lscpu
+    - df -h /dev/shm
+    - python main_trainer.py 
+        --arch shufflenet 
+        --dataset imagenet 
+        --data /mnt/imagenet/datasets/imagenet_zipped 
+        --batch-size 256
+        --out-dir /mnt/my_output/imagenet_experiments/vary_arch 
+        --resume 
+        --exp-name shufflenet_batch256_3steps_eps3
+        --epochs 90
+        --step-lr 30
+        --weight-decay 1e-4
+        --adv-train 1
+        --constraint 2
+        --attack-steps 3 
+        --eps 3.0 
+        --attack-lr 2.0
+        --workers 20
+        --log-iters 1
+        --lr 0.1
+
+
+- name: shufflenet_batch256_3steps_eps0
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb
   command:
-  - python my_main.py --arch resnext50_32x4d --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
-              --outdir /mnt/my_output/arch_sweep/adversarial_training_stepLR_3steps/ --resume --exp-id resnext50_32x4d_batch512
+    - lscpu
+    - df -h /dev/shm
+    - python main_trainer.py 
+        --arch shufflenet 
+        --dataset imagenet 
+        --data /mnt/imagenet/datasets/imagenet_zipped 
+        --batch-size 256
+        --out-dir /mnt/my_output/imagenet_experiments/vary_arch 
+        --resume 
+        --exp-name shufflenet_batch256_3steps_eps0
+        --epochs 90
+        --step-lr 30
+        --weight-decay 1e-4
+        --adv-train 0
+        --constraint 2
+        --attack-steps 3 
+        --eps 3.0 
+        --attack-lr 2.0
+        --workers 20
+        --log-iters 1
+        --lr 0.1
 
 
 
-
-- name: resnext101_32x8d_batch512_3steps
+- name: mobilenet_batch256_3steps_eps3
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb
   command:
-  - python my_main.py --arch resnext101_32x8d --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
-              --outdir /mnt/my_output/arch_sweep/adversarial_training_stepLR_3steps/ --resume --exp-id resnext101_32x8d_batch512_AT --num-steps 3 --AT
-                  
-- name: resnext101_32x8d_batch512
+    - lscpu
+    - df -h /dev/shm
+    - python main_trainer.py 
+        --arch mobilenet 
+        --dataset imagenet 
+        --data /mnt/imagenet/datasets/imagenet_zipped 
+        --batch-size 256
+        --out-dir /mnt/my_output/imagenet_experiments/vary_arch 
+        --resume 
+        --exp-name mobilenet_batch256_3steps_eps3
+        --epochs 90
+        --step-lr 30
+        --weight-decay 1e-4
+        --adv-train 1
+        --constraint 2
+        --attack-steps 3 
+        --eps 3.0 
+        --attack-lr 2.0
+        --workers 20
+        --log-iters 1
+        --lr 0.1
+
+
+- name: mobilenet_batch256_3steps_eps0
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb
   command:
-  - python my_main.py --arch resnext101_32x8d --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
-              --outdir /mnt/my_output/arch_sweep/adversarial_training_stepLR_3steps/ --resume --exp-id resnext101_32x8d_batch512
+    - lscpu
+    - df -h /dev/shm
+    - python main_trainer.py 
+        --arch mobilenet 
+        --dataset imagenet 
+        --data /mnt/imagenet/datasets/imagenet_zipped 
+        --batch-size 256
+        --out-dir /mnt/my_output/imagenet_experiments/vary_arch 
+        --resume 
+        --exp-name mobilenet_batch256_3steps_eps0
+        --epochs 90
+        --step-lr 30
+        --weight-decay 1e-4
+        --adv-train 0
+        --constraint 2
+        --attack-steps 3 
+        --eps 3.0 
+        --attack-lr 2.0
+        --workers 20
+        --log-iters 1
+        --lr 0.1
 
 
 
-
-
-- name: wide_resnet50_2_batch512_3steps
+- name: resnext50_32x4d_batch256_3steps_eps3
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb
   command:
-  - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
-              --outdir /mnt/my_output/arch_sweep/adversarial_training_stepLR_3steps/ --resume --exp-id wide_resnet50_2_batch512_AT --num-steps 3 --AT
-                  
-- name: wide_resnet50_2_batch512
+    - lscpu
+    - df -h /dev/shm
+    - python main_trainer.py 
+        --arch resnext50_32x4d 
+        --dataset imagenet 
+        --data /mnt/imagenet/datasets/imagenet_zipped 
+        --batch-size 256
+        --out-dir /mnt/my_output/imagenet_experiments/vary_arch 
+        --resume 
+        --exp-name resnext50_32x4d_batch256_3steps_eps3
+        --epochs 90
+        --step-lr 30
+        --weight-decay 1e-4
+        --adv-train 1
+        --constraint 2
+        --attack-steps 3 
+        --eps 3.0 
+        --attack-lr 2.0
+        --workers 20
+        --log-iters 1
+        --lr 0.1
+
+
+- name: resnext50_32x4d_batch256_3steps_eps0
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb
   command:
-  - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
-              --outdir /mnt/my_output/arch_sweep/adversarial_training_stepLR_3steps/ --resume --exp-id wide_resnet50_2_batch512
+    - lscpu
+    - df -h /dev/shm
+    - python main_trainer.py 
+        --arch resnext50_32x4d 
+        --dataset imagenet 
+        --data /mnt/imagenet/datasets/imagenet_zipped 
+        --batch-size 256
+        --out-dir /mnt/my_output/imagenet_experiments/vary_arch 
+        --resume 
+        --exp-name resnext50_32x4d_batch256_3steps_eps0
+        --epochs 90
+        --step-lr 30
+        --weight-decay 1e-4
+        --adv-train 0
+        --constraint 2
+        --attack-steps 3 
+        --eps 3.0 
+        --attack-lr 2.0
+        --workers 20
+        --log-iters 1
+        --lr 0.1
 
 
 
-
-
-- name: wide_resnet101_2_batch512_3steps
+- name: mnasnet_batch256_3steps_eps3
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb
   command:
-  - python my_main.py --arch wide_resnet101_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
-              --outdir /mnt/my_output/arch_sweep/adversarial_training_stepLR_3steps/ --resume --exp-id wide_resnet101_2_batch512_AT --num-steps 3 --AT
-                  
-- name: wide_resnet101_2_batch512
+    - lscpu
+    - df -h /dev/shm
+    - python main_trainer.py 
+        --arch mnasnet 
+        --dataset imagenet 
+        --data /mnt/imagenet/datasets/imagenet_zipped 
+        --batch-size 256
+        --out-dir /mnt/my_output/imagenet_experiments/vary_arch 
+        --resume 
+        --exp-name mnasnet_batch256_3steps_eps3
+        --epochs 90
+        --step-lr 30
+        --weight-decay 1e-4
+        --adv-train 1
+        --constraint 2
+        --attack-steps 3 
+        --eps 3.0 
+        --attack-lr 2.0
+        --workers 20
+        --log-iters 1
+        --lr 0.1
+
+
+- name: mnasnet_batch256_3steps_eps0
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb
   command:
-  - python my_main.py --arch wide_resnet101_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 512 
-              --outdir /mnt/my_output/arch_sweep/adversarial_training_stepLR_3steps/ --resume --exp-id wide_resnet101_2_batch512
+    - lscpu
+    - df -h /dev/shm
+    - python main_trainer.py 
+        --arch mnasnet 
+        --dataset imagenet 
+        --data /mnt/imagenet/datasets/imagenet_zipped 
+        --batch-size 256
+        --out-dir /mnt/my_output/imagenet_experiments/vary_arch 
+        --resume 
+        --exp-name mnasnet_batch256_3steps_eps0
+        --epochs 90
+        --step-lr 30
+        --weight-decay 1e-4
+        --adv-train 0
+        --constraint 2
+        --attack-steps 3 
+        --eps 3.0 
+        --attack-lr 2.0
+        --workers 20
+        --log-iters 1
+        --lr 0.1
+
 
