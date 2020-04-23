@@ -17,8 +17,8 @@ environment:
 # # azure storage configuration
 storage:
   imagenet:
-    storage_account_name: msrairesidentssa8
-    container_name: imagenet
+    storage_account_name: robustnessws4285631339
+    container_name: blackbox-smoothing
 
   my_output:
     # Replace with the name of the Azure Storage Account you created.
@@ -60,41 +60,65 @@ data:
 jobs:              
 - name: wrn1_3steps_eps11
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+
   command:
-  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 256 
+  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet/datasets/imagenet_zipped --batch-size 256 
               --outdir /mnt/my_output/wrn_vary_width/ --resume --exp-id wrn1_eps11 --num-steps 3 --AT --eps 11.0 --attack-lr 8.0
 
 - name: wrn1_3steps_eps9
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+
   command:
-  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 256 
+  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet/datasets/imagenet_zipped --batch-size 256 
               --outdir /mnt/my_output/wrn_vary_width/ --resume --exp-id wrn1_eps9 --num-steps 3 --AT --eps 9.0 --attack-lr 7.0
 
 
 - name: wrn1_3steps_eps7
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+
   command:
-  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 256 
+  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet/datasets/imagenet_zipped --batch-size 256 
               --outdir /mnt/my_output/wrn_vary_width/ --resume --exp-id wrn1_eps7 --num-steps 3 --AT --eps 7.0 --attack-lr 5.0
 
 
 - name: wrn1_3steps_eps5
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+
   command:
-  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 256 
+  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet/datasets/imagenet_zipped --batch-size 256 
               --outdir /mnt/my_output/wrn_vary_width/ --resume --exp-id wrn1_eps5 --num-steps 3 --AT --eps 5.0 --attack-lr 3.0
 
 
 - name: wrn1_3steps_eps3
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+
   command:
-  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 256 
+  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet/datasets/imagenet_zipped --batch-size 256 
               --outdir /mnt/my_output/wrn_vary_width/ --resume --exp-id wrn1_eps3 --num-steps 3 --AT --eps 3.0 --attack-lr 2.0
 
 - name: wrn1_3steps_eps1
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+
   command:
-  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet --batch-size 256 
+  - python my_main.py --arch resnet50 --dataset imagenet --data-path /mnt/imagenet/datasets/imagenet_zipped --batch-size 256 
               --outdir /mnt/my_output/wrn_vary_width/ --resume --exp-id wrn1_eps1 --num-steps 3 --AT --eps 1.0 --attack-lr 0.8
 
 
@@ -103,41 +127,65 @@ jobs:
 
 - name: wrn2_3steps_eps11
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+
   command:
-  - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 256 
+  - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet/datasets/imagenet_zipped --batch-size 256 
               --outdir /mnt/my_output/wrn_vary_width/ --resume --exp-id wrn2_eps11 --num-steps 3 --AT --eps 11.0 --attack-lr 8.0
 
 - name: wrn2_3steps_eps9
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+
   command:
-  - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 256 
+  - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet/datasets/imagenet_zipped --batch-size 256 
               --outdir /mnt/my_output/wrn_vary_width/ --resume --exp-id wrn2_eps9 --num-steps 3 --AT --eps 9.0 --attack-lr 7.0
 
 
 - name: wrn2_3steps_eps7
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+
   command:
-  - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 256 
+  - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet/datasets/imagenet_zipped --batch-size 256 
               --outdir /mnt/my_output/wrn_vary_width/ --resume --exp-id wrn2_eps7 --num-steps 3 --AT --eps 7.0 --attack-lr 5.0
 
 
 - name: wrn2_3steps_eps5
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+
   command:
-  - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 256 
+  - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet/datasets/imagenet_zipped --batch-size 256 
               --outdir /mnt/my_output/wrn_vary_width/ --resume --exp-id wrn2_eps5 --num-steps 3 --AT --eps 5.0 --attack-lr 3.0
 
 
 - name: wrn2_3steps_eps3
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+
   command:
-  - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 256 
+  - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet/datasets/imagenet_zipped --batch-size 256 
               --outdir /mnt/my_output/wrn_vary_width/ --resume --exp-id wrn2_eps3 --num-steps 3 --AT --eps 3.0 --attack-lr 2.0
 
 - name: wrn2_3steps_eps1
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+
   command:
-  - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet --batch-size 256 
+  - python my_main.py --arch wide_resnet50_2 --dataset imagenet --data-path /mnt/imagenet/datasets/imagenet_zipped --batch-size 256 
               --outdir /mnt/my_output/wrn_vary_width/ --resume --exp-id wrn2_eps1 --num-steps 3 --AT --eps 1.0 --attack-lr 0.8
 
               
@@ -146,41 +194,65 @@ jobs:
 
 - name: wrn3_3steps_eps11
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+
   command:
-  - python my_main.py --arch wide_resnet50_3 --dataset imagenet --data-path /mnt/imagenet --batch-size 256 
+  - python my_main.py --arch wide_resnet50_3 --dataset imagenet --data-path /mnt/imagenet/datasets/imagenet_zipped --batch-size 256 
               --outdir /mnt/my_output/wrn_vary_width/ --resume --exp-id wrn3_eps11 --num-steps 3 --AT --eps 11.0 --attack-lr 8.0
 
 - name: wrn3_3steps_eps9
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+
   command:
-  - python my_main.py --arch wide_resnet50_3 --dataset imagenet --data-path /mnt/imagenet --batch-size 256 
+  - python my_main.py --arch wide_resnet50_3 --dataset imagenet --data-path /mnt/imagenet/datasets/imagenet_zipped --batch-size 256 
               --outdir /mnt/my_output/wrn_vary_width/ --resume --exp-id wrn3_eps9 --num-steps 3 --AT --eps 9.0 --attack-lr 7.0
 
 
 - name: wrn3_3steps_eps7
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+
   command:
-  - python my_main.py --arch wide_resnet50_3 --dataset imagenet --data-path /mnt/imagenet --batch-size 256 
+  - python my_main.py --arch wide_resnet50_3 --dataset imagenet --data-path /mnt/imagenet/datasets/imagenet_zipped --batch-size 256 
               --outdir /mnt/my_output/wrn_vary_width/ --resume --exp-id wrn3_eps7 --num-steps 3 --AT --eps 7.0 --attack-lr 5.0
 
 
 - name: wrn3_3steps_eps5
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+
   command:
-  - python my_main.py --arch wide_resnet50_3 --dataset imagenet --data-path /mnt/imagenet --batch-size 256 
+  - python my_main.py --arch wide_resnet50_3 --dataset imagenet --data-path /mnt/imagenet/datasets/imagenet_zipped --batch-size 256 
               --outdir /mnt/my_output/wrn_vary_width/ --resume --exp-id wrn3_eps5 --num-steps 3 --AT --eps 5.0 --attack-lr 3.0
 
 
 - name: wrn3_3steps_eps3
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+
   command:
-  - python my_main.py --arch wide_resnet50_3 --dataset imagenet --data-path /mnt/imagenet --batch-size 256 
+  - python my_main.py --arch wide_resnet50_3 --dataset imagenet --data-path /mnt/imagenet/datasets/imagenet_zipped --batch-size 256 
               --outdir /mnt/my_output/wrn_vary_width/ --resume --exp-id wrn3_eps3 --num-steps 3 --AT --eps 3.0 --attack-lr 2.0
 
 - name: wrn3_3steps_eps1
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+
   command:
-  - python my_main.py --arch wide_resnet50_3 --dataset imagenet --data-path /mnt/imagenet --batch-size 256 
+  - python my_main.py --arch wide_resnet50_3 --dataset imagenet --data-path /mnt/imagenet/datasets/imagenet_zipped --batch-size 256 
               --outdir /mnt/my_output/wrn_vary_width/ --resume --exp-id wrn3_eps1 --num-steps 3 --AT --eps 1.0 --attack-lr 0.8
 
 
@@ -188,41 +260,65 @@ jobs:
 
 - name: wrn4_3steps_eps11
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+
   command:
-  - python my_main.py --arch wide_resnet50_4 --dataset imagenet --data-path /mnt/imagenet --batch-size 256 
+  - python my_main.py --arch wide_resnet50_4 --dataset imagenet --data-path /mnt/imagenet/datasets/imagenet_zipped --batch-size 256 
               --outdir /mnt/my_output/wrn_vary_width/ --resume --exp-id wrn4_eps11 --num-steps 3 --AT --eps 11.0 --attack-lr 8.0
 
 - name: wrn4_3steps_eps9
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+
   command:
-  - python my_main.py --arch wide_resnet50_4 --dataset imagenet --data-path /mnt/imagenet --batch-size 256 
+  - python my_main.py --arch wide_resnet50_4 --dataset imagenet --data-path /mnt/imagenet/datasets/imagenet_zipped --batch-size 256 
               --outdir /mnt/my_output/wrn_vary_width/ --resume --exp-id wrn4_eps9 --num-steps 3 --AT --eps 9.0 --attack-lr 7.0
 
 
 - name: wrn4_3steps_eps7
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+
   command:
-  - python my_main.py --arch wide_resnet50_4 --dataset imagenet --data-path /mnt/imagenet --batch-size 256 
+  - python my_main.py --arch wide_resnet50_4 --dataset imagenet --data-path /mnt/imagenet/datasets/imagenet_zipped --batch-size 256 
               --outdir /mnt/my_output/wrn_vary_width/ --resume --exp-id wrn4_eps7 --num-steps 3 --AT --eps 7.0 --attack-lr 5.0
 
 
 - name: wrn4_3steps_eps5
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+
   command:
-  - python my_main.py --arch wide_resnet50_4 --dataset imagenet --data-path /mnt/imagenet --batch-size 256 
+  - python my_main.py --arch wide_resnet50_4 --dataset imagenet --data-path /mnt/imagenet/datasets/imagenet_zipped --batch-size 256 
               --outdir /mnt/my_output/wrn_vary_width/ --resume --exp-id wrn4_eps5 --num-steps 3 --AT --eps 5.0 --attack-lr 3.0
 
 
 - name: wrn4_3steps_eps3
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+
   command:
-  - python my_main.py --arch wide_resnet50_4 --dataset imagenet --data-path /mnt/imagenet --batch-size 256 
+  - python my_main.py --arch wide_resnet50_4 --dataset imagenet --data-path /mnt/imagenet/datasets/imagenet_zipped --batch-size 256 
               --outdir /mnt/my_output/wrn_vary_width/ --resume --exp-id wrn4_eps3 --num-steps 3 --AT --eps 3.0 --attack-lr 2.0
 
 - name: wrn4_3steps_eps1
   sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+
   command:
-  - python my_main.py --arch wide_resnet50_4 --dataset imagenet --data-path /mnt/imagenet --batch-size 256 
+  - python my_main.py --arch wide_resnet50_4 --dataset imagenet --data-path /mnt/imagenet/datasets/imagenet_zipped --batch-size 256 
               --outdir /mnt/my_output/wrn_vary_width/ --resume --exp-id wrn4_eps1 --num-steps 3 --AT --eps 1.0 --attack-lr 0.8
 
 
