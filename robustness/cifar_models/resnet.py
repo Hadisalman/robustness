@@ -142,6 +142,9 @@ def ResNet34(**kwargs):
 def ResNet50(**kwargs):
     return ResNet(Bottleneck, [3,4,6,3], **kwargs)
 
+def WideResNet50_2(**kwargs):
+    return ResNet(Bottleneck, [3,4,6,3], wm=2, **kwargs)
+
 def ResNet101(**kwargs):
     return ResNet(Bottleneck, [3,4,23,3], **kwargs)
 
@@ -149,6 +152,7 @@ def ResNet152(**kwargs):
     return ResNet(Bottleneck, [3,8,36,3], **kwargs)
 
 resnet50 = ResNet50
+wide_resnet50_2 = WideResNet50_2
 resnet18 = ResNet18
 resnet101 = ResNet101
 resnet152 = ResNet152

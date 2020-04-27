@@ -48,7 +48,7 @@ pytorch_models = {
 
 def main(args, store):
     if args.dataset == 'cifar':
-        ds = CIFAR('/tmp/')
+        ds = datasets.CIFAR('/tmp/')
     elif args.dataset in ['imagenet', 'stylized_imagenet']:
         ds = datasets.ImageNet(args.data)
         ds.custom_class = 'Zipped'
