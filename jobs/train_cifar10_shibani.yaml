@@ -62,10 +62,10 @@ jobs:
 
 # WRN
 - name: wide_resnet50_2_batch256_3steps_eps0.5_wd_5e-4
-  sku: G1
+  sku: G2
   submit_args:
     container_args:
-      shm_size: 16gb  
+      shm_size: 64gb  
   command:
     - lscpu
     - df -h /dev/shm
@@ -89,32 +89,32 @@ jobs:
           --lr 0.1
 
 # resnet50
-- name: resnet50_batch256_3steps_eps0.5_wd_5e-4
-  sku: G1
-  submit_args:
-    container_args:
-      shm_size: 16gb  
-  command:
-    - lscpu
-    - df -h /dev/shm
-    - python main_trainer.py 
-          --arch resnet50 
-          --dataset cifar 
-          --batch-size 256 
-          --weight-decay 5e-4     
-          --out-dir /mnt/my_output/cifar10_experiments/shibani/ 
-          --resume 
-          --exp-name resnet50_eps_0.5_step_0.4_steps_3 
-          --constraint 2
-          --attack-steps 3 
-          --adv-train 1 
-          --eps 0.5 
-          --attack-lr 0.4
-          --log-iter 1
-          --epochs 150
-          --step-lr 50
-          --workers 8
-          --lr 0.1
+# - name: resnet50_batch256_3steps_eps0.5_wd_5e-4
+#   sku: G1
+#   submit_args:
+#     container_args:
+#       shm_size: 16gb  
+#   command:
+#     - lscpu
+#     - df -h /dev/shm
+#     - python main_trainer.py 
+#           --arch resnet50 
+#           --dataset cifar 
+#           --batch-size 256 
+#           --weight-decay 5e-4     
+#           --out-dir /mnt/my_output/cifar10_experiments/shibani/ 
+#           --resume 
+#           --exp-name resnet50_eps_0.5_step_0.4_steps_3 
+#           --constraint 2
+#           --attack-steps 3 
+#           --adv-train 1 
+#           --eps 0.5 
+#           --attack-lr 0.4
+#           --log-iter 1
+#           --epochs 150
+#           --step-lr 50
+#           --workers 8
+#           --lr 0.1
 
 
 
