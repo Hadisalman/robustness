@@ -1,0 +1,239 @@
+description: Wide-wide_ResNet50_2-2, AT, small eps AT 3steps batch-size 512, Linf 
+
+target:
+  # which virtual cluster you belong to (msrlabs, etc.).
+  vc: resrchvc
+  cluster: rr1
+  # vc: msrlabs
+  # use an Azure cluster (eu1, eu2, ...)
+  # cluster: eu1
+
+environment:
+  # image: hadisalman/smoothing:latest
+  # image: hadisalman/robustness:latest
+  image: hadisalman/robustness:1.3-cuda10.1-cudnn7-devel
+
+# # azure storage configuration
+storage:
+  imagenet:
+    storage_account_name: robustnessws4285631339
+    container_name: blackbox-smoothing
+
+  my_output:
+    # Replace with the name of the Azure Storage Account you created.
+    #   If you followed the tutorial, this should be your_username
+    storage_account_name: robustnessws4285631339
+    # Specify a name of the container on your blob (ex. phillytools),
+    #   to store data, results and code. It will be created if it does not exist.
+    container_name: madrylab
+    # You can optionally specify a mount_path that will be directly accessible
+    #   by your jobs. By default it's:
+    mount_dir: /mnt/my_output
+    is_output: True
+
+  my_data:
+    # Replace with the name of the Azure Storage Account you created.
+    #   If you followed the tutorial, this should be your_username
+    storage_account_name: robustnessws4285631339
+    # Specify a name of the container on your blob (ex. phillytools),
+    #   to store data, results and code. It will be created if it does not exist.
+    container_name: madrylab
+    # You can optionally specify a mount_path that will be directly accessible
+    #   by your jobs. By default it's:
+    mount_dir: /mnt/my_data
+
+code:
+  # upload the code
+  local_dir: $CONFIG_DIR/../
+
+data:
+  storage_id: my_data
+#   # don't forget to run with --upload-data
+#   local_dir: $CONFIG_DIR/datasets_and_models/
+
+#   # The data will be uploaded to your _default storage.
+#   #   Check ``multi_storage.yaml'' for more flexibility.
+#   remote_dir: datasets_and_models
+
+# schedule two simple jobs, names for each job should be different:
+jobs:
+## ResNet-50
+
+
+# WRN
+- name: wide_resnet50_2_batch512_3steps_eps0_wd_1e-4
+  sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+  command:
+    - lscpu
+    - df -h /dev/shm
+    - python main_trainer.py 
+          --arch wide_resnet50_2 
+          --dataset imagenet 
+          --data /mnt/imagenet/datasets/imagenet_zipped 
+          --batch-size 512 
+          --weight-decay 1e-4     
+          --out-dir /mnt/my_output/imagenet_experiments/linf/wide_resnet50_2 
+          --resume 
+          --exp-name wide_resnet50_2_batch512_3steps_eps0 
+          --constraint inf
+          --attack-steps 3 
+          --adv-train 1 
+          --eps 0 
+          --attack-lr 0.000
+          --log-iter 1
+          --epochs 90
+          --step-lr 30
+          --workers 20
+          --lr 0.1
+
+
+
+- name: wide_resnet50_2_batch512_3steps_eps0.5_wd_1e-4
+  sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+  command:
+    - lscpu
+    - df -h /dev/shm
+    - python main_trainer.py 
+          --arch wide_resnet50_2 
+          --dataset imagenet 
+          --data /mnt/imagenet/datasets/imagenet_zipped 
+          --batch-size 512 
+          --weight-decay 1e-4     
+          --out-dir /mnt/my_output/imagenet_experiments/linf/wide_resnet50_2 
+          --resume 
+          --exp-name wide_resnet50_2_batch512_3steps_eps0.5 
+          --constraint inf
+          --attack-steps 3 
+          --adv-train 1 
+          --eps 0.5/255 
+          --attack-lr 0.5/255*2/3
+          --log-iter 1
+          --epochs 90
+          --step-lr 30
+          --workers 20
+          --lr 0.1
+
+
+
+- name: wide_resnet50_2_batch512_3steps_eps1.0_wd_1e-4
+  sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+  command:
+    - lscpu
+    - df -h /dev/shm
+    - python main_trainer.py 
+          --arch wide_resnet50_2 
+          --dataset imagenet 
+          --data /mnt/imagenet/datasets/imagenet_zipped 
+          --batch-size 512 
+          --weight-decay 1e-4     
+          --out-dir /mnt/my_output/imagenet_experiments/linf/wide_resnet50_2 
+          --resume 
+          --exp-name wide_resnet50_2_batch512_3steps_eps1.0 
+          --constraint inf
+          --attack-steps 3 
+          --adv-train 1 
+          --eps 1.0/255 
+          --attack-lr 1.0/255*2/3
+          --log-iter 1
+          --epochs 90
+          --step-lr 30
+          --workers 20
+          --lr 0.1
+
+
+- name: wide_resnet50_2_batch512_3steps_eps2.0_wd_1e-4
+  sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+  command:
+    - lscpu
+    - df -h /dev/shm
+    - python main_trainer.py 
+          --arch wide_resnet50_2 
+          --dataset imagenet 
+          --data /mnt/imagenet/datasets/imagenet_zipped 
+          --batch-size 512 
+          --weight-decay 1e-4     
+          --out-dir /mnt/my_output/imagenet_experiments/linf/wide_resnet50_2 
+          --resume 
+          --exp-name wide_resnet50_2_batch512_3steps_eps2.0 
+          --constraint inf
+          --attack-steps 3 
+          --adv-train 1 
+          --eps 2.0/255 
+          --attack-lr 2.0/255*2/3
+          --log-iter 1
+          --epochs 90
+          --step-lr 30
+          --workers 20
+          --lr 0.1
+
+
+
+- name: wide_resnet50_2_batch512_3steps_eps4.0_wd_1e-4
+  sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+  command:
+    - lscpu
+    - df -h /dev/shm
+    - python main_trainer.py 
+          --arch wide_resnet50_2 
+          --dataset imagenet 
+          --data /mnt/imagenet/datasets/imagenet_zipped 
+          --batch-size 512 
+          --weight-decay 1e-4     
+          --out-dir /mnt/my_output/imagenet_experiments/linf/wide_resnet50_2 
+          --resume 
+          --exp-name wide_resnet50_2_batch512_3steps_eps4.0 
+          --constraint inf
+          --attack-steps 3 
+          --adv-train 1 
+          --eps 4.0/255 
+          --attack-lr 4.0/255*2/3
+          --log-iter 1
+          --epochs 90
+          --step-lr 30
+          --workers 20
+          --lr 0.1
+
+
+
+- name: wide_resnet50_2_batch512_3steps_eps8.0_wd_1e-4
+  sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+  command:
+    - lscpu
+    - df -h /dev/shm
+    - python main_trainer.py 
+          --arch wide_resnet50_2 
+          --dataset imagenet 
+          --data /mnt/imagenet/datasets/imagenet_zipped 
+          --batch-size 512 
+          --weight-decay 1e-4     
+          --out-dir /mnt/my_output/imagenet_experiments/linf/wide_resnet50_2 
+          --resume 
+          --exp-name wide_resnet50_2_batch512_3steps_eps8.0 
+          --constraint inf
+          --attack-steps 3 
+          --adv-train 1 
+          --eps 8.0/255 
+          --attack-lr 8.0/255*2/3
+          --log-iter 1
+          --epochs 90
+          --step-lr 30
+          --workers 20
+          --lr 0.1
