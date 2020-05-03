@@ -24,6 +24,7 @@ parser = defaults.add_args_to_parser(defaults.PGD_ARGS, parser)
 # Custom arguments
 parser.add_argument('--dataset', type=str, default='cifar', help='Dataset (Overrides the one in robustness.defaults)')
 parser.add_argument('--resume', action='store_true', help='Whether to resume or not (Overrides the one in robustness.defaults)')
+parser.add_argument('--model-path', type=str, default=None, help='Path to a checkpoint to load (useful for evaluation). Ignored if `resume` is True')
 parser.add_argument('--subset', type=int, default=None, help='number of training data to use from the dataset')
 parser.add_argument('--frac-rand-labels', type=float, default=None, 
             help='Fraction of the training set which is random labelled (fixed during training)')
@@ -90,7 +91,7 @@ def main(args, store):
     if args.resume and os.path.isfile(model_path):
         print('[Resuming finetuning from a checkpoint...]')
     else: 
-        model_path = None
+        model_path = args.model_path
 
     model, checkpoint = \
         model_utils.make_and_restore_model(arch=pytorch_models[args.arch] if args.arch in pytorch_models.keys() else args.arch, 
