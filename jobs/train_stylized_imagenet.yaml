@@ -1,0 +1,118 @@
+description: ResNet-18/50, STD on Stylized Imagnet batch-size 512  
+
+target:
+  # which virtual cluster you belong to (msrlabs, etc.).
+  vc: resrchvc
+  cluster: rr1
+  # vc: msrlabs
+  # use an Azure cluster (eu1, eu2, ...)
+  # cluster: eu1
+
+environment:
+  # image: hadisalman/smoothing:latest
+  # image: hadisalman/robustness:latest
+  image: hadisalman/robustness:1.3-cuda10.1-cudnn7-devel
+
+# # azure storage configuration
+storage:
+  imagenet:
+    storage_account_name: robustnessws4285631339
+    container_name: blackbox-smoothing
+
+  stylized_imagenet:
+    storage_account_name: robustnessws4285631339
+    container_name: madrylab
+  
+  my_output:
+    # Replace with the name of the Azure Storage Account you created.
+    #   If you followed the tutorial, this should be your_username
+    storage_account_name: robustnessws4285631339
+    # Specify a name of the container on your blob (ex. phillytools),
+    #   to store data, results and code. It will be created if it does not exist.
+    container_name: madrylab
+    # You can optionally specify a mount_path that will be directly accessible
+    #   by your jobs. By default it's:
+    mount_dir: /mnt/my_output
+    is_output: True
+
+  my_data:
+    # Replace with the name of the Azure Storage Account you created.
+    #   If you followed the tutorial, this should be your_username
+    storage_account_name: robustnessws4285631339
+    # Specify a name of the container on your blob (ex. phillytools),
+    #   to store data, results and code. It will be created if it does not exist.
+    container_name: madrylab
+    # You can optionally specify a mount_path that will be directly accessible
+    #   by your jobs. By default it's:
+    mount_dir: /mnt/my_data
+
+code:
+  # upload the code
+  local_dir: $CONFIG_DIR/../
+
+data:
+  storage_id: my_data
+#   # don't forget to run with --upload-data
+#   local_dir: $CONFIG_DIR/datasets_and_models/
+
+#   # The data will be uploaded to your _default storage.
+#   #   Check ``multi_storage.yaml'' for more flexibility.
+#   remote_dir: datasets_and_models
+
+# schedule two simple jobs, names for each job should be different:
+jobs:
+## ResNet-50
+
+
+- name: resnet18_batch512_3steps_eps0_wd_1e-4
+  sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+  command:
+    - lscpu
+    - df -h /dev/shm
+    - python main_trainer.py 
+          --arch resnet18 
+          --dataset stylized_imagenet 
+          --data /mnt/stylized_imagenet/datasets/imagenet-styletransfer-v2 
+          --batch-size 512 
+          --weight-decay 1e-4     
+          --out-dir /mnt/my_output/stylized_imagenet/ 
+          --resume 
+          --exp-name resnet18_batch512_eps0 
+          --adv-train 0 
+          --log-iter 1
+          --epochs 90
+          --step-lr 30
+          --workers 20
+          --lr 0.1
+
+
+
+- name: resnet50_batch512_3steps_eps0_wd_1e-4
+  sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+  command:
+    - lscpu
+    - df -h /dev/shm
+    - python main_trainer.py 
+          --arch resnet50 
+          --dataset stylized_imagenet 
+          --data /mnt/stylized_imagenet/datasets/imagenet-styletransfer-v2 
+          --batch-size 512 
+          --weight-decay 1e-4     
+          --out-dir /mnt/my_output/stylized_imagenet/ 
+          --resume 
+          --exp-name resnet50_batch512_eps0 
+          --adv-train 0 
+          --log-iter 1
+          --epochs 90
+          --step-lr 30
+          --workers 20
+          --lr 0.1
+
+
+          
