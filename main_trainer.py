@@ -34,17 +34,17 @@ parser.add_argument('--src-or-targ', type=str, default=None, choices=['src','tar
 parser.add_argument('--precomputed-splits', action='store_true', help='Whether to use precomputed splits for breeds or not.')
 
 pytorch_models = {
-    'alexnet': models.alexnet(),
-    'vgg16': models.vgg16(),
-    'vgg16_bn': models.vgg16_bn(),
-    'squeezenet': models.squeezenet1_0(),
-    'densenet': models.densenet161(),
-    # 'inception': models.inception_v3(),
-    # 'googlenet': models.googlenet(),
-    'shufflenet': models.shufflenet_v2_x1_0(),
-    'mobilenet': models.mobilenet_v2(),
-    'resnext50_32x4d': models.resnext50_32x4d(),
-    'mnasnet': models.mnasnet1_0(),
+    'alexnet': models.alexnet,
+    'vgg16': models.vgg16,
+    'vgg16_bn': models.vgg16_bn,
+    'squeezenet': models.squeezenet1_0,
+    'densenet': models.densenet161,
+    # 'inception': models.inception_v3,
+    # 'googlenet': models.googlenet,
+    'shufflenet': models.shufflenet_v2_x1_0,
+    'mobilenet': models.mobilenet_v2,
+    'resnext50_32x4d': models.resnext50_32x4d,
+    'mnasnet': models.mnasnet1_0,
 }
 
 def main(args, store):
@@ -52,7 +52,7 @@ def main(args, store):
         ds = datasets.CIFAR('/tmp/')
     elif args.dataset in ['imagenet', 'stylized_imagenet']:
         ds = datasets.ImageNet(args.data)
-        ds.custom_class = 'Zipped'
+        # ds.custom_class = 'Zipped'
     elif args.dataset == 'breeds_living_9':
         if args.precomputed_splits:
             splits = helper_split.splits['living_9']['good']
@@ -94,7 +94,7 @@ def main(args, store):
         model_path = args.model_path
 
     model, checkpoint = \
-        model_utils.make_and_restore_model(arch=pytorch_models[args.arch] if args.arch in pytorch_models.keys() else args.arch, 
+        model_utils.make_and_restore_model(arch=pytorch_models[args.arch]() if args.arch in pytorch_models.keys() else args.arch, 
                                         dataset=ds, resume_path=model_path, add_custom_forward=args.arch in pytorch_models.keys())
 
     if 'module' in dir(model): model = model.module

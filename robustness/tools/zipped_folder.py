@@ -62,7 +62,7 @@ class ZippedFolder(data.Dataset):
             ext = op.splitext(fname)[1].lower()
             if ext in extensions:
                 self.samples.append((fname, target))
-        assert len(self), "No images found in: {} with map: {}".format(self._path, map_file)
+        assert len(self.samples), "No images found in: {} with map: {}".format(self._path, map_file)
 
     def __repr__(self):
         return 'ZippedFolder({}, size={})'.format(self._path, len(self))
