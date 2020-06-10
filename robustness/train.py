@@ -419,7 +419,7 @@ def _model_loop(args, loop_type, loader, model, opt, epoch, adv, writer):
         eps = args.custom_eps_multiplier(epoch) * args.eps \
                 if (is_train and args.custom_eps_multiplier) else args.eps
         random_restarts = 0 if is_train else args.random_restarts
-        print(args.eps)
+        # print(args.eps)
 
     # Custom training criterion
     has_custom_train_loss = has_attr(args, 'custom_train_loss')
@@ -483,7 +483,7 @@ def _model_loop(args, loop_type, loader, model, opt, epoch, adv, writer):
             top1_acc = top1.avg
             top5_acc = top5.avg
         except:
-            pass
+            raise Warning('Failed to calculate the accuracy.')
 
         reg_term = 0.0
         if has_attr(args, "regularizer"):
@@ -520,9 +520,9 @@ def _model_loop(args, loop_type, loader, model, opt, epoch, adv, writer):
             args.iteration_hook(model, i, loop_type, inp, target)
 
         if hasattr(args, 'no_tqdm') and args.no_tqdm:
-            if i%100 == 0:
+            if (loop_type=='train' and i%100 == 0) or i ==len(loader)-1:
                 desc = desc.split('|')
-                desc.insert(1, f' [{i}/{len(loader)}] ')
+                desc.insert(1, f' [{i+1}/{len(loader)}] ')
                 desc.insert(2, f' Time {batch_time.val:.3f} ({batch_time.avg:.3f}) ')
                 desc.insert(3, f' Data {data_time.val:.3f} ({data_time.avg:.3f}) ')
                 desc = '|'.join(desc)

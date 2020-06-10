@@ -14,6 +14,7 @@ import os
 import numpy as np
 import helper_split
 
+
 parser = argparse.ArgumentParser(description='PyTorch finetuning for transfer learning', 
                                 conflict_handler='resolve')
 parser = defaults.add_args_to_parser(defaults.CONFIG_ARGS, parser)
@@ -52,7 +53,7 @@ def main(args, store):
         ds = datasets.CIFAR('/tmp/')
     elif args.dataset in ['imagenet', 'stylized_imagenet']:
         ds = datasets.ImageNet(args.data)
-        # ds.custom_class = 'Zipped'
+        ds.custom_class = 'Zipped'
     elif args.dataset == 'breeds_living_9':
         if args.precomputed_splits:
             splits = helper_split.splits['living_9']['good']
@@ -88,14 +89,21 @@ def main(args, store):
 
     # An option to resume finetuning from a checkpoint. Only for Imagenet-Imagenet transfer
     model_path = os.path.join(args.out_dir, args.exp_name, 'checkpoint.pt.latest')
+    CONTINUE_FROM_CHECKPOINT = False
     if args.resume and os.path.isfile(model_path):
         print('[Resuming finetuning from a checkpoint...]')
+        CONTINUE_FROM_CHECKPOINT = True
     else: 
         model_path = args.model_path
 
     model, checkpoint = \
         model_utils.make_and_restore_model(arch=pytorch_models[args.arch]() if args.arch in pytorch_models.keys() else args.arch, 
                                         dataset=ds, resume_path=model_path, add_custom_forward=args.arch in pytorch_models.keys())
+    
+    # don't pass checkpoint to train_model do avoid resuming for epoch, optimizers etc.
+    if not CONTINUE_FROM_CHECKPOINT:
+        checkpoint = None
+
 
     if 'module' in dir(model): model = model.module
 
