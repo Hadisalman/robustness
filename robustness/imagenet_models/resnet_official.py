@@ -8,7 +8,8 @@ __all__ = ['ResNet', 'resnet18', 'resnet34', 'resnet50', 'resnet101',
            'resnet152', 'resnext50_32x4d', 'resnext101_32x8d',
            'wide_resnet50_2', 'wide_resnet101_2',
            'wide_resnet50_3', 'wide_resnet50_4', 'wide_resnet50_5', 
-           'wide_resnet50_6', ]
+           'wide_resnet50_6', 'wide_resnet50_10',
+           'wide_resnet50_20']
 
 
 model_urls = {
@@ -390,6 +391,28 @@ def wide_resnet50_6(pretrained=False, progress=True, **kwargs):
     """
     kwargs['width_per_group'] = 64 * 6
     return _resnet('wide_resnet50_6', Bottleneck, [3, 4, 6, 3],
+                   pretrained, progress, **kwargs)
+
+
+def wide_resnet50_10(pretrained=False, progress=True, **kwargs):
+    r"""Wide ResNet-50-10 model
+    Args:
+        pretrained (bool): If True, returns a model pre-trained on ImageNet
+        progress (bool): If True, displays a progress bar of the download to stderr
+    """
+    kwargs['width_per_group'] = 64 * 10
+    return _resnet('wide_resnet50_10', Bottleneck, [3, 4, 6, 3],
+                   pretrained, progress, **kwargs)
+
+
+def wide_resnet50_20(pretrained=False, progress=True, **kwargs):
+    r"""Wide ResNet-50-20 model
+    Args:
+        pretrained (bool): If True, returns a model pre-trained on ImageNet
+        progress (bool): If True, displays a progress bar of the download to stderr
+    """
+    kwargs['width_per_group'] = 64 * 20
+    return _resnet('wide_resnet50_20', Bottleneck, [3, 4, 6, 3],
                    pretrained, progress, **kwargs)
 
 
