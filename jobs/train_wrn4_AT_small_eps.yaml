@@ -393,7 +393,7 @@ jobs:
 
 
 
-- name: wrn4_eps0.50
+- name: wrn4_eps0.5
   sku: G4
   command:
     - lscpu
@@ -406,7 +406,7 @@ jobs:
           --weight-decay 1e-4     
           --out-dir /mnt/my_output/imagenet_experiments/wrn_vary_width/ 
           --resume 
-          --exp-name wrn4_eps0.50 
+          --exp-name wrn4_eps0.5 
           --constraint 2
           --attack-steps 3 
           --adv-train 1 
