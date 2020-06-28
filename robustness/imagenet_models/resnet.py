@@ -3,6 +3,10 @@ import torch.nn as nn
 import torch.utils.model_zoo as model_zoo
 from .custom_modules import SequentialWithArgs, FakeReLU
 
+# Replace relu with gelu
+# torch.nn.functional.relu = torch.nn.functional.gelu
+# torch.nn.ReLU = torch.nn.GELU
+
 __all__ = ['ResNet', 'resnet18', 'resnet34', 'resnet50', 'resnet101',
            'resnet152']
 
