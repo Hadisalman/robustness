@@ -61,7 +61,7 @@ jobs:
 
 
 # WRN
-- name: resnet50_gelu_linf_4_255
+- name: resnet50_gelu_linf_4_255_b512
   sku: G4
   submit_args:
     container_args:
@@ -73,11 +73,11 @@ jobs:
           --arch resnet50 
           --dataset imagenet 
           --data /mnt/imagenet/datasets/imagenet_zipped 
-          --batch-size 256 
+          --batch-size 512 
           --weight-decay 1e-4     
           --out-dir /mnt/my_output/imagenet_experiments/gelu_activations/ 
           --resume 
-          --exp-name resnet50_gelu_linf_4_255 
+          --exp-name resnet50_gelu_linf_4_255_b512 
           --constraint inf
           --attack-steps 3 
           --adv-train 1 
@@ -90,7 +90,7 @@ jobs:
           --lr 0.1
 
 
-- name: resnet50_gelu_l2_1
+- name: resnet50_gelu_l2_1_b512
   sku: G4
   submit_args:
     container_args:
@@ -102,11 +102,11 @@ jobs:
           --arch resnet50 
           --dataset imagenet 
           --data /mnt/imagenet/datasets/imagenet_zipped 
-          --batch-size 256 
+          --batch-size 512 
           --weight-decay 1e-4     
           --out-dir /mnt/my_output/imagenet_experiments/gelu_activations/ 
           --resume 
-          --exp-name resnet50_gelu_l2_1 
+          --exp-name resnet50_gelu_l2_1_b512 
           --constraint 2
           --attack-steps 3 
           --adv-train 1 
