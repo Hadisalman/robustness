@@ -3,6 +3,7 @@ import sys
 sys.path.append('robustness')
 
 from robustness import model_utils, datasets, defaults, train
+from robustness.tools.imagenet_helpers import BreedsDatasetGenerator
 from torchvision import models
 from cox import utils
 import cox.store
@@ -49,6 +50,11 @@ def main(args, store):
         ds = datasets.CIFAR('/tmp/')
     elif args.dataset in ['imagenet', 'stylized_imagenet']:
         ds = datasets.ImageNet(args.data)
+        # Comment out if using a standard imagenet dataset
+        ds.custom_class = 'Zipped'
+    elif args.dataset in ["Living-11", "Dogs-8", "NonLiving-9"]:
+        ds = get_breeds_dataset(args.dataset, args.data)
+        # Comment out if using a standard imagenet dataset
         ds.custom_class = 'Zipped'
 
     if args.frac_rand_labels and not args.eval_only:
@@ -93,6 +99,57 @@ def main(args, store):
 
     print(f"Dataset: {args.dataset} | Model: {args.arch}")
     train.train_model(args, model, (train_loader, val_loader), store=store, checkpoint=checkpoint)
+
+def get_breeds_dataset(ds_name, ds_path):
+    # INFO_DIR = "/data/theory/robustopt/datasets/imagenet_info/modified"
+    # INFO_DIR = "/home/hasalman/datasets/IMAGENET/imagenet/imagenet_info/modified"
+    INFO_DIR = os.path.join(ds_path,'imagenet_info/modified')
+    DG = BreedsDatasetGenerator(INFO_DIR)
+    if ds_name == "Living-11":
+        # Living things 11 superclasses, 5 subclasses per
+        subclass_ranges, label_map, subclass_tuple, _, _ = DG.get_superclasses(level=5, 
+                                                                        ancestor="n00004258",
+                                                                        Nsubclasses=5, 
+                                                                        split=None, 
+                                                                        balanced=True, 
+                                                                        random_seed=2,
+                                                                        verbose=False)
+    elif ds_name == "Dogs-8":
+        # Dogs, 8 superclasses, 2 subclasses per
+        subclass_ranges, label_map, subclass_tuple, _, _ = DG.get_superclasses(level=6, 
+                                                                        ancestor="n02084071",
+                                                                        Nsubclasses=2, 
+                                                                        split=None, 
+                                                                        balanced=True, 
+                                                                        random_seed=2,
+                                                                        verbose=False)
+    elif ds_name == "NonLiving-9":
+        # Non-living things 11 superclasses, 5 subclasses per
+        subclass_ranges, label_map, subclass_tuple, superclasses, _ = DG.get_superclasses(level=4, 
+                                                                        ancestor="n00021939",
+                                                                        Nsubclasses=12, 
+                                                                        split=None, 
+                                                                        balanced=True, 
+                                                                        random_seed=2,
+                                                                        verbose=False)
+        skip = [3, 4, 5, 6, 10, 11]
+        subclass_ranges = [s for si, s in enumerate(subclass_ranges) if si not in skip]
+
+        label_map_orig = {k: v for k, v in label_map.items()}
+        label_map = {}
+        count = 0
+        for i in range(len(label_map_orig)):
+            if i not in skip:
+                label_map[count] = label_map_orig[i]
+                count += 1
+
+        assert len(subclass_ranges) == len(label_map)
+    else:
+        raise Exception('Unkown dataset.')
+
+    INFO_DIR = os.path.join(ds_path,'imagenet_info/modified')
+    dataset = datasets.CustomImageNet(ds_path, subclass_ranges)
+    return dataset
 
 if __name__ == "__main__":
     args = parser.parse_args()
