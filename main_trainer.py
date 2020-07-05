@@ -3,7 +3,6 @@ import sys
 sys.path.append('robustness')
 
 from robustness import model_utils, datasets, defaults, train
-from robustness.tools.imagenet_helpers import common_superclass_wnid, ImageNetHierarchy
 from torchvision import models
 from cox import utils
 import cox.store
@@ -30,9 +29,6 @@ parser.add_argument('--subset', type=int, default=None, help='number of training
 parser.add_argument('--frac-rand-labels', type=float, default=None, 
             help='Fraction of the training set which is random labelled (fixed during training)')
 parser.add_argument('--no-tqdm', type=int, default=1, choices=[0, 1], help='Do not use tqdm.')
-# Breeds specific
-parser.add_argument('--src-or-targ', type=str, default=None, choices=['src','targ'], help='src or target for breeds.')
-parser.add_argument('--precomputed-splits', action='store_true', help='Whether to use precomputed splits for breeds or not.')
 
 pytorch_models = {
     'alexnet': models.alexnet,
@@ -54,21 +50,6 @@ def main(args, store):
     elif args.dataset in ['imagenet', 'stylized_imagenet']:
         ds = datasets.ImageNet(args.data)
         ds.custom_class = 'Zipped'
-    elif args.dataset == 'breeds_living_9':
-        if args.precomputed_splits:
-            splits = helper_split.splits['living_9']['good']
-        else:
-            in_hier = ImageNetHierarchy(args.data, os.path.join(args.data, 'imagenet_info'))
-            superclass_wnid = common_superclass_wnid('living_9')
-            class_ranges, label_map = in_hier.get_subclasses(superclass_wnid, balanced=True)
-
-            class_ranges = np.array([[cls for cls in class_range] for class_range in class_ranges])
-            splits = (class_ranges[:, :class_ranges.shape[1]//2], class_ranges[:, class_ranges.shape[1]//2:])        
-
-        if args.src_or_targ == 'src':
-            ds = datasets.CustomImageNet(args.data, splits[0])
-        elif args.src_or_targ == 'targ':
-            ds = datasets.CustomImageNet(args.data, splits[1])
 
     if args.frac_rand_labels and not args.eval_only:
         def make_rand_labels(ims, targs):
@@ -119,12 +100,6 @@ if __name__ == "__main__":
     if args.adv_train and eval(args.eps) == 0:
         print('[Switching to standard training since eps = 0]')
         args.adv_train = 0
-
-    ## Breeds specific assertions
-    if args.src_or_targ:
-        assert 'breeds' in args.dataset, f'--src-or-targ should only be used with breeds datasets'
-    if 'breeds' in args.dataset:
-        assert args.src_or_targ is not None, f'--src-or-targ requires a value with breeds datasets'
 
 
     # Important for automatic job retries on the cluster in case of premptions. Avoid uuids.

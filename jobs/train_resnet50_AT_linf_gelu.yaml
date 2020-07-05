@@ -69,6 +69,7 @@ jobs:
   command:
     - lscpu
     - df -h /dev/shm
+    - pip install torch torchvision --upgrade --user
     - python main_trainer.py 
           --arch resnet50 
           --dataset imagenet 
@@ -77,7 +78,7 @@ jobs:
           --weight-decay 1e-4     
           --out-dir /mnt/my_output/imagenet_experiments/gelu_activations/ 
           --resume 
-          --exp-name resnet50_gelu_linf_4_255_b512 
+          --exp-name resnet50_gelu_linf_4_255_b512_trial2 
           --constraint inf
           --attack-steps 3 
           --adv-train 1 
@@ -98,6 +99,7 @@ jobs:
   command:
     - lscpu
     - df -h /dev/shm
+    - pip install torch torchvision --upgrade --user
     - python main_trainer.py 
           --arch resnet50 
           --dataset imagenet 
@@ -106,7 +108,7 @@ jobs:
           --weight-decay 1e-4     
           --out-dir /mnt/my_output/imagenet_experiments/gelu_activations/ 
           --resume 
-          --exp-name resnet50_gelu_l2_1_b512 
+          --exp-name resnet50_gelu_l2_1_b512_trial2 
           --constraint 2
           --attack-steps 3 
           --adv-train 1 
