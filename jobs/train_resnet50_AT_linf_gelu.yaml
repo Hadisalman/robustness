@@ -1,4 +1,4 @@
-description: ResNet50, AT, small eps AT 3steps batch-size 256 GELU activation
+description: ResNet50, AT, small eps AT 3steps batch-size 512 GELU activation
 
 target:
   # which virtual cluster you belong to (msrlabs, etc.).
@@ -69,7 +69,8 @@ jobs:
   command:
     - lscpu
     - df -h /dev/shm
-    - pip install torch torchvision --upgrade --user
+    - pip install torch==1.5.1+cu101 torchvision==0.6.1+cu101 -f https://download.pytorch.org/whl/torch_stable.html --upgrade --user
+    - pip install networkx --upgrade --user
     - python main_trainer.py 
           --arch resnet50 
           --dataset imagenet 
@@ -99,7 +100,8 @@ jobs:
   command:
     - lscpu
     - df -h /dev/shm
-    - pip install torch torchvision --upgrade --user
+    - pip install torch==1.5.1+cu101 torchvision==0.6.1+cu101 -f https://download.pytorch.org/whl/torch_stable.html --upgrade --user
+    - pip install networkx --upgrade --user
     - python main_trainer.py 
           --arch resnet50 
           --dataset imagenet 

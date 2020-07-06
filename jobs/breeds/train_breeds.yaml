@@ -1,0 +1,631 @@
+description: Train Breeds STD and AT lr \in {0.1, 0.2} and eps \in {1,3}
+
+target:
+  # which virtual cluster you belong to (msrlabs, etc.).
+  vc: resrchvc
+  cluster: rr1
+  # vc: msrlabs
+  # use an Azure cluster (eu1, eu2, ...)
+  # cluster: eu1
+
+environment:
+  # image: hadisalman/smoothing:latest
+  # image: hadisalman/robustness:latest
+  image: hadisalman/robustness:1.3-cuda10.1-cudnn7-devel
+
+# # azure storage configuration
+storage:
+  imagenet:
+    storage_account_name: robustnessws4285631339
+    container_name: blackbox-smoothing
+
+  my_output:
+    # Replace with the name of the Azure Storage Account you created.
+    #   If you followed the tutorial, this should be your_username
+    storage_account_name: robustnessws4285631339
+    # Specify a name of the container on your blob (ex. phillytools),
+    #   to store data, results and code. It will be created if it does not exist.
+    container_name: madrylab
+    # You can optionally specify a mount_path that will be directly accessible
+    #   by your jobs. By default it's:
+    mount_dir: /mnt/my_output
+    is_output: True
+
+  my_data:
+    # Replace with the name of the Azure Storage Account you created.
+    #   If you followed the tutorial, this should be your_username
+    storage_account_name: robustnessws4285631339
+    # Specify a name of the container on your blob (ex. phillytools),
+    #   to store data, results and code. It will be created if it does not exist.
+    container_name: madrylab
+    # You can optionally specify a mount_path that will be directly accessible
+    #   by your jobs. By default it's:
+    mount_dir: /mnt/my_data
+
+code:
+  # upload the code
+  local_dir: $CONFIG_DIR/../../
+
+data:
+  storage_id: my_data
+#   # don't forget to run with --upload-data
+#   local_dir: $CONFIG_DIR/datasets_and_models/
+
+#   # The data will be uploaded to your _default storage.
+#   #   Check ``multi_storage.yaml'' for more flexibility.
+#   remote_dir: datasets_and_models
+
+# schedule two simple jobs, names for each job should be different:
+jobs:
+
+# Living-11
+# STD
+- name: Living-11-eps0-b512-epoch300-lr0.1
+  sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+  command:
+    - lscpu
+    - df -h /dev/shm
+    - pip install networkx --upgrade --user
+    - python main_trainer.py 
+          --arch resnet50 
+          --dataset Living-11 
+          --data /mnt/imagenet/datasets/imagenet_zipped 
+          --batch-size 512 
+          --weight-decay 1e-4     
+          --out-dir /mnt/my_output/imagenet_experiments/breeds/ 
+          --resume 
+          --exp-name Living-11-eps0-b512-epoch300-lr0.1 
+          --adv-train 1 
+          --constraint 2
+          --attack-steps 3 
+          --eps 0.0 
+          --attack-lr 0.0*2/3
+          --log-iter 1
+          --epochs 300
+          --step-lr 100
+          --workers 20
+          --lr 0.1
+
+
+# eps = 1 
+- name: Living-11-eps1-b512-epoch300-lr0.1
+  sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+  command:
+    - lscpu
+    - df -h /dev/shm
+    - pip install networkx --upgrade --user
+    - python main_trainer.py 
+          --arch resnet50 
+          --dataset Living-11 
+          --data /mnt/imagenet/datasets/imagenet_zipped 
+          --batch-size 512 
+          --weight-decay 1e-4     
+          --out-dir /mnt/my_output/imagenet_experiments/breeds/ 
+          --resume 
+          --exp-name Living-11-eps1-b512-epoch300-lr0.1 
+          --adv-train 1 
+          --constraint 2
+          --attack-steps 3 
+          --eps 1.0 
+          --attack-lr 1.0*2/3
+          --log-iter 1
+          --epochs 300
+          --step-lr 100
+          --workers 20
+          --lr 0.1
+
+
+# eps = 3 
+- name: Living-11-eps3-b512-epoch300-lr0.1
+  sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+  command:
+    - lscpu
+    - df -h /dev/shm
+    - pip install networkx --upgrade --user
+    - python main_trainer.py 
+          --arch resnet50 
+          --dataset Living-11 
+          --data /mnt/imagenet/datasets/imagenet_zipped 
+          --batch-size 512 
+          --weight-decay 1e-4     
+          --out-dir /mnt/my_output/imagenet_experiments/breeds/ 
+          --resume 
+          --exp-name Living-11-eps3-b512-epoch300-lr0.1 
+          --adv-train 1 
+          --constraint 2
+          --attack-steps 3 
+          --eps 3.0 
+          --attack-lr 3.0*2/3
+          --log-iter 1
+          --epochs 300
+          --step-lr 100
+          --workers 20
+          --lr 0.1
+
+##################################################################################
+
+# Dogs-8
+# STD
+- name: Dogs-8-eps0-b512-epoch300-lr0.1
+  sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+  command:
+    - lscpu
+    - df -h /dev/shm
+    - pip install networkx --upgrade --user
+    - python main_trainer.py 
+          --arch resnet50 
+          --dataset Dogs-8 
+          --data /mnt/imagenet/datasets/imagenet_zipped 
+          --batch-size 512 
+          --weight-decay 1e-4     
+          --out-dir /mnt/my_output/imagenet_experiments/breeds/ 
+          --resume 
+          --exp-name Dogs-8-eps0-b512-epoch300-lr0.1 
+          --adv-train 1 
+          --constraint 2
+          --attack-steps 3 
+          --eps 0.0 
+          --attack-lr 0.0*2/3
+          --log-iter 1
+          --epochs 300
+          --step-lr 100
+          --workers 20
+          --lr 0.1
+
+
+# eps = 1 
+- name: Dogs-8-eps1-b512-epoch300-lr0.1
+  sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+  command:
+    - lscpu
+    - df -h /dev/shm
+    - pip install networkx --upgrade --user
+    - python main_trainer.py 
+          --arch resnet50 
+          --dataset Dogs-8 
+          --data /mnt/imagenet/datasets/imagenet_zipped 
+          --batch-size 512 
+          --weight-decay 1e-4     
+          --out-dir /mnt/my_output/imagenet_experiments/breeds/ 
+          --resume 
+          --exp-name Dogs-8-eps1-b512-epoch300-lr0.1 
+          --adv-train 1 
+          --constraint 2
+          --attack-steps 3 
+          --eps 1.0 
+          --attack-lr 1.0*2/3
+          --log-iter 1
+          --epochs 300
+          --step-lr 100
+          --workers 20
+          --lr 0.1
+
+
+# eps = 3 
+- name: Dogs-8-eps3-b512-epoch300-lr0.1
+  sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+  command:
+    - lscpu
+    - df -h /dev/shm
+    - pip install networkx --upgrade --user
+    - python main_trainer.py 
+          --arch resnet50 
+          --dataset Dogs-8 
+          --data /mnt/imagenet/datasets/imagenet_zipped 
+          --batch-size 512 
+          --weight-decay 1e-4     
+          --out-dir /mnt/my_output/imagenet_experiments/breeds/ 
+          --resume 
+          --exp-name Dogs-8-eps3-b512-epoch300-lr0.1 
+          --adv-train 1 
+          --constraint 2
+          --attack-steps 3 
+          --eps 3.0 
+          --attack-lr 3.0*2/3
+          --log-iter 1
+          --epochs 300
+          --step-lr 100
+          --workers 20
+          --lr 0.1
+
+##################################################################################
+
+# NonLiving-9
+# STD
+- name: NonLiving-9-eps0-b512-epoch300-lr0.1
+  sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+  command:
+    - lscpu
+    - df -h /dev/shm
+    - pip install networkx --upgrade --user
+    - python main_trainer.py 
+          --arch resnet50 
+          --dataset NonLiving-9 
+          --data /mnt/imagenet/datasets/imagenet_zipped 
+          --batch-size 512 
+          --weight-decay 1e-4     
+          --out-dir /mnt/my_output/imagenet_experiments/breeds/ 
+          --resume 
+          --exp-name NonLiving-9-eps0-b512-epoch300-lr0.1 
+          --adv-train 1 
+          --constraint 2
+          --attack-steps 3 
+          --eps 0.0 
+          --attack-lr 0.0*2/3
+          --log-iter 1
+          --epochs 300
+          --step-lr 100
+          --workers 20
+          --lr 0.1
+
+
+# eps = 1 
+- name: NonLiving-9-eps1-b512-epoch300-lr0.1
+  sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+  command:
+    - lscpu
+    - df -h /dev/shm
+    - pip install networkx --upgrade --user
+    - python main_trainer.py 
+          --arch resnet50 
+          --dataset NonLiving-9 
+          --data /mnt/imagenet/datasets/imagenet_zipped 
+          --batch-size 512 
+          --weight-decay 1e-4     
+          --out-dir /mnt/my_output/imagenet_experiments/breeds/ 
+          --resume 
+          --exp-name NonLiving-9-eps1-b512-epoch300-lr0.1 
+          --adv-train 1 
+          --constraint 2
+          --attack-steps 3 
+          --eps 1.0 
+          --attack-lr 1.0*2/3
+          --log-iter 1
+          --epochs 300
+          --step-lr 100
+          --workers 20
+          --lr 0.1
+
+
+# eps = 3 
+- name: NonLiving-9-eps3-b512-epoch300-lr0.1
+  sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+  command:
+    - lscpu
+    - df -h /dev/shm
+    - pip install networkx --upgrade --user
+    - python main_trainer.py 
+          --arch resnet50 
+          --dataset NonLiving-9 
+          --data /mnt/imagenet/datasets/imagenet_zipped 
+          --batch-size 512 
+          --weight-decay 1e-4     
+          --out-dir /mnt/my_output/imagenet_experiments/breeds/ 
+          --resume 
+          --exp-name NonLiving-9-eps3-b512-epoch300-lr0.1 
+          --adv-train 1 
+          --constraint 2
+          --attack-steps 3 
+          --eps 3.0 
+          --attack-lr 3.0*2/3
+          --log-iter 1
+          --epochs 300
+          --step-lr 100
+          --workers 20
+          --lr 0.1
+
+##################################################################################
+##################################################################################
+# LEARNING RATE = 0.2
+
+# Living-11
+# STD
+- name: Living-11-eps0-b512-epoch300-lr0.2
+  sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+  command:
+    - lscpu
+    - df -h /dev/shm
+    - pip install networkx --upgrade --user
+    - python main_trainer.py 
+          --arch resnet50 
+          --dataset Living-11 
+          --data /mnt/imagenet/datasets/imagenet_zipped 
+          --batch-size 512 
+          --weight-decay 1e-4     
+          --out-dir /mnt/my_output/imagenet_experiments/breeds/ 
+          --resume 
+          --exp-name Living-11-eps0-b512-epoch300-lr0.2 
+          --adv-train 1 
+          --constraint 2
+          --attack-steps 3 
+          --eps 0.0 
+          --attack-lr 0.0*2/3
+          --log-iter 1
+          --epochs 300
+          --step-lr 100
+          --workers 20
+          --lr 0.2
+
+
+# eps = 1 
+- name: Living-11-eps1-b512-epoch300-lr0.2
+  sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+  command:
+    - lscpu
+    - df -h /dev/shm
+    - pip install networkx --upgrade --user
+    - python main_trainer.py 
+          --arch resnet50 
+          --dataset Living-11 
+          --data /mnt/imagenet/datasets/imagenet_zipped 
+          --batch-size 512 
+          --weight-decay 1e-4     
+          --out-dir /mnt/my_output/imagenet_experiments/breeds/ 
+          --resume 
+          --exp-name Living-11-eps1-b512-epoch300-lr0.2 
+          --adv-train 1 
+          --constraint 2
+          --attack-steps 3 
+          --eps 1.0 
+          --attack-lr 1.0*2/3
+          --log-iter 1
+          --epochs 300
+          --step-lr 100
+          --workers 20
+          --lr 0.2
+
+
+# eps = 3 
+- name: Living-11-eps3-b512-epoch300-lr0.2
+  sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+  command:
+    - lscpu
+    - df -h /dev/shm
+    - pip install networkx --upgrade --user
+    - python main_trainer.py 
+          --arch resnet50 
+          --dataset Living-11 
+          --data /mnt/imagenet/datasets/imagenet_zipped 
+          --batch-size 512 
+          --weight-decay 1e-4     
+          --out-dir /mnt/my_output/imagenet_experiments/breeds/ 
+          --resume 
+          --exp-name Living-11-eps3-b512-epoch300-lr0.2 
+          --adv-train 1 
+          --constraint 2
+          --attack-steps 3 
+          --eps 3.0 
+          --attack-lr 3.0*2/3
+          --log-iter 1
+          --epochs 300
+          --step-lr 100
+          --workers 20
+          --lr 0.2
+
+##################################################################################
+
+# Dogs-8
+# STD
+- name: Dogs-8-eps0-b512-epoch300-lr0.2
+  sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+  command:
+    - lscpu
+    - df -h /dev/shm
+    - pip install networkx --upgrade --user
+    - python main_trainer.py 
+          --arch resnet50 
+          --dataset Dogs-8 
+          --data /mnt/imagenet/datasets/imagenet_zipped 
+          --batch-size 512 
+          --weight-decay 1e-4     
+          --out-dir /mnt/my_output/imagenet_experiments/breeds/ 
+          --resume 
+          --exp-name Dogs-8-eps0-b512-epoch300-lr0.2 
+          --adv-train 1 
+          --constraint 2
+          --attack-steps 3 
+          --eps 0.0 
+          --attack-lr 0.0*2/3
+          --log-iter 1
+          --epochs 300
+          --step-lr 100
+          --workers 20
+          --lr 0.2
+
+
+# eps = 1 
+- name: Dogs-8-eps1-b512-epoch300-lr0.2
+  sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+  command:
+    - lscpu
+    - df -h /dev/shm
+    - pip install networkx --upgrade --user
+    - python main_trainer.py 
+          --arch resnet50 
+          --dataset Dogs-8 
+          --data /mnt/imagenet/datasets/imagenet_zipped 
+          --batch-size 512 
+          --weight-decay 1e-4     
+          --out-dir /mnt/my_output/imagenet_experiments/breeds/ 
+          --resume 
+          --exp-name Dogs-8-eps1-b512-epoch300-lr0.2 
+          --adv-train 1 
+          --constraint 2
+          --attack-steps 3 
+          --eps 1.0 
+          --attack-lr 1.0*2/3
+          --log-iter 1
+          --epochs 300
+          --step-lr 100
+          --workers 20
+          --lr 0.2
+
+
+# eps = 3 
+- name: Dogs-8-eps3-b512-epoch300-lr0.2
+  sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+  command:
+    - lscpu
+    - df -h /dev/shm
+    - pip install networkx --upgrade --user
+    - python main_trainer.py 
+          --arch resnet50 
+          --dataset Dogs-8 
+          --data /mnt/imagenet/datasets/imagenet_zipped 
+          --batch-size 512 
+          --weight-decay 1e-4     
+          --out-dir /mnt/my_output/imagenet_experiments/breeds/ 
+          --resume 
+          --exp-name Dogs-8-eps3-b512-epoch300-lr0.2 
+          --adv-train 1 
+          --constraint 2
+          --attack-steps 3 
+          --eps 3.0 
+          --attack-lr 3.0*2/3
+          --log-iter 1
+          --epochs 300
+          --step-lr 100
+          --workers 20
+          --lr 0.2
+
+##################################################################################
+
+# NonLiving-9
+# STD
+- name: NonLiving-9-eps0-b512-epoch300-lr0.2
+  sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+  command:
+    - lscpu
+    - df -h /dev/shm
+    - pip install networkx --upgrade --user
+    - python main_trainer.py 
+          --arch resnet50 
+          --dataset NonLiving-9 
+          --data /mnt/imagenet/datasets/imagenet_zipped 
+          --batch-size 512 
+          --weight-decay 1e-4     
+          --out-dir /mnt/my_output/imagenet_experiments/breeds/ 
+          --resume 
+          --exp-name NonLiving-9-eps0-b512-epoch300-lr0.2 
+          --adv-train 1 
+          --constraint 2
+          --attack-steps 3 
+          --eps 0.0 
+          --attack-lr 0.0*2/3
+          --log-iter 1
+          --epochs 300
+          --step-lr 100
+          --workers 20
+          --lr 0.2
+
+
+# eps = 1 
+- name: NonLiving-9-eps1-b512-epoch300-lr0.2
+  sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+  command:
+    - lscpu
+    - df -h /dev/shm
+    - pip install networkx --upgrade --user
+    - python main_trainer.py 
+          --arch resnet50 
+          --dataset NonLiving-9 
+          --data /mnt/imagenet/datasets/imagenet_zipped 
+          --batch-size 512 
+          --weight-decay 1e-4     
+          --out-dir /mnt/my_output/imagenet_experiments/breeds/ 
+          --resume 
+          --exp-name NonLiving-9-eps1-b512-epoch300-lr0.2 
+          --adv-train 1 
+          --constraint 2
+          --attack-steps 3 
+          --eps 1.0 
+          --attack-lr 1.0*2/3
+          --log-iter 1
+          --epochs 300
+          --step-lr 100
+          --workers 20
+          --lr 0.2
+
+
+# eps = 3 
+- name: NonLiving-9-eps3-b512-epoch300-lr0.2
+  sku: G4
+  submit_args:
+    container_args:
+      shm_size: 64gb  
+  command:
+    - lscpu
+    - df -h /dev/shm
+    - pip install networkx --upgrade --user
+    - python main_trainer.py 
+          --arch resnet50 
+          --dataset NonLiving-9 
+          --data /mnt/imagenet/datasets/imagenet_zipped 
+          --batch-size 512 
+          --weight-decay 1e-4     
+          --out-dir /mnt/my_output/imagenet_experiments/breeds/ 
+          --resume 
+          --exp-name NonLiving-9-eps3-b512-epoch300-lr0.2 
+          --adv-train 1 
+          --constraint 2
+          --attack-steps 3 
+          --eps 3.0 
+          --attack-lr 3.0*2/3
+          --log-iter 1
+          --epochs 300
+          --step-lr 100
+          --workers 20
+          --lr 0.2
+
+##################################################################################
