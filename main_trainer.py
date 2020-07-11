@@ -72,7 +72,8 @@ def main(args, store):
                                         fraction=args.frac_rand_labels)
 
     else:
-        train_loader, val_loader = ds.make_loaders(only_val=args.eval_only, batch_size=args.batch_size, workers=args.workers, subset=args.subset)
+        train_loader, val_loader = ds.make_loaders(only_val=args.eval_only, batch_size=args.batch_size, 
+                                            val_batch_size=args.batch_size//2, workers=args.workers, subset=args.subset)
 
     # An option to resume finetuning from a checkpoint. Only for Imagenet-Imagenet transfer
     model_path = os.path.join(args.out_dir, args.exp_name, 'checkpoint.pt.latest')
