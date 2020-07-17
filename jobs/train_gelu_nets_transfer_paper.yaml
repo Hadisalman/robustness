@@ -60,7 +60,142 @@ jobs:
 ## ResNet-50
 
 
-- name: resnet50_gelu_linf_4_255_b512_lr0.001
+# - name: resnet50_gelu_linf_4_255_b512_lr0.001
+#   sku: G4
+#   submit_args:
+#     container_args:
+#       shm_size: 64gb  
+#   command:
+#     - lscpu
+#     - df -h /dev/shm
+#     - pip install torch==1.5.1+cu101 torchvision==0.6.1+cu101 -f https://download.pytorch.org/whl/torch_stable.html --upgrade --user
+#     - pip install networkx --upgrade --user
+#     - python main_trainer.py 
+#           --arch resnet50 
+#           --dataset imagenet 
+#           --data /mnt/imagenet/datasets/imagenet_zipped 
+#           --batch-size 512 
+#           --weight-decay 1e-4     
+#           --out-dir /mnt/my_output/imagenet_experiments/gelu_activations_finetune/ 
+#           --resume 
+#           --exp-name resnet50_gelu_linf_4_255_b512_lr0.001 
+#           --constraint inf
+#           --attack-steps 3 
+#           --adv-train 1 
+#           --eps 4.0/255 
+#           --attack-lr 4.0/255*2/3
+#           --log-iter 1
+#           --epochs 30
+#           --step-lr 15
+#           --workers 20
+#           --lr 0.001
+#           --model-path /mnt/my_data/imagenet_experiments/linf/resnet50/resnet50_batch512_3steps_eps4.0/checkpoint.pt.latest
+
+
+# - name: resnet50_gelu_l2_1_b512_lr0.001
+#   sku: G4
+#   submit_args:
+#     container_args:
+#       shm_size: 64gb  
+#   command:
+#     - lscpu
+#     - df -h /dev/shm
+#     - pip install torch==1.5.1+cu101 torchvision==0.6.1+cu101 -f https://download.pytorch.org/whl/torch_stable.html --upgrade --user
+#     - pip install networkx --upgrade --user
+#     - python main_trainer.py 
+#           --arch resnet50 
+#           --dataset imagenet 
+#           --data /mnt/imagenet/datasets/imagenet_zipped 
+#           --batch-size 512 
+#           --weight-decay 1e-4     
+#           --out-dir /mnt/my_output/imagenet_experiments/gelu_activations_finetune/ 
+#           --resume 
+#           --exp-name resnet50_gelu_l2_1_b512_lr0.001 
+#           --constraint 2
+#           --attack-steps 3 
+#           --adv-train 1 
+#           --eps 1.0 
+#           --attack-lr 1.0*2/3
+#           --log-iter 1
+#           --epochs 30
+#           --step-lr 15
+#           --workers 20
+#           --lr 0.001
+#           --model-path /mnt/my_data/imagenet_experiments/l2/resnet50/resnet50_batch512_3steps_eps1/checkpoint.pt.latest
+
+
+
+
+# ### lr 0.01
+
+# - name: resnet50_gelu_linf_4_255_b512_lr0.01
+#   sku: G4
+#   submit_args:
+#     container_args:
+#       shm_size: 64gb  
+#   command:
+#     - lscpu
+#     - df -h /dev/shm
+#     - pip install torch==1.5.1+cu101 torchvision==0.6.1+cu101 -f https://download.pytorch.org/whl/torch_stable.html --upgrade --user
+#     - pip install networkx --upgrade --user
+#     - python main_trainer.py 
+#           --arch resnet50 
+#           --dataset imagenet 
+#           --data /mnt/imagenet/datasets/imagenet_zipped 
+#           --batch-size 512 
+#           --weight-decay 1e-4     
+#           --out-dir /mnt/my_output/imagenet_experiments/gelu_activations_finetune/ 
+#           --resume 
+#           --exp-name resnet50_gelu_linf_4_255_b512_lr0.01 
+#           --constraint inf
+#           --attack-steps 3 
+#           --adv-train 1 
+#           --eps 4.0/255 
+#           --attack-lr 4.0/255*2/3
+#           --log-iter 1
+#           --epochs 30
+#           --step-lr 15
+#           --workers 20
+#           --lr 0.01
+#           --model-path /mnt/my_data/imagenet_experiments/linf/resnet50/resnet50_batch512_3steps_eps4.0/checkpoint.pt.latest
+
+
+# - name: resnet50_gelu_l2_1_b512_lr0.01
+#   sku: G4
+#   submit_args:
+#     container_args:
+#       shm_size: 64gb  
+#   command:
+#     - lscpu
+#     - df -h /dev/shm
+#     - pip install torch==1.5.1+cu101 torchvision==0.6.1+cu101 -f https://download.pytorch.org/whl/torch_stable.html --upgrade --user
+#     - pip install networkx --upgrade --user
+#     - python main_trainer.py 
+#           --arch resnet50 
+#           --dataset imagenet 
+#           --data /mnt/imagenet/datasets/imagenet_zipped 
+#           --batch-size 512 
+#           --weight-decay 1e-4     
+#           --out-dir /mnt/my_output/imagenet_experiments/gelu_activations_finetune/ 
+#           --resume 
+#           --exp-name resnet50_gelu_l2_1_b512_lr0.01 
+#           --constraint 2
+#           --attack-steps 3 
+#           --adv-train 1 
+#           --eps 1.0 
+#           --attack-lr 1.0*2/3
+#           --log-iter 1
+#           --epochs 30
+#           --step-lr 15
+#           --workers 20
+#           --lr 0.01
+#           --model-path /mnt/my_data/imagenet_experiments/l2/resnet50/resnet50_batch512_3steps_eps1/checkpoint.pt.latest
+
+
+
+### lr 0.1
+
+- name: resnet50_gelu_linf_4_255_b512_lr0.1
   sku: G4
   submit_args:
     container_args:
@@ -78,7 +213,7 @@ jobs:
           --weight-decay 1e-4     
           --out-dir /mnt/my_output/imagenet_experiments/gelu_activations_finetune/ 
           --resume 
-          --exp-name resnet50_gelu_linf_4_255_b512_lr0.001 
+          --exp-name resnet50_gelu_linf_4_255_b512_lr0.1 
           --constraint inf
           --attack-steps 3 
           --adv-train 1 
@@ -88,11 +223,11 @@ jobs:
           --epochs 30
           --step-lr 15
           --workers 20
-          --lr 0.001
+          --lr 0.1
           --model-path /mnt/my_data/imagenet_experiments/linf/resnet50/resnet50_batch512_3steps_eps4.0/checkpoint.pt.latest
 
 
-- name: resnet50_gelu_l2_1_b512_lr0.001
+- name: resnet50_gelu_l2_1_b512_lr0.1
   sku: G4
   submit_args:
     container_args:
@@ -110,7 +245,7 @@ jobs:
           --weight-decay 1e-4     
           --out-dir /mnt/my_output/imagenet_experiments/gelu_activations_finetune/ 
           --resume 
-          --exp-name resnet50_gelu_l2_1_b512_lr0.001 
+          --exp-name resnet50_gelu_l2_1_b512_lr0.1 
           --constraint 2
           --attack-steps 3 
           --adv-train 1 
@@ -120,73 +255,5 @@ jobs:
           --epochs 30
           --step-lr 15
           --workers 20
-          --lr 0.001
-          --model-path /mnt/my_data/imagenet_experiments/l2/resnet50/resnet50_batch512_3steps_eps1/checkpoint.pt.latest
-
-
-
-
-### lr 0.01
-
-- name: resnet50_gelu_linf_4_255_b512_lr0.01
-  sku: G4
-  submit_args:
-    container_args:
-      shm_size: 64gb  
-  command:
-    - lscpu
-    - df -h /dev/shm
-    - pip install torch==1.5.1+cu101 torchvision==0.6.1+cu101 -f https://download.pytorch.org/whl/torch_stable.html --upgrade --user
-    - pip install networkx --upgrade --user
-    - python main_trainer.py 
-          --arch resnet50 
-          --dataset imagenet 
-          --data /mnt/imagenet/datasets/imagenet_zipped 
-          --batch-size 512 
-          --weight-decay 1e-4     
-          --out-dir /mnt/my_output/imagenet_experiments/gelu_activations_finetune/ 
-          --resume 
-          --exp-name resnet50_gelu_linf_4_255_b512_lr0.01 
-          --constraint inf
-          --attack-steps 3 
-          --adv-train 1 
-          --eps 4.0/255 
-          --attack-lr 4.0/255*2/3
-          --log-iter 1
-          --epochs 30
-          --step-lr 15
-          --workers 20
-          --lr 0.01
-          --model-path /mnt/my_data/imagenet_experiments/linf/resnet50/resnet50_batch512_3steps_eps4.0/checkpoint.pt.latest
-
-
-- name: resnet50_gelu_l2_1_b512_lr0.01
-  sku: G4
-  submit_args:
-    container_args:
-      shm_size: 64gb  
-  command:
-    - lscpu
-    - df -h /dev/shm
-    - pip install torch==1.5.1+cu101 torchvision==0.6.1+cu101 -f https://download.pytorch.org/whl/torch_stable.html --upgrade --user
-    - pip install networkx --upgrade --user
-    - python main_trainer.py 
-          --arch resnet50 
-          --dataset imagenet 
-          --data /mnt/imagenet/datasets/imagenet_zipped 
-          --batch-size 512 
-          --weight-decay 1e-4     
-          --out-dir /mnt/my_output/imagenet_experiments/gelu_activations_finetune/ 
-          --resume 
-          --exp-name resnet50_gelu_l2_1_b512_lr0.01 
-          --constraint 2
-          --attack-steps 3 
-          --adv-train 1 
-          --eps 1.0 
-          --attack-lr 1.0*2/3
-          --log-iter 1
-          --epochs 30
-          --step-lr 15
-          --workers 20
-          --lr 0.01
+          --lr 0.1
           --model-path /mnt/my_data/imagenet_experiments/l2/resnet50/resnet50_batch512_3steps_eps1/checkpoint.pt.latest
