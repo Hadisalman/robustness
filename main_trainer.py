@@ -3,7 +3,7 @@ import sys
 sys.path.append('robustness')
 
 from robustness import model_utils, datasets, defaults, train
-from robustness.tools.imagenet_helpers import BreedsDatasetGenerator
+from robustness.tools.breeds_helpers import BreedsDatasetGenerator
 from torchvision import models
 from cox import utils
 import cox.store
@@ -12,7 +12,7 @@ from torch import nn
 import argparse
 import os 
 import numpy as np
-import helper_split
+from custom_helpers import DS_DICT, get_breeds_datasets
 
 
 parser = argparse.ArgumentParser(description='PyTorch finetuning for transfer learning', 
@@ -52,9 +52,10 @@ def main(args, store):
         ds = datasets.ImageNet(args.data)
         # Comment out if using a standard imagenet dataset
         ds.custom_class = 'Zipped'
-    elif args.dataset in ["Living-11", "Dogs-8", "NonLiving-9"]:
-        ds = get_breeds_dataset(args.dataset, args.data)
-        # Comment out if using a standard imagenet dataset
+    elif args.dataset in ['Mixed-13', 'Living-8', 'Living-11', 'Dogs-8', 'NonLiving-9']:
+        # ds = get_breeds_dataset(args.dataset, args.data)
+        INFO_DIR = os.path.join(args.data,'imagenet_info/modified')
+        ds, _, _ = get_breeds_datasets(args.dataset, args.data, INFO_DIR)        # Comment out if using a standard imagenet dataset
         ds.custom_class = 'Zipped'
 
     if args.frac_rand_labels and not args.eval_only:
