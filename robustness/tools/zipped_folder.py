@@ -7,6 +7,7 @@ from PIL import Image
 from io import BytesIO
 import torch.utils.data as data
 import torch
+import pickle
 
 _VALID_IMAGE_TYPES = ['.jpg', '.jpeg', '.tiff', '.bmp', '.png']
 
@@ -25,6 +26,8 @@ class ZippedFolder(data.Dataset):
         self.transform = transform
         self.target_transform = target_transform
         self.class_to_idx = {}
+        self.zipped_to_IN_mapping = pickle.load(open(os.path.join(path.split('/')[0], "zipped_to_std_idx_mapping.p", "rb")))
+
         with open(map_file, 'r') as f:
             for line in iter(f.readline, ""):
                 line = line.strip()
@@ -74,6 +77,7 @@ class ZippedFolder(data.Dataset):
         }
 
     def __getitem__(self, index):
+        index = self.zipped_to_IN_mapping[index]
         proc = multiprocessing.current_process()
         pid = proc.pid # get pid of this process.
         if pid not in self.zip_dict:
