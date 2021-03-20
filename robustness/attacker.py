@@ -323,8 +323,16 @@ class AttackerModel(ch.nn.Module):
         if no_relu and fake_relu:
             raise ValueError("Options 'no_relu' and 'fake_relu' are exclusive")
 
-        output = self.model(normalized_inp, with_latent=with_latent,
-                                fake_relu=fake_relu, no_relu=no_relu)
+        head_mask = attacker_kwargs['head_mask'] if 'head_mask' in attacker_kwargs else None
+        debug_flags = attacker_kwargs['debug_flags'] if 'debug_flags' in attacker_kwargs else None
+        if head_mask or debug_flags:
+            output = self.model(normalized_inp, with_latent=with_latent,
+                                    fake_relu=fake_relu, no_relu=no_relu, 
+                                    head_mask=head_mask, debug_flags=debug_flags)
+        else:
+            output = self.model(normalized_inp, with_latent=with_latent,
+                                    fake_relu=fake_relu, no_relu=no_relu)
+
         if with_image:
             return (output, inp)
         return output

@@ -45,10 +45,12 @@ class FeatureExtractor(ch.nn.Module):
 class DummyModel(nn.Module):
     def __init__(self, model):
         super().__init__()
+        print('creating dummy model')
         self.model = model
 
     def forward(self, x, *args, **kwargs):
-        return self.model(x)
+        new_kwargs = {k:v for k,v in kwargs.items() if k not in ['fake_relu','no_relu', 'with_latent']}
+        return self.model(x, **new_kwargs)
 
 def make_and_restore_model(*_, arch, dataset, resume_path=None,
          parallel=False, pytorch_pretrained=False, add_custom_forward=False):
