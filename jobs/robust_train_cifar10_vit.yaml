@@ -36,66 +36,47 @@ search:
   type: grid
   max_trials: 200
   params:
-  - name: OPT
-    spec: discrete
-    values: [sgd]
   - name: ARCH
     spec: discrete
-    values: [myresnet18, myresnet50, resnet18, resnet50, deit_tiny_patch4_32]
-  - name: PRETRAINED
-    spec: discrete
-    values:
-    - False
+    values: [resnet18, resnet50, deit_tiny_patch4_32]
   - name: LR
     spec: discrete
     values: [1e-1]
   - name: WD
     spec: discrete
-    values: [1e-4]
+    values: [5e-4]
   - name: BSZ
     spec: discrete
     values:
     - 256
-  - name: MIXUP_PROB
-    spec: discrete
-    values: [0.0, 1.0]
   - name: EPOCH
     spec: discrete
     values:
     - 150
-  - name: POLICY
-    spec: discrete
-    values: ['multistep', 'cosine']
-  - name: RA
-    spec: discrete
-    values: [False] # set True for deit_base
-  - name: NORM_EMDED
-    spec: discrete
-    values: [True]
   - name: AT
     spec: discrete
-    values: [False, True]
+    values: [0, 1]
   job_template:
-    name: arch{ARCH}_lrpolicy{POLICY}_AT{AT}_MIXUP{MIXUP_PROB}
+    name: arch{ARCH}_AT{AT}
     sku: G1
     sku_count: 1
     command:
     - export MKL_THREADING_LAYER='GNU'
     - python main_trainer.py 
-          --arch wide_resnet50_2 
+          --arch {ARCH} 
           --dataset cifar 
-          --batch-size 256 
-          --weight-decay 5e-4     
-          --out-dir /mnt/my_output/cifar10_experiments/shibani/ 
+          --batch-size {BSZ} 
+          --weight-decay {WD}     
+          --out-dir AT_cifar
           --resume 
           --exp-name wide_resnet50_2_eps_0.5_step_0.4_steps_3 
-          --constraint 2
-          --attack-steps 3 
-          --adv-train 1 
-          --eps 0.5 
-          --attack-lr 0.4
+          --constraint inf
+          --attack-steps 7 
+          --adv-train {AT}
+          --eps 0.03 
+          --attack-lr 0.5
           --log-iter 1
-          --epochs 150
+          --epochs {EPOCH}
           --step-lr 50
           --workers 8
           --lr 0.1
