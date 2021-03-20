@@ -12,8 +12,8 @@ from torch import nn
 import argparse
 import os 
 import numpy as np
-from custom_helpers import DS_DICT, get_breeds_datasets
 
+from custom_models.vision_transformer import *
 
 parser = argparse.ArgumentParser(description='PyTorch finetuning for transfer learning', 
                                 conflict_handler='resolve')
@@ -43,6 +43,25 @@ pytorch_models = {
     'mobilenet': models.mobilenet_v2,
     'resnext50_32x4d': models.resnext50_32x4d,
     'mnasnet': models.mnasnet1_0,
+}
+vitmodeldict = {
+    "vit_small_patch16_224": vit_small_patch16_224,
+    "vit_base_patch16_224": vit_base_patch16_224,
+    "vit_base_patch16_384": vit_base_patch16_384,
+    "vit_base_patch32_384": vit_base_patch32_384,
+    "vit_large_patch16_224": vit_large_patch16_224,
+    "vit_large_patch16_384": vit_large_patch16_384,
+    "vit_large_patch32_384": vit_large_patch32_384,
+    "vit_huge_patch16_224": vit_huge_patch16_224,
+    "vit_huge_patch32_384": vit_huge_patch32_384,
+    'deit_tiny_patch16_224': deit_tiny_patch16_224,
+    'deit_small_patch16_224': deit_small_patch16_224,
+    'deit_base_patch16_224': deit_base_patch16_224,
+    'deit_base_patch16_384': deit_base_patch16_384,
+    ##CIFAR10
+    'deit_tiny_patch4_32': deit_tiny_patch4_32,
+    'deit_small_patch4_32': deit_small_patch4_32,
+    'deit_base_patch4_32': deit_base_patch4_32,
 }
 
 def main(args, store):
@@ -85,9 +104,21 @@ def main(args, store):
     else: 
         model_path = args.model_path
 
+    add_custom_forward = True
+    if args.arch in pytorch_models.keys():
+        arch = pytorch_models[args.arch]()
+    elif args.arch in vitmodeldict:
+        arch = vitmodeldict[args.arch](num_classes=ds.num_classes,
+                                        drop_rate=0.,
+                                        drop_path_rate=0.1,
+                                        norm_embed=True)
+    else:
+        arch = args.arch
+        add_custom_forward = False
+
     model, checkpoint = \
-        model_utils.make_and_restore_model(arch=pytorch_models[args.arch]() if args.arch in pytorch_models.keys() else args.arch, 
-                                        dataset=ds, resume_path=model_path, add_custom_forward=args.arch in pytorch_models.keys())
+        model_utils.make_and_restore_model(arch=arch, dataset=ds, 
+                        resume_path=model_path, add_custom_forward=add_custom_forward)
     
     # don't pass checkpoint to train_model do avoid resuming for epoch, optimizers etc.
     if not CONTINUE_FROM_CHECKPOINT:

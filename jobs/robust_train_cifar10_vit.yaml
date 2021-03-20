@@ -1,0 +1,105 @@
+description: robust cifar10 run on philly.
+
+target:
+  vc: msrlabs
+  cluster: wu2
+
+environment:
+  image: pengchuanzhang/maskrcnn:py3.7-cuda10.0-pytorch1.7
+
+code:
+  local_dir: $CONFIG_DIR/../
+
+storage:
+  my_storage:
+    # Replace with the name of the Azure Storage Account you created.
+    #   If you followed the tutorial, this should be your_username
+    # storage_account_name: penzhaneu
+    storage_account_name: penzhanwu2
+    # storage_account_name: penzhanscus
+    # Specify a name of the container on your blob (ex. phillytools),
+    #   to store data, results and code. It will be created if it does not exist.
+    container_name: results
+    # container_name: experiments
+    # You can optionally specify a mount_path that will be directly accessible
+    #   by your jobs. By default it's:
+    #mount_path: /mnt/_default
+    is_output: True
+
+data:
+  #data_upload: True
+  local_dir: $CONFIG_DIR/datasets
+  remote_dir: data
+
+
+search:
+  type: grid
+  max_trials: 200
+  params:
+  - name: OPT
+    spec: discrete
+    values: [sgd]
+  - name: ARCH
+    spec: discrete
+    values: [myresnet18, myresnet50, resnet18, resnet50, deit_tiny_patch4_32]
+  - name: PRETRAINED
+    spec: discrete
+    values:
+    - False
+  - name: LR
+    spec: discrete
+    values: [1e-1]
+  - name: WD
+    spec: discrete
+    values: [1e-4]
+  - name: BSZ
+    spec: discrete
+    values:
+    - 256
+  - name: MIXUP_PROB
+    spec: discrete
+    values: [0.0, 1.0]
+  - name: EPOCH
+    spec: discrete
+    values:
+    - 150
+  - name: POLICY
+    spec: discrete
+    values: ['multistep', 'cosine']
+  - name: RA
+    spec: discrete
+    values: [False] # set True for deit_base
+  - name: NORM_EMDED
+    spec: discrete
+    values: [True]
+  - name: AT
+    spec: discrete
+    values: [False, True]
+  job_template:
+    name: arch{ARCH}_lrpolicy{POLICY}_AT{AT}_MIXUP{MIXUP_PROB}
+    sku: G1
+    sku_count: 1
+    command:
+    - export MKL_THREADING_LAYER='GNU'
+    - python main_trainer.py 
+          --arch wide_resnet50_2 
+          --dataset cifar 
+          --batch-size 256 
+          --weight-decay 5e-4     
+          --out-dir /mnt/my_output/cifar10_experiments/shibani/ 
+          --resume 
+          --exp-name wide_resnet50_2_eps_0.5_step_0.4_steps_3 
+          --constraint 2
+          --attack-steps 3 
+          --adv-train 1 
+          --eps 0.5 
+          --attack-lr 0.4
+          --log-iter 1
+          --epochs 150
+          --step-lr 50
+          --workers 8
+          --lr 0.1
+    submit_args:
+      max_attempts: 5
+      container_args:
+        shm_size: 64G
