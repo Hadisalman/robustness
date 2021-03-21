@@ -1,8 +1,17 @@
 description: robust cifar10 run on philly.
 
 target:
-  vc: msrlabs
-  cluster: wu2
+  _name: itpeusp100cl
+  service: amlk8s
+  vc: resrchvc
+  cluster: itpeastusv100cl
+  subscription_id: 46da6261-2167-4e71-8b0d-f4a45215ce61
+  workspace_name: resrchvc-eus
+  resource_group: researchvc-eus
+  metadata:
+    gpu_types:
+    - P100
+    num_gpus_per_vm: 4
 
 environment:
   image: pengchuanzhang/maskrcnn:py3.7-cuda10.0-pytorch1.7
@@ -14,8 +23,8 @@ storage:
   my_storage:
     # Replace with the name of the Azure Storage Account you created.
     #   If you followed the tutorial, this should be your_username
-    # storage_account_name: penzhaneu
-    storage_account_name: penzhanwu2
+    storage_account_name: penzhaneu
+    # storage_account_name: penzhanwu2
     # storage_account_name: penzhanscus
     # Specify a name of the container on your blob (ex. phillytools),
     #   to store data, results and code. It will be created if it does not exist.
@@ -39,9 +48,6 @@ search:
   - name: ARCH
     spec: discrete
     values: [resnet18, resnet50, deit_tiny_patch4_32]
-  - name: LR
-    spec: discrete
-    values: [1e-1]
   - name: WD
     spec: discrete
     values: [5e-4]
@@ -62,6 +68,7 @@ search:
     sku_count: 1
     command:
     - export MKL_THREADING_LAYER='GNU'
+    - pip install dill GPUtil tables seaborn cox
     - python main_trainer.py 
           --arch {ARCH} 
           --dataset cifar 
@@ -80,6 +87,8 @@ search:
           --step-lr 50
           --workers 8
           --lr 0.1
+          --out-dir /mnt/my_storage/msvit/robust_hadi
+          --exp-name arch{ARCH}_AT{AT}_bsz{BSZ}_wd{WD}
     submit_args:
       max_attempts: 5
       container_args:
