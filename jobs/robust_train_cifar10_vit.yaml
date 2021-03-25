@@ -81,7 +81,7 @@ search:
           --attack-steps 7 
           --adv-train {AT}
           --eps 0.03 
-          --attack-lr 0.5
+          --attack-lr 0.005
           --log-iter 1
           --epochs {EPOCH}
           --step-lr 50
