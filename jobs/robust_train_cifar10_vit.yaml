@@ -74,9 +74,7 @@ search:
           --dataset cifar 
           --batch-size {BSZ} 
           --weight-decay {WD}     
-          --out-dir AT_cifar
           --resume 
-          --exp-name wide_resnet50_2_eps_0.5_step_0.4_steps_3 
           --constraint inf
           --attack-steps 7 
           --adv-train {AT}
