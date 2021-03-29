@@ -85,8 +85,7 @@ search:
           --step-lr 50
           --workers 8
           --lr 0.1
-          --out-dir /mnt/my_storage/msvit/robust_hadi
-          --exp-name arch{ARCH}_AT{AT}_bsz{BSZ}_wd{WD}
+          --exp-name results
     submit_args:
       max_attempts: 5
       container_args:
