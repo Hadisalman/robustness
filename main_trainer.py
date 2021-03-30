@@ -98,8 +98,6 @@ def main(args, store):
                                         fraction=args.frac_rand_labels)
 
     elif args.input_mask:
-        args.mask_size = args.mask_size # 16x16
-        args.mask_frac = args.mask_frac
 
         def make_rand_mask(imgs, targs):
             B, C, H, W = imgs.shape
