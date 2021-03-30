@@ -50,7 +50,7 @@ search:
     values: [resnet18, resnet50, deit_tiny_patch4_32, deit_small_patch4_32, deit_base_patch4_32]
   - name: WD
     spec: discrete
-    values: [1e-6, 1e-5, 1e-4, 5e-4]
+    values: [1e-6, 1e-5, 1e-4, 2e-4, 5e-4]
   - name: BSZ
     spec: discrete
     values:
