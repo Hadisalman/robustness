@@ -47,10 +47,10 @@ search:
   params:
   - name: ARCH
     spec: discrete
-    values: [resnet18, resnet50, deit_tiny_patch4_32]
+    values: [resnet18, resnet50, deit_tiny_patch4_32, deit_small_patch4_32, deit_base_patch4_32]
   - name: WD
     spec: discrete
-    values: [5e-4]
+    values: [1e-6, 1e-5, 1e-4, 5e-4]
   - name: BSZ
     spec: discrete
     values:
@@ -62,8 +62,11 @@ search:
   - name: AT
     spec: discrete
     values: [0, 1]
+  - name: LR
+    spec: discrete
+    values: [.1, .5, 1]
   job_template:
-    name: arch{ARCH}_AT{AT}
+    name: arch{ARCH}_AT{AT}_WD{WD}_LR{LR}
     sku: G1
     sku_count: 1
     command:
@@ -84,7 +87,7 @@ search:
           --epochs {EPOCH}
           --step-lr 50
           --workers 8
-          --lr 0.1
+          --lr {LR}
           --exp-name results
     submit_args:
       max_attempts: 5

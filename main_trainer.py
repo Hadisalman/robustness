@@ -186,7 +186,7 @@ def get_breeds_dataset(ds_name, ds_path):
 
 if __name__ == "__main__":
     args = parser.parse_args()
-    args.out_dir =  os.getenv('PT_OUTPUT_DIR', '/tmp')
+    args.out_dir =  os.getenv('PT_OUTPUT_DIR', args.out_dir)
 
     if args.adv_train and eval(args.eps) == 0:
         print('[Switching to standard training since eps = 0]')
