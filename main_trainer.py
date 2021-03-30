@@ -3,6 +3,7 @@ import sys
 sys.path.append('robustness')
 
 from robustness import model_utils, datasets, defaults, train
+from robustness.loaders import LambdaLoader 
 from robustness.tools.breeds_helpers import BreedsDatasetGenerator
 from torchvision import models
 from cox import utils
@@ -32,9 +33,9 @@ parser.add_argument('--frac-rand-labels', type=float, default=None,
 parser.add_argument('--no-tqdm', type=int, default=1, choices=[0, 1], help='Do not use tqdm.')
 
 ## Input Masking
-parser.add_argument('input-mask', action='store_true', help='whether to apply input masking or not. Assume square mask') 
-parser.add_argument('mask-size', type=int, default=16, help='Mask size, defaults to 16x16') 
-parser.add_argument('mask-frac', type=int, default=0.5, help='Masked fraction of the input, defaults to 50%') 
+parser.add_argument('--input-mask', action='store_true', help='whether to apply input masking or not. Assume square mask') 
+parser.add_argument('--mask-size', type=int, default=16, help='Mask size, defaults to 16x16') 
+parser.add_argument('--mask-frac', type=float, default=0.5, help='Masked fraction of the input, defaults to 50%') 
 
 pytorch_models = {
     'alexnet': models.alexnet,
@@ -75,7 +76,7 @@ def main(args, store):
     elif args.dataset in ['imagenet', 'stylized_imagenet']:
         ds = datasets.ImageNet(args.data)
         # Comment out if using a standard imagenet dataset
-        ds.custom_class = 'Zipped'
+        # ds.custom_class = 'Zipped'
     elif args.dataset in ['Mixed-13', 'Living-8', 'Living-11', 'Dogs-8', 'NonLiving-9']:
         # ds = get_breeds_dataset(args.dataset, args.data)
         INFO_DIR = os.path.join(args.data,'imagenet_info/modified')
@@ -97,7 +98,7 @@ def main(args, store):
                                         fraction=args.frac_rand_labels)
 
     elif args.input_mask:
-        args.mask_size = args.args.mask_size # 16x16
+        args.mask_size = args.mask_size # 16x16
         args.mask_frac = args.mask_frac
 
         def make_rand_mask(imgs, targs):
