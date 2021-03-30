@@ -66,7 +66,7 @@ vitmodeldict = {
 
 def main(args, store):
     if args.dataset == 'cifar':
-        ds = datasets.CIFAR('/tmp/')
+        ds = datasets.CIFAR(args.data)
     elif args.dataset in ['imagenet', 'stylized_imagenet']:
         ds = datasets.ImageNet(args.data)
         # Comment out if using a standard imagenet dataset
