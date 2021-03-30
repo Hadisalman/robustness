@@ -31,6 +31,11 @@ parser.add_argument('--frac-rand-labels', type=float, default=None,
             help='Fraction of the training set which is random labelled (fixed during training)')
 parser.add_argument('--no-tqdm', type=int, default=1, choices=[0, 1], help='Do not use tqdm.')
 
+## Input Masking
+parser.add_argument('input-mask', action='store_true', help='whether to apply input masking or not. Assume square mask') 
+parser.add_argument('mask-size', type=int, default=16, help='Mask size, defaults to 16x16') 
+parser.add_argument('mask-frac', type=int, default=0.5, help='Masked fraction of the input, defaults to 50%') 
+
 pytorch_models = {
     'alexnet': models.alexnet,
     'vgg16': models.vgg16,
@@ -91,6 +96,20 @@ def main(args, store):
                                         do_tqdm=True,
                                         fraction=args.frac_rand_labels)
 
+    elif args.input_mask:
+        args.mask_size = args.args.mask_size # 16x16
+        args.mask_frac = args.mask_frac
+
+        def make_rand_mask(imgs, targs):
+            B, C, H, W = imgs.shape
+            random_mask = (ch.rand(B, 1, H//args.mask_size, W//args.mask_size) > args.mask_frac).float()
+            random_mask = random_mask.repeat_interleave(args.mask_size, -1).repeat_interleave(args.mask_size, -2) 
+            imgs = imgs * random_mask
+            return imgs, targs
+
+        train_loader, val_loader = ds.make_loaders(only_val=False, batch_size=args.batch_size, workers=args.workers)
+        train_loader = LambdaLoader(train_loader, make_rand_mask)
+        val_loader = LambdaLoader(val_loader, make_rand_mask)
     else:
         train_loader, val_loader = ds.make_loaders(only_val=args.eval_only, batch_size=args.batch_size, 
                                             val_batch_size=args.batch_size//2, workers=args.workers, subset=args.subset)
